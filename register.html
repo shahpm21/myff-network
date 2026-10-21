@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Create MyFF Account</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f8fafc;
+    color:#102a43;
+}
+
+.hero{
+
+    background:
+    linear-gradient(
+        135deg,
+        #12355b,
+        #1f4e79
+    );
+
+    color:white;
+
+    text-align:center;
+
+    padding:28px 20px;
+}
+
+.hero h1{
+
+    font-size:30px;
+
+    margin-bottom:6px;
+
+    font-weight:700;
+}
+
+.hero h2{
+
+    font-size:15px;
+
+    color:#dbeafe;
+
+    font-weight:400;
+
+    margin-bottom:8px;
+}
+
+.hero p{
+
+    font-size:13px;
+
+    line-height:1.6;
+
+    max-width:700px;
+
+    margin:auto;
+}
+
+.container{
+
+    max-width:1050px;
+
+    margin:18px auto;
+
+    padding:0 20px;
+}
+
+.card{
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:16px;
+
+    margin-bottom:18px;
+
+    box-shadow:
+    0 8px 18px rgba(0,0,0,.06);
+}
+
+.card h2{
+
+    color:#12355b;
+
+    font-size:18px;
+
+    margin-bottom:14px;
+}
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:14px;
+}
+
+.personal-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    gap:14px;
+}
+
+label{
+
+    display:block;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    margin-bottom:6px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea{
+
+    width:100%;
+
+    padding:9px 12px;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:10px;
+
+    font-size:14px;
+}
+
+
+textarea{
+    min-height:100px;
+}
+
+.required{
+    color:red;
+}
+
+.checkbox-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,minmax(240px,1fr));
+
+    gap:8px 16px;
+}
+
+.checkbox-row{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.checkbox-row input{
+
+    width:18px;
+
+    height:18px;
+
+    flex-shrink:0;
+}
+
+.checkbox-row label{
+
+    margin:0;
+
+    font-weight:normal;
+}
+
+.single-checkbox{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:flex-start;
+
+    margin-bottom:12px;
+}
+
+.single-checkbox input{
+
+    width:18px;
+
+    height:18px;
+
+    margin-top:2px;
+}
+
+.single-checkbox label{
+
+    margin:0;
+
+    line-height:1.5;
+
+    font-weight:normal;
+}
+
+.note{
+
+    color:#64748b;
+
+    margin-bottom:12px;
+}
+
+.center{
+    text-align:center;
+}
+
+.btn{
+
+    background:#12355b;
+
+    color:white;
+
+    border:none;
+
+    padding:14px 28px;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.btn:hover{
+
+    background:#0f2a45;
+}
+
+@media(max-width:768px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .personal-grid{
+        grid-template-columns:1fr;
+    }
+
+    .checkbox-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+input:focus,
+textarea:focus{
+
+    outline:none;
+
+    border-color:#12355b;
+
+    box-shadow:
+    0 0 0 3px rgba(18,53,91,.08);
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="hero">
+
+<h1>
+Create MyFF Account
+</h1>
+
+<h2>
+My Friends & Family Network
+</h2>
+
+<p>
+Tell us about yourself, your professional interests,
+and how you'd like to connect with the community.
+</p>
+
+</div>
+
+<form id="myffForm">
+
+<div class="container">
+
+<div class="card">
+
+<h2>Personal Information</h2>
+
+<div class="personal-grid">
+
+<div>
+<label>
+First Name
+<span class="required">*</span>
+</label>
+<input type="text" id="first_name" required>
+</div>
+
+<div>
+<label>
+Last Name
+<span class="required">*</span>
+</label>
+<input type="text" id="last_name" required>
+</div>
+
+<div></div>
+
+<div>
+<label>
+Email
+<span class="required">*</span>
+</label>
+<input type="email" id="email" required>
+</div>
+
+<div>
+<label>
+Phone
+<span class="required">*</span>
+</label>
+<input type="text" id="phone" required>
+</div>
+
+
+
+
+<div></div>
+
+<div>
+<label>City</label>
+<input type="text" id="city">
+</div>
+
+<div>
+<label>State</label>
+<input type="text" id="state">
+</div>
+
+<div>
+<label>ZIP Code</label>
+<input type="text" id="zipcode">
+</div>
+
+
+<div>
+<label>
+Password
+<span class="required">*</span>
+</label>
+<input type="password" id="password" required>
+</div>
+
+<div>
+<label>
+Confirm Password
+<span class="required">*</span>
+</label>
+<input type="password" id="confirm_password" required>
+</div>
+
+<div></div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Professional Information</h2>
+
+<div class="grid">
+
+<div>
+<label>Company / Organization</label>
+<input type="text" id="company">
+</div>
+
+<div>
+<label>Role / Title</label>
+<input type="text" id="role">
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Professional Status</h2>
+
+<div class="checkbox-grid">
+
+<div class="checkbox-row">
+<input type="checkbox" name="professional_status" value="Employee">
+<label>Employee</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="professional_status" value="Seeking Employment">
+<label>Seeking Employment</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="professional_status" value="Consultant">
+<label>Consultant</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="professional_status" value="Business Owner">
+<label>Business Owner</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="professional_status" value="Entrepreneur">
+<label>Entrepreneur</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="professional_status" value="Retired">
+<label>Retired</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="professional_status" value="Student">
+<label>Student</label>
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Industry / Profession</h2>
+
+<div class="checkbox-grid">
+
+<div class="checkbox-row">
+<input type="checkbox" name="industry" value="Manufacturing">
+<label>Manufacturing</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="industry" value="Supply Chain">
+<label>Supply Chain</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="industry" value="Engineering">
+<label>Engineering</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="industry" value="Information Technology">
+<label>Information Technology</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="industry" value="Healthcare">
+<label>Healthcare</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="industry" value="Finance">
+<label>Finance</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="industry" value="Education">
+<label>Education</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="industry" value="Human Resource">
+<label>Human Resource</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="industry" value="Legal">
+<label>Legal</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="industry" value="Retail">
+<label>Retail</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="industry" value="Student">
+<label>Student</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="industry" value="Other">
+<label>Other</label>
+</div>
+
+</div>
+
+<br>
+
+<label>
+Other Industry / Profession
+</label>
+
+<input
+type="text"
+id="industry_other"
+placeholder="Please specify">
+
+</div>
+<div class="card">
+
+<h2>Who Invited / Connected You?</h2>
+
+<div class="grid">
+
+<div>
+
+<label>
+Inviter Name
+<span class="required">*</span>
+</label>
+
+<input
+type="text"
+id="inviter_name"
+required>
+
+</div>
+
+<div>
+
+<label>
+Inviter Phone
+<span class="required">*</span>
+</label>
+
+<input
+type="text"
+id="inviter_phone"
+required>
+
+</div>
+
+</div>
+
+<br>
+
+<h2>How Do You Know Your Direct Connection?</h2>
+
+<div class="checkbox-grid">
+
+<div class="checkbox-row">
+<input type="checkbox" name="relationship" value="Family">
+<label>Family</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="relationship" value="Friend">
+<label>Friend</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="relationship" value="Colleague">
+<label>Colleague</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="relationship" value="Classmate">
+<label>Classmate / School</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="relationship" value="Business">
+<label>Business</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="relationship" value="Community">
+<label>Community</label>
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>What Types of Support Are You Willing to Provide?</h2>
+
+<div class="checkbox-grid">
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_types" value="Employee Referrals">
+<label>Employee Referrals</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_types" value="Resume Reviews">
+<label>Resume Reviews</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_types" value="Interview Preparation">
+<label>Interview Preparation</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_types" value="Career Advice">
+<label>Career Advice</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_types" value="Networking Introductions">
+<label>Networking Introductions</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_types" value="Mentoring">
+<label>Mentoring</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_types" value="Internship Opportunities">
+<label>Internship Opportunities</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_types" value="Industry Insights">
+<label>Industry Insights</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_types" value="Education Advice">
+<label>Education / College Advice</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_types" value="Business Opportunities">
+<label>Business / Investment Opportunities</label>
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>What Support Are You Seeking?</h2>
+
+<div class="checkbox-grid">
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_seeking" value="New Job Opportunities">
+<label>New Job Opportunities</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_seeking" value="Employee Referrals">
+<label>Employee Referrals</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_seeking" value="Resume Feedback">
+<label>Resume Feedback</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_seeking" value="Interview Coaching">
+<label>Interview Coaching</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_seeking" value="Career Transition Advice">
+<label>Career Transition Advice</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_seeking" value="Mentorship">
+<label>Mentorship</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_seeking" value="Professional Networking">
+<label>Professional Networking</label>
+</div>
+
+<div class="checkbox-row">
+<input type="checkbox" name="support_seeking" value="Business Opportunities">
+<label>Business / Investment Opportunities</label>
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Contact Information Sharing</h2>
+
+<p class="note">
+
+Email and phone are private by default.
+You choose what information you are comfortable sharing.
+
+</p>
+
+<div class="single-checkbox">
+
+<input
+type="checkbox"
+id="share_email">
+
+<label for="share_email">
+
+I consent to sharing my email address with MyFF members.
+
+</label>
+
+</div>
+
+<div class="single-checkbox">
+
+<input
+type="checkbox"
+id="share_phone">
+
+<label for="share_phone">
+
+I consent to sharing my phone number with MyFF members.
+
+</label>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>
+Additional Information You Would Like The Community To Know
+</h2>
+
+<textarea
+id="comments"
+placeholder="Tell members anything else that may help them connect with you, understand your experience, interests, goals, expertise, business, community involvement, or ways you would like to help others.">
+</textarea>
+
+</div>
+
+<div class="card">
+
+<div class="single-checkbox">
+
+<input
+type="checkbox"
+id="consent_participate"
+required>
+
+<label for="consent_participate">
+
+I understand that the information I provide may be shared with MyFF members for networking, mentoring, opportunities, introductions, education, collaboration and mutual support.
+
+</label>
+
+</div>
+
+</div>
+
+<div class="card center">
+
+<button
+class="btn"
+type="submit">
+
+Create MyFF Account
+
+</button>
+
+</div>
+
+</div>
+
+</form>
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
+<script>
+
+const {
+    Client,
+    Account,
+    Databases,
+    ID
+} = Appwrite;
+
+const client = new Client();
+
+client
+    .setEndpoint('https://cloud.appwrite.io/v1')
+    .setProject('6ac6fecf002db308564b');
+
+const account = new Account(client);
+const databases = new Databases(client);
+
+const DATABASE_ID = "myff";
+
+/*
+IMPORTANT
+
+Replace this with the real Profiles table ID.
+
+It may be:
+
+Profiles
+
+OR
+
+profiles
+
+OR
+
+something Appwrite generated.
+
+Copy exactly from Appwrite.
+*/
+
+const PROFILES_COLLECTION_ID = "Profiles";
+
+function getCheckedValues(name){
+
+    return [...document.querySelectorAll(
+        `input[name="${name}"]:checked`
+    )].map(cb => cb.value);
+
+}
+
+document
+.getElementById("myffForm")
+.addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    try{
+
+        const password =
+            document.getElementById(
+                "password"
+            ).value;
+
+        const confirmPassword =
+            document.getElementById(
+                "confirm_password"
+            ).value;
+
+        if(password !== confirmPassword){
+
+            alert(
+                "Password and Confirm Password do not match."
+            );
+
+            return;
+        }
+
+        const firstName =
+            document.getElementById(
+                "first_name"
+            ).value;
+
+        const lastName =
+            document.getElementById(
+                "last_name"
+            ).value;
+
+        const fullName =
+            firstName + " " + lastName;
+
+        const email =
+            document.getElementById(
+                "email"
+            ).value;
+
+        /*
+        Create Auth User
+        */
+
+        const user =
+            await account.create(
+                ID.unique(),
+                email,
+                password,
+                fullName
+            );
+
+        console.log(
+            "User Created:",
+            user
+        );
+
+        /*
+        Create Profile Record
+        */
+
+        await databases.createDocument(
+
+            DATABASE_ID,
+
+            PROFILES_COLLECTION_ID,
+
+            ID.unique(),
+
+            {
+
+                user_id:
+                    user.$id,
+
+                first_name:
+                    firstName,
+
+                last_name:
+                    lastName,
+
+                email:
+                    email,
+
+                phone:
+                    document.getElementById(
+                        "phone"
+                    ).value,
+
+                city:
+                    document.getElementById(
+                        "city"
+                    ).value,
+
+                state:
+                    document.getElementById(
+                        "state"
+                    ).value,
+
+                zipcode:
+                    document.getElementById(
+                        "zipcode"
+                    ).value,
+
+                company:
+                    document.getElementById(
+                        "company"
+                    ).value,
+
+                role:
+                    document.getElementById(
+                        "role"
+                    ).value,
+
+                professional_status:
+                    getCheckedValues(
+                        "professional_status"
+                    ),
+
+                industry:
+                    getCheckedValues(
+                        "industry"
+                    ),
+
+                industry_other:
+                    document.getElementById(
+                        "industry_other"
+                    ).value,
+
+                relationship:
+                    getCheckedValues(
+                        "relationship"
+                    ),
+
+                inviter_name:
+                    document.getElementById(
+                        "inviter_name"
+                    ).value,
+
+                inviter_phone:
+                    document.getElementById(
+                        "inviter_phone"
+                    ).value,
+
+                support_types:
+                    getCheckedValues(
+                        "support_types"
+                    ),
+
+                support_seeking:
+                    getCheckedValues(
+                        "support_seeking"
+                    ),
+
+                share_email:
+                    document.getElementById(
+                        "share_email"
+                    ).checked,
+
+                share_phone:
+                    document.getElementById(
+                        "share_phone"
+                    ).checked,
+
+                comments:
+                    document.getElementById(
+                        "comments"
+                    ).value
+
+            }
+
+        );
+
+        alert(
+            "Account Created Successfully!"
+        );
+
+        window.location.href =
+            "login.html";
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            error.message
+        );
+
+    }
+
+});
+
+</script>
+
+
+</body>
+
+</html>
