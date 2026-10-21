@@ -984,24 +984,20 @@ document
                     ).value,
 
                 professional_status:
-                    getCheckedValues(
-                        "professional_status"
-                    ),
+                   getCheckedValues("professional_status").join(", "),
 
                 industry:
-                    getCheckedValues(
-                        "industry"
-                    ),
+                  getCheckedValues("industry").join(", "),
 
                 industry_other:
                     document.getElementById(
                         "industry_other"
                     ).value,
 
-               inviter_relationship:
+      inviter_relationship:
     getCheckedValues(
         "relationship"
-    ),
+    ).join(", "),
 
                 inviter_name:
                     document.getElementById(
@@ -1014,14 +1010,10 @@ document
                     ).value,
 
                 support_types:
-                    getCheckedValues(
-                        "support_types"
-                    ),
+                 getCheckedValues("support_types").join(", "),
 
                 support_seeking:
-                    getCheckedValues(
-                        "support_seeking"
-                    ),
+                  getCheckedValues("support_seeking").join(", "),
 
                 share_email:
                     document.getElementById(
