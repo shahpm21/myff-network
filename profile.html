@@ -56,13 +56,15 @@ header h1{
 }
 
 .edit-btn{
+    display:inline-block;
     background:#12355b;
     color:white;
     border:none;
     padding:12px 20px;
     border-radius:10px;
-    cursor:pointer;
+    text-decoration:none;
     font-weight:600;
+    cursor:pointer;
 }
 
 .edit-btn:hover{
@@ -127,8 +129,8 @@ header h1{
 <div class="profile-header">
     <h2>My Profile</h2>
 <button
-class="edit-btn"
-onclick="window.location.href='edit-profile.html'">
+    class="edit-btn"
+    onclick="location.href='edit-profile.html'">
     Edit Profile
 </button>
 </div>
