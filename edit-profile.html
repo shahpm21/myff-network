@@ -1,34 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Edit Profile | MyFF Network</title>
+<title>Edit Profile</title>
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
 body{
-    font-family:'Segoe UI',sans-serif;
+    font-family:Segoe UI,sans-serif;
     background:#f4f6f9;
-    color:#12355b;
+    margin:0;
 }
 
-header{
+.header{
     background:#12355b;
     color:white;
-    padding:25px 50px;
-}
-
-header h1{
-    font-size:34px;
+    padding:20px 40px;
 }
 
 .container{
@@ -39,31 +28,27 @@ header h1{
 
 .card{
     background:white;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
-h2{
-    margin-bottom:25px;
-}
-
-.form-group{
-    margin-bottom:18px;
+.row{
+    margin-bottom:15px;
 }
 
 label{
     display:block;
-    margin-bottom:6px;
     font-weight:600;
+    margin-bottom:5px;
 }
 
 input,
 textarea{
     width:100%;
-    padding:12px;
-    border:1px solid #d1d5db;
-    border-radius:10px;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
     font-size:14px;
 }
 
@@ -71,26 +56,25 @@ textarea{
     min-height:120px;
 }
 
-button{
+.btn{
     background:#12355b;
     color:white;
     border:none;
-    padding:14px 25px;
-    border-radius:10px;
+    padding:12px 20px;
+    border-radius:8px;
     cursor:pointer;
-    font-weight:600;
 }
 
-button:hover{
+.btn:hover{
     background:#0f2947;
 }
 
-.back-link{
+.back{
     display:inline-block;
-    margin-bottom:20px;
+    margin-bottom:15px;
     text-decoration:none;
     color:#12355b;
-    font-weight:600;
+    font-weight:bold;
 }
 
 </style>
@@ -98,68 +82,71 @@ button:hover{
 
 <body>
 
-<header>
-    <h1>MyFF Network</h1>
-</header>
+<div class="header">
+    <h1>Edit Profile</h1>
+</div>
 
 <div class="container">
 
-<a class="back-link" href="profile.html">
+<a href="profile.html" class="back">
 ← Back to Profile
 </a>
 
 <div class="card">
 
-<h2>Edit Profile</h2>
-
 <form id="profileForm">
 
-<div class="form-group">
+<div class="row">
 <label>First Name</label>
 <input type="text" id="first_name">
 </div>
 
-<div class="form-group">
+<div class="row">
 <label>Last Name</label>
 <input type="text" id="last_name">
 </div>
 
-<div class="form-group">
+<div class="row">
+<label>Email</label>
+<input type="email" id="email" disabled>
+</div>
+
+<div class="row">
 <label>Phone</label>
 <input type="text" id="phone">
 </div>
 
-<div class="form-group">
-<label>Company</label>
-<input type="text" id="company">
-</div>
-
-<div class="form-group">
-<label>Role / Job Title</label>
-<input type="text" id="role">
-</div>
-
-<div class="form-group">
+<div class="row">
 <label>City</label>
 <input type="text" id="city">
 </div>
 
-<div class="form-group">
+<div class="row">
 <label>State</label>
 <input type="text" id="state">
 </div>
 
-<div class="form-group">
+<div class="row">
 <label>Country</label>
 <input type="text" id="country">
 </div>
 
-<div class="form-group">
-<label>Comments / About Me</label>
+<div class="row">
+<label>Company</label>
+<input type="text" id="company">
+</div>
+
+<div class="row">
+<label>Role</label>
+<input type="text" id="role">
+</div>
+
+<div class="row">
+<label>Comments</label>
 <textarea id="comments"></textarea>
 </div>
 
-<button type="submit">
+<button class="btn" type="submit">
 Save Changes
 </button>
 
@@ -192,7 +179,7 @@ const databases = new Databases(client);
 const DATABASE_ID = "myff";
 const PROFILES_ID = "Profiles";
 
-let profileDocumentId = "";
+let documentId = "";
 
 loadProfile();
 
@@ -202,7 +189,7 @@ async function loadProfile(){
 
         const user = await account.get();
 
-        const result =
+        const results =
         await databases.listDocuments(
             DATABASE_ID,
             PROFILES_ID,
@@ -214,9 +201,18 @@ async function loadProfile(){
             ]
         );
 
-        const p = result.documents[0];
+        if(results.documents.length === 0){
 
-        profileDocumentId = p.$id;
+            alert("Profile not found");
+            return;
+
+        }
+
+        const p =
+        results.documents[0];
+
+        documentId =
+        p.$id;
 
         document.getElementById("first_name").value =
             p.first_name || "";
@@ -224,14 +220,11 @@ async function loadProfile(){
         document.getElementById("last_name").value =
             p.last_name || "";
 
+        document.getElementById("email").value =
+            p.email || "";
+
         document.getElementById("phone").value =
             p.phone || "";
-
-        document.getElementById("company").value =
-            p.company || "";
-
-        document.getElementById("role").value =
-            p.role || "";
 
         document.getElementById("city").value =
             p.city || "";
@@ -242,17 +235,22 @@ async function loadProfile(){
         document.getElementById("country").value =
             p.country || "";
 
+        document.getElementById("company").value =
+            p.company || "";
+
+        document.getElementById("role").value =
+            p.role || "";
+
         document.getElementById("comments").value =
             p.comments || "";
 
     }
-
     catch(error){
 
         console.error(error);
 
-        window.location.href="login.html";
-
+        window.location.href =
+            "login.html";
     }
 
 }
@@ -268,7 +266,7 @@ document
         await databases.updateDocument(
             DATABASE_ID,
             PROFILES_ID,
-            profileDocumentId,
+            documentId,
             {
 
                 first_name:
@@ -280,12 +278,6 @@ document
                 phone:
                     document.getElementById("phone").value,
 
-                company:
-                    document.getElementById("company").value,
-
-                role:
-                    document.getElementById("role").value,
-
                 city:
                     document.getElementById("city").value,
 
@@ -295,20 +287,24 @@ document
                 country:
                     document.getElementById("country").value,
 
+                company:
+                    document.getElementById("company").value,
+
+                role:
+                    document.getElementById("role").value,
+
                 comments:
                     document.getElementById("comments").value
 
             }
-
         );
 
-        alert("Profile Updated Successfully!");
+        alert("Profile Updated Successfully");
 
         window.location.href =
             "profile.html";
 
     }
-
     catch(error){
 
         console.error(error);
