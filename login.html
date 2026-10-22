@@ -605,37 +605,20 @@ document
 .addEventListener("submit", async function(e){
 
     e.preventDefault();
-const email =
-        document.getElementById("email").value;
+const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-    const password =
-        document.getElementById("password").value;
+  try {
+    await account.createEmailPasswordSession(email, password);
 
-    try{
+    alert("Login successful");
 
-        console.log("Attempting login...");
+    window.location.href = "dashboard.html";
 
-        const session =
-            await account.createEmailPasswordSession(
-                email,
-                password
-            );
-
-        console.log("LOGIN SUCCESS", session);
-
-        window.location.href =
-            "dashboard.html";
-
-    }
-    catch(error){
-
-        console.error("LOGIN ERROR", error);
-
-        alert(
-            error.message
-        );
-
-    }
+  } catch (error) {
+    alert(error.message);
+    console.error(error);
+  }
 
 });
 
