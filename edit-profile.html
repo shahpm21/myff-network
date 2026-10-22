@@ -254,10 +254,11 @@ let documentId = "";
 loadProfile();
 
 async function loadProfile(){
-
-    const p = results.documents[0];
-    console.log(p);
     
+    const p = results.documents[0];
+
+alert(JSON.stringify(p, null, 2))
+     console.log(p);
     try{
 
         const user = await account.get();
