@@ -255,6 +255,9 @@ loadProfile();
 
 async function loadProfile(){
 
+    const p = results.documents[0];
+    console.log(p);
+    
     try{
 
         const user = await account.get();
