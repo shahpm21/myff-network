@@ -351,7 +351,13 @@ Email
 Phone
 <span class="required">*</span>
 </label>
-<input type="text" id="phone" required>
+<input
+    type="tel"
+    id="phone"
+    maxlength="10"
+    pattern="[0-9]{10}"
+    inputmode="numeric"
+    required>
 </div>
 
 
@@ -1111,6 +1117,16 @@ document
         );
 
     }
+
+});
+
+    document
+.getElementById("phone")
+.addEventListener("input", function () {
+
+    this.value = this.value
+        .replace(/\D/g, "")
+        .slice(0, 10);
 
 });
 
