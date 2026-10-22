@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Edit Profile | MyFF Network</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f4f6f9;
+    color:#12355b;
+}
+
+header{
+    background:#12355b;
+    color:white;
+    padding:25px 50px;
+}
+
+header h1{
+    font-size:34px;
+}
+
+.container{
+    max-width:900px;
+    margin:30px auto;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+h2{
+    margin-bottom:25px;
+}
+
+.form-group{
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:600;
+}
+
+input,
+textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+    font-size:14px;
+}
+
+textarea{
+    min-height:120px;
+}
+
+button{
+    background:#12355b;
+    color:white;
+    border:none;
+    padding:14px 25px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+button:hover{
+    background:#0f2947;
+}
+
+.back-link{
+    display:inline-block;
+    margin-bottom:20px;
+    text-decoration:none;
+    color:#12355b;
+    font-weight:600;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>MyFF Network</h1>
+</header>
+
+<div class="container">
+
+<a class="back-link" href="profile.html">
+← Back to Profile
+</a>
+
+<div class="card">
+
+<h2>Edit Profile</h2>
+
+<form id="profileForm">
+
+<div class="form-group">
+<label>First Name</label>
+<input type="text" id="first_name">
+</div>
+
+<div class="form-group">
+<label>Last Name</label>
+<input type="text" id="last_name">
+</div>
+
+<div class="form-group">
+<label>Phone</label>
+<input type="text" id="phone">
+</div>
+
+<div class="form-group">
+<label>Company</label>
+<input type="text" id="company">
+</div>
+
+<div class="form-group">
+<label>Role / Job Title</label>
+<input type="text" id="role">
+</div>
+
+<div class="form-group">
+<label>City</label>
+<input type="text" id="city">
+</div>
+
+<div class="form-group">
+<label>State</label>
+<input type="text" id="state">
+</div>
+
+<div class="form-group">
+<label>Country</label>
+<input type="text" id="country">
+</div>
+
+<div class="form-group">
+<label>Comments / About Me</label>
+<textarea id="comments"></textarea>
+</div>
+
+<button type="submit">
+Save Changes
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
+
+<script>
+
+const {
+    Client,
+    Account,
+    Databases,
+    Query
+} = Appwrite;
+
+const client = new Client();
+
+client
+.setEndpoint("https://cloud.appwrite.io/v1")
+.setProject("6ac6fecf002db308564b");
+
+const account = new Account(client);
+const databases = new Databases(client);
+
+const DATABASE_ID = "myff";
+const PROFILES_ID = "Profiles";
+
+let profileDocumentId = "";
+
+loadProfile();
+
+async function loadProfile(){
+
+    try{
+
+        const user = await account.get();
+
+        const result =
+        await databases.listDocuments(
+            DATABASE_ID,
+            PROFILES_ID,
+            [
+                Query.equal(
+                    "user_id",
+                    user.$id
+                )
+            ]
+        );
+
+        const p = result.documents[0];
+
+        profileDocumentId = p.$id;
+
+        document.getElementById("first_name").value =
+            p.first_name || "";
+
+        document.getElementById("last_name").value =
+            p.last_name || "";
+
+        document.getElementById("phone").value =
+            p.phone || "";
+
+        document.getElementById("company").value =
+            p.company || "";
+
+        document.getElementById("role").value =
+            p.role || "";
+
+        document.getElementById("city").value =
+            p.city || "";
+
+        document.getElementById("state").value =
+            p.state || "";
+
+        document.getElementById("country").value =
+            p.country || "";
+
+        document.getElementById("comments").value =
+            p.comments || "";
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        window.location.href="login.html";
+
+    }
+
+}
+
+document
+.getElementById("profileForm")
+.addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    try{
+
+        await databases.updateDocument(
+            DATABASE_ID,
+            PROFILES_ID,
+            profileDocumentId,
+            {
+
+                first_name:
+                    document.getElementById("first_name").value,
+
+                last_name:
+                    document.getElementById("last_name").value,
+
+                phone:
+                    document.getElementById("phone").value,
+
+                company:
+                    document.getElementById("company").value,
+
+                role:
+                    document.getElementById("role").value,
+
+                city:
+                    document.getElementById("city").value,
+
+                state:
+                    document.getElementById("state").value,
+
+                country:
+                    document.getElementById("country").value,
+
+                comments:
+                    document.getElementById("comments").value
+
+            }
+
+        );
+
+        alert("Profile Updated Successfully!");
+
+        window.location.href =
+            "profile.html";
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
