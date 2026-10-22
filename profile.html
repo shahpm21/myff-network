@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Profile | MyFF Network</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f4f6f9;
+    color:#12355b;
+}
+
+header{
+    background:#12355b;
+    color:white;
+    padding:25px 50px;
+}
+
+header h1{
+    font-size:34px;
+}
+
+.container{
+    max-width:1200px;
+    margin:30px auto;
+    padding:0 20px;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.profile-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.profile-header h2{
+    font-size:32px;
+}
+
+.edit-btn{
+    background:#12355b;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.edit-btn:hover{
+    background:#0f2947;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:20px;
+}
+
+.field{
+    background:#f8fafc;
+    padding:16px;
+    border-radius:12px;
+}
+
+.label{
+    font-size:12px;
+    color:#64748b;
+    text-transform:uppercase;
+    margin-bottom:5px;
+}
+
+.value{
+    font-size:18px;
+    font-weight:600;
+}
+
+.back-link{
+    display:inline-block;
+    margin-bottom:20px;
+    text-decoration:none;
+    color:#12355b;
+    font-weight:600;
+}
+
+.loading{
+    text-align:center;
+    padding:40px;
+    font-size:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>MyFF Network</h1>
+</header>
+
+<div class="container">
+
+<a class="back-link" href="dashboard.html">
+← Back to Dashboard
+</a>
+
+<div class="card">
+
+<div class="profile-header">
+    <h2>My Profile</h2>
+    <button class="edit-btn">
+        Edit Profile
+    </button>
+</div>
+
+<div id="loading" class="loading">
+    Loading Profile...
+</div>
+
+<div id="profileContent" style="display:none;">
+
+<div class="grid">
+
+<div class="field">
+<div class="label">Name</div>
+<div id="name" class="value"></div>
+</div>
+
+<div class="field">
+<div class="label">Email</div>
+<div id="email" class="value"></div>
+</div>
+
+<div class="field">
+<div class="label">Phone</div>
+<div id="phone" class="value"></div>
+</div>
+
+<div class="field">
+<div class="label">City</div>
+<div id="city" class="value"></div>
+</div>
+
+<div class="field">
+<div class="label">State</div>
+<div id="state" class="value"></div>
+</div>
+
+<div class="field">
+<div class="label">Country</div>
+<div id="country" class="value"></div>
+</div>
+
+<div class="field">
+<div class="label">Industry</div>
+<div id="industry" class="value"></div>
+</div>
+
+<div class="field">
+<div class="label">Company</div>
+<div id="company" class="value"></div>
+</div>
+
+<div class="field">
+<div class="label">Job Title</div>
+<div id="job_title" class="value"></div>
+</div>
+
+<div class="field">
+<div class="label">Support Seeking</div>
+<div id="support_seeking" class="value"></div>
+</div>
+
+<div class="field">
+<div class="label">Support Available</div>
+<div id="support_available" class="value"></div>
+</div>
+
+<div class="field">
+<div class="label">About Me</div>
+<div id="about_me" class="value"></div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
+
+<script>
+
+const {
+    Client,
+    Account,
+    Databases,
+    Query
+} = Appwrite;
+
+const client = new Client();
+
+client
+.setEndpoint("https://cloud.appwrite.io/v1")
+.setProject("6ac6fecf002db308564b");
+
+const account = new Account(client);
+const databases = new Databases(client);
+
+const DATABASE_ID = "myff";
+const PROFILES_ID = "Profiles";
+
+loadProfile();
+
+async function loadProfile(){
+
+    try{
+
+        const user = await account.get();
+
+        const result =
+        await databases.listDocuments(
+            DATABASE_ID,
+            PROFILES_ID,
+            [
+                Query.equal(
+                    "user_id",
+                    user.$id
+                )
+            ]
+        );
+
+        if(result.documents.length === 0){
+
+            alert("Profile not found");
+            return;
+        }
+
+        const p =
+        result.documents[0];
+
+        document.getElementById("name").textContent =
+            p.full_name || "";
+
+        document.getElementById("email").textContent =
+            p.email || "";
+
+        document.getElementById("phone").textContent =
+            p.phone || "";
+
+        document.getElementById("city").textContent =
+            p.city || "";
+
+        document.getElementById("state").textContent =
+            p.state || "";
+
+        document.getElementById("country").textContent =
+            p.country || "";
+
+        document.getElementById("industry").textContent =
+            p.industry || p.industry_other || "";
+
+        document.getElementById("company").textContent =
+            p.company || "";
+
+        document.getElementById("job_title").textContent =
+            p.job_title || "";
+
+        document.getElementById("support_seeking").textContent =
+            p.support_seeking || "";
+
+        document.getElementById("support_available").textContent =
+            p.support_available || "";
+
+        document.getElementById("about_me").textContent =
+            p.about_me || "";
+
+        document.getElementById("loading").style.display =
+            "none";
+
+        document.getElementById("profileContent").style.display =
+            "block";
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        window.location.href =
+            "login.html";
+    }
+
+}
+
+</script>
+
+</body>
+</html>
