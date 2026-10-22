@@ -629,14 +629,11 @@ placeholder="Please specify">
 Inviter Name
 <span class="required">*</span>
 </label>
-
 <input
-    type="tel"
-    id="inviter_phone"
-    maxlength="10"
-    pattern="[0-9]{10}"
-    inputmode="numeric"
-    required>
+type="text"
+id="inviter_name"
+required>
+
 
 </div>
 
@@ -648,9 +645,12 @@ Inviter Phone
 </label>
 
 <input
-type="text"
-id="inviter_phone"
-required>
+    type="tel"
+    id="inviter_phone"
+    maxlength="10"
+    pattern="[0-9]{10}"
+    inputmode="numeric"
+    required>
 
 </div>
 
@@ -1130,21 +1130,16 @@ document
     this.value = this.value
         .replace(/\D/g, "")
         .slice(0, 10);
-
 });
-
     document
 .getElementById("inviter_phone")
 .addEventListener("input", function () {
-
     this.value = this.value
         .replace(/\D/g, "")
         .slice(0, 10);
-
 });
 
 </script>
-
 
 </body>
 
