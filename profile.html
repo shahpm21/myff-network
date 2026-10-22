@@ -183,7 +183,10 @@ header h1{
 <div class="label">Job Title</div>
 <div id="job_title" class="value"></div>
 </div>
-
+<div class="field">
+    <div class="label">Professional Status</div>
+    <div id="professional_status" class="value"></div>
+</div>
 <div class="field">
 <div class="label">Support Seeking</div>
 <div id="support_seeking" class="value"></div>
@@ -260,7 +263,7 @@ async function loadProfile(){
         result.documents[0];
 console.log(p);
 document.getElementById("name").textContent =
-    p.name || p.full_name || "";
+     (p.first_name || "") + " " + (p.last_name || "");
 
         document.getElementById("email").textContent =
             p.email || "";
@@ -284,8 +287,13 @@ document.getElementById("name").textContent =
             p.company || "";
 
         document.getElementById("job_title").textContent =
-            p.job_title || "";
-
+       p.role || "";
+        
+document.getElementById("professional_status").textContent =
+    Array.isArray(p.professional_status)
+        ? p.professional_status.join(", ")
+        : (p.professional_status || "");
+        
         document.getElementById("support_seeking").textContent =
             p.support_seeking || "";
 
@@ -293,7 +301,7 @@ document.getElementById("name").textContent =
             p.support_available || "";
 
         document.getElementById("about_me").textContent =
-            p.about_me || "";
+           p.comments || "";
 
         document.getElementById("loading").style.display =
             "none";
