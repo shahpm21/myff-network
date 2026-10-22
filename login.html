@@ -605,27 +605,23 @@ document
 .addEventListener("submit", async function(e){
 
     e.preventDefault();
-
-    const email =
-        document.getElementById(
-            "email"
-        ).value;
+const email =
+        document.getElementById("email").value;
 
     const password =
-        document.getElementById(
-            "password"
-        ).value;
+        document.getElementById("password").value;
 
     try{
 
-        await account.createEmailPasswordSession(
-            email,
-            password
-        );
+        console.log("Attempting login...");
 
-        alert(
-            "Login Successful!"
-        );
+        const session =
+            await account.createEmailPasswordSession(
+                email,
+                password
+            );
+
+        console.log("LOGIN SUCCESS", session);
 
         window.location.href =
             "dashboard.html";
@@ -633,7 +629,7 @@ document
     }
     catch(error){
 
-        console.error(error);
+        console.error("LOGIN ERROR", error);
 
         alert(
             error.message
