@@ -125,7 +125,12 @@ textarea{
 <label>State</label>
 <input type="text" id="state">
 </div>
-
+        
+<div class="row">
+<label>ZIP Code</label>
+<input type="text" id="zipcode">
+</div>
+    
 <div class="row">
 <label>Country</label>
 <input type="text" id="country">
@@ -139,6 +144,71 @@ textarea{
 <div class="row">
 <label>Role</label>
 <input type="text" id="role">
+</div>
+    
+<div class="row">
+<label>Other Industry</label>
+<input type="text" id="industry_other">
+</div>
+
+    <div class="row">
+
+<label>Professional Status</label>
+
+<label><input type="checkbox" name="professional_status" value="Employee"> Employee</label><br>
+
+<label><input type="checkbox" name="professional_status" value="Seeking Employment"> Seeking Employment</label><br>
+
+<label><input type="checkbox" name="professional_status" value="Consultant"> Consultant</label><br>
+
+<label><input type="checkbox" name="professional_status" value="Business Owner"> Business Owner</label><br>
+
+<label><input type="checkbox" name="professional_status" value="Entrepreneur"> Entrepreneur</label>
+
+</div>    
+
+    <div class="row">
+
+<label>Industry</label>
+
+<label><input type="checkbox" name="industry" value="Manufacturing"> Manufacturing</label><br>
+
+<label><input type="checkbox" name="industry" value="Supply Chain"> Supply Chain</label><br>
+
+<label><input type="checkbox" name="industry" value="Engineering"> Engineering</label><br>
+
+<label><input type="checkbox" name="industry" value="Information Technology"> IT</label><br>
+
+<label><input type="checkbox" name="industry" value="Healthcare"> Healthcare</label><br>
+
+<label><input type="checkbox" name="industry" value="Human Resource"> Human Resource</label>
+
+</div>
+<div class="row">
+
+<label>Support Seeking</label>
+
+<label><input type="checkbox" name="support_seeking" value="New Job Opportunities"> New Job Opportunities</label><br>
+
+<label><input type="checkbox" name="support_seeking" value="Employee Referrals"> Employee Referrals</label><br>
+
+<label><input type="checkbox" name="support_seeking" value="Mentorship"> Mentorship</label><br>
+
+<label><input type="checkbox" name="support_seeking" value="Professional Networking"> Professional Networking</label>
+
+</div>
+    <div class="row">
+
+<label>Support Available</label>
+
+<label><input type="checkbox" name="support_types" value="Employee Referrals"> Employee Referrals</label><br>
+
+<label><input type="checkbox" name="support_types" value="Resume Reviews"> Resume Reviews</label><br>
+
+<label><input type="checkbox" name="support_types" value="Career Advice"> Career Advice</label><br>
+
+<label><input type="checkbox" name="support_types" value="Mentoring"> Mentoring</label>
+
 </div>
 
 <div class="row">
@@ -231,7 +301,8 @@ async function loadProfile(){
 
         document.getElementById("state").value =
             p.state || "";
-
+document.getElementById("zipcode").value =
+    p.zipcode || "";
         document.getElementById("country").value =
             p.country || "";
 
@@ -241,6 +312,30 @@ async function loadProfile(){
         document.getElementById("role").value =
             p.role || "";
 
+industry_other:
+    document.getElementById("industry_other").value,
+
+inviter_name:
+    document.getElementById("inviter_name").value,
+
+inviter_phone:
+    document.getElementById("inviter_phone").value,
+
+share_email:
+    document.getElementById("share_email").checked,
+
+professional_status:
+    getCheckedValues("professional_status"),
+
+industry:
+    getCheckedValues("industry"),
+
+support_seeking:
+    getCheckedValues("support_seeking"),
+
+support_types:
+    getCheckedValues("support_types"),
+        
         document.getElementById("comments").value =
             p.comments || "";
 
