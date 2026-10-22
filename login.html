@@ -601,6 +601,24 @@ client
 
 const account = new Account(client);
 
+      checkLogin();
+
+async function checkLogin() {
+
+    try {
+
+        await account.get();
+
+        window.location.href = "dashboard.html";
+
+    } catch (error) {
+
+        // User not logged in, stay on login page
+
+    }
+
+}
+      
 // Login Form
 document.getElementById("loginForm")
 .addEventListener("submit", async function (e) {
