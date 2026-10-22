@@ -258,9 +258,9 @@ async function loadProfile(){
 
         const p =
         result.documents[0];
-
-        document.getElementById("name").textContent =
-            p.full_name || "";
+console.log(p);
+document.getElementById("name").textContent =
+    p.name || p.full_name || "";
 
         document.getElementById("email").textContent =
             p.email || "";
