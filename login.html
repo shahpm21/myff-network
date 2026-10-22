@@ -585,15 +585,14 @@ trusted introductions and shared opportunities.
 
 </div>
 
+<!-- Appwrite SDK -->
 <script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
 
 <script>
 
-const {
-    Client,
-    Account
-} = Appwrite;
+const { Client, Account } = Appwrite;
 
+// Initialize Appwrite
 const client = new Client();
 
 client
@@ -602,30 +601,48 @@ client
 
 const account = new Account(client);
 
-document
-.getElementById("loginForm")
-.addEventListener("submit", async function(e){
+// Login Form
+document.getElementById("loginForm")
+.addEventListener("submit", async function (e) {
 
     e.preventDefault();
-const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
 
-  try {
-    await account.createEmailPasswordSession(email, password);
+    const email =
+        document.getElementById("email").value.trim();
 
-    alert("Login successful");
+    const password =
+        document.getElementById("password").value;
 
-    window.location.href = "dashboard.html";
+    try {
 
-  } catch (error) {
-    alert(error.message);
-    console.error(error);
-  }
+        console.log("Attempting login...");
+
+        const session =
+            await account.createEmailPasswordSession(
+                email,
+                password
+            );
+
+        console.log("Session Created:", session);
+
+        alert("Login Successful!");
+
+        window.location.href = "dashboard.html";
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Login Error:\n\n" +
+            (error.message || JSON.stringify(error))
+        );
+    }
 
 });
 
 </script>
 
 </body>
-
 </html>
+
