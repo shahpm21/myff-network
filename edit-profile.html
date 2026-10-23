@@ -259,7 +259,14 @@ textarea{
 
     background:#0f2a45;
 }
+.active-btn{
 
+    background:#dbeafe;
+
+    color:#12355b;
+
+    border:2px solid #12355b;
+}
 @media(max-width:768px){
 
     .grid{
@@ -286,34 +293,231 @@ textarea:focus{
     0 0 0 3px rgba(18,53,91,.08);
 }
 
+    .logo-small{
 
+    font-size:11px;
+
+    color:#dbeafe;
+
+    margin-top:2px;
+}
+
+.page-title-card{
+
+    background:white;
+
+    padding:18px 22px;
+
+    border-radius:18px;
+
+    margin:20px 0;
+
+    box-shadow:
+        0 8px 18px rgba(0,0,0,.06);
+}
+
+.page-title-card h1{
+
+    color:#12355b;
+
+    font-size:28px;
+
+    margin-bottom:5px;
+}
+
+.page-title-card p{
+
+    font-size:14px;
+
+    color:#64748b;
+}
+
+.header{
+
+    background:
+    linear-gradient(
+        135deg,
+        #12355b,
+        #1f4e79
+    );
+
+    color:white;
+
+    padding:14px 30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.logo{
+
+    font-size:24px;
+
+    font-weight:700;
+}
+
+.logo-small{
+
+    font-size:11px;
+
+    color:#dbeafe;
+
+    margin-top:2px;
+}
+
+.header-buttons{
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+}
+
+.header-btn{
+
+    background:white;
+
+    color:#12355b;
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.header-btn:hover{
+
+    background:#f8fafc;
+}
+
+.active-btn{
+
+    background:#dbeafe;
+
+    color:#12355b;
+
+    border:2px solid #12355b;
+}
+
+.page-title-card{
+
+    background:white;
+
+    padding:18px 22px;
+
+    border-radius:18px;
+
+    margin:20px 0;
+
+    box-shadow:
+        0 8px 18px rgba(0,0,0,.06);
+}
+
+.page-title-card h1{
+
+    color:#12355b;
+
+    font-size:28px;
+
+    margin-bottom:5px;
+}
+
+.page-title-card p{
+
+    color:#64748b;
+
+    font-size:14px;
+}
 </style>
 
 </head>
 
 <body>
 
-<div class="hero">
+<div class="header">
 
-<h1>
-Edit MyFF Profile
-</h1>
+    <div>
 
-<h2>
-My Friends & Family Network
-</h2>
+        <div class="logo">
+            MyFF Network
+        </div>
 
-<p>
-Review your information, make changes, and save your MyFF profile.
-</p>
+        <div class="logo-small">
+            My Friends & Family Network
+        </div>
+
+    </div>
+
+    <div class="header-buttons">
+
+        <button
+            class="header-btn"
+            onclick="window.location.href='dashboard.html'">
+
+            Dashboard
+
+        </button>
+
+        <button
+            class="header-btn"
+            onclick="window.location.href='network.html'">
+
+            My Network
+
+        </button>
+
+        <button
+            class="header-btn active-btn">
+
+            Edit Profile
+
+        </button>
+
+        <button
+            class="header-btn"
+            onclick="window.location.href='login.html'">
+
+            Logout
+
+        </button>
+
+    </div>
 
 </div>
 
 <form id="myffForm">
 
 <div class="container">
-<p id="pageStatus" role="status" style="margin:0 0 14px;color:#475569;">Loading your profile...</p>
 
+<p id="pageStatus"
+   role="status"
+   style="margin:0 0 14px;color:#475569;">
+
+Loading your profile...
+
+</p>
+
+<div class="page-title-card">
+
+    <h1>
+        Edit Profile
+    </h1>
+
+    <p>
+        Review and update your personal and professional information.
+    </p>
+
+</div>
+    
 <div class="card">
 
 <h2>Personal Information</h2>
