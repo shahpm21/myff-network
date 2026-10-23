@@ -38,7 +38,7 @@ body{
 
     color:white;
 
-    padding:14px 30px;
+    padding:18px 30px;
 
     display:flex;
 
@@ -49,18 +49,9 @@ body{
 
 .logo{
 
-    font-size:24px;
+    font-size:28px;
 
     font-weight:700;
-}
-
-.logo-small{
-
-    font-size:11px;
-
-    color:#dbeafe;
-
-    margin-top:2px;
 }
 
 .header-buttons{
@@ -68,8 +59,6 @@ body{
     display:flex;
 
     gap:10px;
-
-    flex-wrap:wrap;
 }
 
 .header-btn{
@@ -80,35 +69,20 @@ body{
 
     border:none;
 
-    padding:12px 20px;
+    padding:10px 14px;
 
-    border-radius:16px;
+    border-radius:10px;
 
     font-weight:600;
 
     cursor:pointer;
-
-    box-shadow:
-    0 4px 10px rgba(0,0,0,.08);
-}
-
-.header-btn:hover{
-
-    background:#f8fafc;
-}
-
-.active-btn{
-
-    background:#dbeafe;
-
-    border:2px solid #12355b;
 }
 
 .container{
 
     max-width:1200px;
 
-    margin:18px auto;
+    margin:20px auto;
 
     padding:0 20px;
 }
@@ -117,30 +91,28 @@ body{
 
     background:white;
 
+    padding:18px 22px;
+
     border-radius:18px;
 
-    padding:16px 20px;
-
-    margin-bottom:15px;
+    margin-bottom:20px;
 
     box-shadow:
-    0 8px 18px rgba(0,0,0,.06);
+        0 10px 25px rgba(0,0,0,.08);
 }
 
 .welcome-card h1{
 
-    font-size:24px;
+    font-size:28px;
 
     color:#12355b;
 
-    margin-bottom:3px;
+    margin-bottom:4px;
 }
 
 .welcome-card p{
 
     color:#64748b;
-
-    font-size:14px;
 }
 
 .stats-grid{
@@ -150,9 +122,9 @@ body{
     grid-template-columns:
         repeat(4,1fr);
 
-    gap:14px;
+    gap:15px;
 
-    margin-bottom:18px;
+    margin-bottom:20px;
 }
 
 .stat-card{
@@ -161,19 +133,17 @@ body{
 
     border-radius:16px;
 
-    padding:10px;
+    padding:14px;
 
     text-align:center;
 
-    cursor:pointer;
-
     box-shadow:
-    0 8px 18px rgba(0,0,0,.06);
+        0 10px 20px rgba(0,0,0,.08);
 }
 
 .stat-number{
 
-    font-size:24px;
+    font-size:28px;
 
     font-weight:700;
 
@@ -182,11 +152,11 @@ body{
 
 .stat-label{
 
-    font-size:12px;
+    margin-top:4px;
 
     color:#64748b;
 
-    margin-top:4px;
+    font-size:12px;
 }
 
 .dashboard-grid{
@@ -196,7 +166,7 @@ body{
     grid-template-columns:
         1fr 1fr;
 
-    gap:18px;
+    gap:20px;
 }
 
 .card{
@@ -208,7 +178,7 @@ body{
     padding:20px;
 
     box-shadow:
-    0 8px 18px rgba(0,0,0,.06);
+        0 10px 25px rgba(0,0,0,.08);
 }
 
 .card h2{
@@ -216,6 +186,8 @@ body{
     color:#12355b;
 
     margin-bottom:15px;
+
+    font-size:22px;
 }
 
 .profile-summary{
@@ -278,22 +250,15 @@ body{
 
 <div class="header">
 
-    <div>
-
-        <div class="logo">
-            MyFF Network
-        </div>
-
-        <div class="logo-small">
-            My Friends & Family Network
-        </div>
-
+    <div class="logo">
+        MyFF Network
     </div>
 
     <div class="header-buttons">
 
         <button
-            class="header-btn active-btn">
+            class="header-btn"
+            onclick="window.location.href='dashboard.html'">
 
             Dashboard
 
@@ -331,25 +296,27 @@ body{
 
     <div class="welcome-card">
 
-        <h1 id="welcomeName">
+        <div>
 
-            Welcome
+            <h1 id="welcomeName">
 
-        </h1>
+                Welcome
 
-        <p id="welcomeRole">
+            </h1>
 
-            Loading profile...
+            <p id="welcomeRole">
 
-        </p>
+                Loading profile...
+
+            </p>
+
+        </div>
 
     </div>
 
     <div class="stats-grid">
 
-        <div
-            class="stat-card"
-            onclick="window.location.href='network.html'">
+        <div class="stat-card">
 
             <div
                 class="stat-number"
@@ -454,33 +421,25 @@ body{
             <div class="network-model">
 
                 <div class="level">
-
-                    👤 L0 - You
-
+                    👤 You (L0)
                 </div>
 
                 <div class="arrow">↓</div>
 
                 <div class="level">
-
-                    🤝 L1 - Direct Connections
-
+                    🤝 Direct Connections (L1)
                 </div>
 
                 <div class="arrow">↓</div>
 
                 <div class="level">
-
-                    🔗 L2 - Trusted Introductions
-
+                    🔗 Trusted Introductions (L2)
                 </div>
 
                 <div class="arrow">↓</div>
 
                 <div class="level">
-
-                    🌐 L3 - Extended Network Members
-
+                    🌐 Extended Network Members (L3)
                 </div>
 
             </div>
@@ -554,9 +513,11 @@ async function loadDashboard(){
             profileResult.documents.length === 0
         ){
 
-            document.getElementById(
+            document
+            .getElementById(
                 "profileSummary"
-            ).innerHTML =
+            )
+            .innerHTML =
             "Profile not found.";
 
             return;
@@ -576,8 +537,7 @@ async function loadDashboard(){
         ).innerHTML =
 
         `
-        ${profile.role || "Member"}
-
+        ${profile.role || ""}
         ${profile.company
             ? " | " + profile.company
             : ""}
@@ -589,10 +549,6 @@ async function loadDashboard(){
         ${profile.state
             ? ", " + profile.state
             : ""}
-
-        ${profile.country
-            ? ", " + profile.country
-            : ""}
         `;
 
         document.getElementById(
@@ -600,44 +556,43 @@ async function loadDashboard(){
         ).innerHTML =
 
         `
-        <strong>
-
-        ${profile.first_name}
-        ${profile.last_name}
-
-        </strong>
-
-        <br><br>
-
-        💼 ${profile.role || "-"}
-        ${profile.company ? " | " + profile.company : ""}
+        <strong>Email:</strong>
+        ${profile.email}
 
         <br>
 
-        📍 ${profile.city || ""}
+        <strong>Phone:</strong>
+        ${profile.phone}
+
+        <br>
+
+        <strong>Company:</strong>
+        ${profile.company || "-"}
+
+        <br>
+
+        <strong>Role:</strong>
+        ${profile.role || "-"}
+
+        <br>
+
+        <strong>Location:</strong>
+
+        ${profile.city || ""}
         ${profile.state ? ", " + profile.state : ""}
         ${profile.country ? ", " + profile.country : ""}
 
-        <br><br>
-
-        <strong>
-        Can Help With
-        </strong>
-
         <br>
+
+        <strong>Can Help With:</strong>
 
         ${profile.support_types || "-"}
 
-        <br><br>
-
-        <strong>
-        Looking For
-        </strong>
-
         <br>
 
-        ${profile.support_seeking || "-"}
+        <strong>Looking For:</strong>
 
+        ${profile.support_seeking || "-"}
         `;
 
         const connections =
@@ -651,41 +606,29 @@ async function loadDashboard(){
 
                 c =>
 
-                c.from_user_id === user.$id
+                c.from_user_id ===
+                user.$id ||
 
-                ||
-
-                c.to_user_id === user.$id
+                c.to_user_id ===
+                user.$id
 
             );
 
         document.getElementById(
             "l1Count"
         ).innerHTML =
-        myConnections.length;
-
-        document.getElementById(
-            "l2Count"
-        ).innerHTML =
-        0;
-
-        document.getElementById(
-            "l3Count"
-        ).innerHTML =
-        0;
+            myConnections.length;
 
         document.getElementById(
             "inviteCount"
         ).innerHTML =
+            connections.documents.filter(
 
-        connections.documents.filter(
+                c =>
+                c.created_by_user_id ===
+                user.$id
 
-            c =>
-
-            c.created_by_user_id ===
-            user.$id
-
-        ).length;
+            ).length;
 
     }
     catch(error){
