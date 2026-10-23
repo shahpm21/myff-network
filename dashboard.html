@@ -530,21 +530,46 @@ body{
 
     <div class="dashboard-grid">
 
-        <div class="card">
+   document.getElementById(
+    "profileSummary"
+).innerHTML =
 
-            <h2>
+`
+<table style="width:100%;line-height:2;">
 
-                👤 My Profile
+<tr>
+<td><strong>Email</strong></td>
+<td>${profile.email}</td>
+</tr>
 
-            </h2>
+<tr>
+<td><strong>Phone</strong></td>
+<td>${profile.phone}</td>
+</tr>
 
-            <div id="profileSummary">
+<tr>
+<td><strong>Company</strong></td>
+<td>${profile.company || "-"}</td>
+</tr>
 
-                Loading Profile...
+<tr>
+<td><strong>Role</strong></td>
+<td>${profile.role || "-"}</td>
+</tr>
 
-            </div>
+<tr>
+<td><strong>Location</strong></td>
+<td>
 
-        </div>
+${profile.city || ""}
+${profile.state ? ", " + profile.state : ""}
+${profile.country ? ", " + profile.country : ""}
+
+</td>
+</tr>
+
+</table>
+`;
 
         <div class="card">
 
