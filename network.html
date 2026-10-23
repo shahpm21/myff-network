@@ -80,19 +80,19 @@ body{
     padding:0 20px;
 }
 
-.page-title{
+.page-header{
 
     margin-bottom:25px;
 }
 
-.page-title h1{
+.page-header h1{
 
     color:#12355b;
 
     margin-bottom:8px;
 }
 
-.page-title p{
+.page-header p{
 
     color:#64748b;
 }
@@ -113,19 +113,19 @@ body{
 
     background:white;
 
-    padding:25px;
-
     border-radius:18px;
+
+    padding:25px;
 
     text-align:center;
 
     box-shadow:
-        0 10px 25px rgba(0,0,0,.08);
+    0 10px 25px rgba(0,0,0,.08);
 }
 
 .stat-number{
 
-    font-size:42px;
+    font-size:38px;
 
     font-weight:700;
 
@@ -143,14 +143,14 @@ body{
 
     background:white;
 
-    padding:25px;
-
     border-radius:18px;
+
+    padding:25px;
 
     margin-bottom:20px;
 
     box-shadow:
-        0 10px 25px rgba(0,0,0,.08);
+    0 10px 25px rgba(0,0,0,.08);
 }
 
 .card h2{
@@ -168,35 +168,68 @@ body{
 
     padding:15px;
 
-    margin-bottom:12px;
+    margin-bottom:15px;
 
     background:#fafcff;
 }
 
 .member-name{
 
+    font-size:18px;
+
     font-weight:700;
 
     color:#12355b;
 
-    margin-bottom:5px;
+    margin-bottom:8px;
 }
 
-.member-details{
+.member-meta{
 
     color:#64748b;
 
-    font-size:14px;
+    margin-bottom:10px;
+
+    line-height:1.6;
+}
+
+.tag{
+
+    display:inline-block;
+
+    background:#e0f2fe;
+
+    color:#0f4c81;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    margin:3px;
+
+    font-size:12px;
 }
 
 .empty{
+
+    text-align:center;
+
+    color:#64748b;
+
+    padding:30px;
+}
+
+    .trust-note{
+
+    margin-top:15px;
 
     color:#64748b;
 
     text-align:center;
 
-    padding:30px;
+    font-size:14px;
 }
+
 @media(max-width:900px){
 
     .stats-grid{
@@ -231,7 +264,7 @@ body{
 
 <div class="container">
 
-    <div class="page-title">
+    <div class="page-header">
 
         <h1>
 
@@ -241,8 +274,7 @@ body{
 
         <p>
 
-            Direct Connections, Trusted Introductions
-            and Extended Network Members.
+            Explore your trusted network and connections.
 
         </p>
 
@@ -271,7 +303,8 @@ body{
         <div class="stat-card">
 
             <div
-                class="stat-number">
+                class="stat-number"
+                id="l2Count">
 
                 0
 
@@ -288,7 +321,8 @@ body{
         <div class="stat-card">
 
             <div
-                class="stat-number">
+                class="stat-number"
+                id="l3Count">
 
                 0
 
@@ -296,7 +330,7 @@ body{
 
             <div class="stat-label">
 
-                L3 Extended Members
+                L3 Extended Network Members
 
             </div>
 
@@ -316,7 +350,7 @@ body{
 
             <div class="empty">
 
-                Loading connections...
+                Loading...
 
             </div>
 
@@ -332,10 +366,13 @@ body{
 
         </h2>
 
-        <div class="empty">
+        <div id="l2Members">
 
-            This section will be enabled after
-            network expansion logic is implemented.
+            <div class="empty">
+
+                Loading...
+
+            </div>
 
         </div>
 
@@ -349,10 +386,19 @@ body{
 
         </h2>
 
-        <div class="empty">
+        <div id="l3Members">
 
-            This section will be enabled after
-            L2/L3 calculations are added.
+            <div class="empty">
+
+                Loading...
+
+            </div>
+
+        </div>
+
+        <div class="trust-note">
+
+            Opportunities can emerge from any level of the network.
 
         </div>
 
@@ -394,6 +440,80 @@ const PROFILES_COLLECTION_ID =
 const CONNECTIONS_COLLECTION_ID =
     "Connections";
 
+function getConnectedUserId(
+    connection,
+    myUserId
+){
+
+    if(
+        connection.from_user_id ===
+        myUserId
+    ){
+
+        return connection.to_user_id;
+    }
+
+    return connection.from_user_id;
+}
+
+async function getMemberCard(
+    member
+){
+
+    return `
+    <div class="member">
+
+        <div class="member-name">
+
+            ${member.first_name}
+            ${member.last_name}
+
+        </div>
+
+        <div class="member-meta">
+
+            💼 ${member.role || "-"}
+
+            ${member.company
+                ? " | " + member.company
+                : ""}
+
+            <br>
+
+            📍 ${member.city || ""}
+
+            ${member.state
+                ? ", " + member.state
+                : ""}
+
+        </div>
+
+        <div>
+
+            <strong>
+            Can Help With
+            </strong>
+
+            <br>
+
+            ${member.support_types || "-"}
+
+            <br><br>
+
+            <strong>
+            Looking For
+            </strong>
+
+            <br>
+
+            ${member.support_seeking || "-"}
+
+        </div>
+
+    </div>
+    `;
+}
+
 async function loadNetwork(){
 
     try{
@@ -401,148 +521,192 @@ async function loadNetwork(){
         const user =
             await account.get();
 
-        const profileResult =
-            await databases.listDocuments(
-                DATABASE_ID,
-                PROFILES_COLLECTION_ID,
-                [
-                    Query.equal(
-                        "user_id",
-                        user.$id
-                    )
-                ]
-            );
-
-        if(
-            profileResult.documents.length === 0
-        ){
-
-            alert(
-                "Profile not found."
-            );
-
-            return;
-        }
-
-        const connections =
+        const connectionResult =
             await databases.listDocuments(
                 DATABASE_ID,
                 CONNECTIONS_COLLECTION_ID
             );
 
-        const myConnections =
-            connections.documents.filter(
+        const allConnections =
+            connectionResult.documents;
 
-                c =>
+        const l1Ids =
+            new Set();
 
-                c.from_user_id ===
-                user.$id ||
+        allConnections.forEach(c => {
 
-                c.to_user_id ===
-                user.$id
-            );
+            if(
+                c.from_user_id === user.$id
+                ||
+                c.to_user_id === user.$id
+            ){
+
+                l1Ids.add(
+                    getConnectedUserId(
+                        c,
+                        user.$id
+                    )
+                );
+
+            }
+
+        });
+
+        const l2Ids =
+            new Set();
+
+        allConnections.forEach(c => {
+
+            l1Ids.forEach(l1User => {
+
+                if(
+                    c.from_user_id === l1User
+                    ||
+                    c.to_user_id === l1User
+                ){
+
+                    const nextUser =
+                        getConnectedUserId(
+                            c,
+                            l1User
+                        );
+
+                    if(
+                        nextUser !== user.$id
+                        &&
+                        !l1Ids.has(nextUser)
+                    ){
+
+                        l2Ids.add(nextUser);
+
+                    }
+
+                }
+
+            });
+
+        });
+
+        const l3Ids =
+            new Set();
+
+        allConnections.forEach(c => {
+
+            l2Ids.forEach(l2User => {
+
+                if(
+                    c.from_user_id === l2User
+                    ||
+                    c.to_user_id === l2User
+                ){
+
+                    const nextUser =
+                        getConnectedUserId(
+                            c,
+                            l2User
+                        );
+
+                    if(
+                        nextUser !== user.$id
+                        &&
+                        !l1Ids.has(nextUser)
+                        &&
+                        !l2Ids.has(nextUser)
+                    ){
+
+                        l3Ids.add(nextUser);
+
+                    }
+
+                }
+
+            });
+
+        });
 
         document.getElementById(
             "l1Count"
-        ).innerHTML =
-            myConnections.length;
+        ).innerHTML = l1Ids.size;
 
-        const l1Container =
-            document.getElementById(
-                "l1Members"
-            );
+        document.getElementById(
+            "l2Count"
+        ).innerHTML = l2Ids.size;
 
-        if(
-            myConnections.length === 0
+        document.getElementById(
+            "l3Count"
+        ).innerHTML = l3Ids.size;
+
+        async function loadMembers(
+            containerId,
+            userIds
         ){
 
-            l1Container.innerHTML =
-
-            `
-            <div class="empty">
-                No direct connections yet.
-            </div>
-            `;
-
-            return;
-        }
-
-        let html = "";
-
-        for(
-            const connection
-            of myConnections
-        ){
-
-            const otherUserId =
-
-                connection.from_user_id ===
-                user.$id
-
-                ?
-
-                connection.to_user_id
-
-                :
-
-                connection.from_user_id;
-
-            const memberResult =
-                await databases.listDocuments(
-
-                    DATABASE_ID,
-
-                    PROFILES_COLLECTION_ID,
-
-                    [
-                        Query.equal(
-                            "user_id",
-                            otherUserId
-                        )
-                    ]
-
+            const container =
+                document.getElementById(
+                    containerId
                 );
 
-            if(
-                memberResult.documents.length > 0
-            ){
+            if(userIds.size === 0){
 
-                const member =
-                    memberResult.documents[0];
-
-                html +=
-
+                container.innerHTML =
                 `
-                <div class="member">
+                <div class="empty">
 
-                    <div class="member-name">
-
-                        ${member.first_name}
-                        ${member.last_name}
-
-                    </div>
-
-                    <div class="member-details">
-
-                        ${member.role || ""}
-                        ${member.company ? " | " + member.company : ""}
-
-                        <br>
-
-                        ${member.city || ""}
-                        ${member.state ? ", " + member.state : ""}
-
-                    </div>
+                    No members found.
 
                 </div>
                 `;
 
+                return;
             }
+
+            let html = "";
+
+            for(const userId of userIds){
+
+                const result =
+                    await databases.listDocuments(
+                        DATABASE_ID,
+                        PROFILES_COLLECTION_ID,
+                        [
+                            Query.equal(
+                                "user_id",
+                                userId
+                            )
+                        ]
+                    );
+
+                if(
+                    result.documents.length > 0
+                ){
+
+                    html += await getMemberCard(
+                        result.documents[0]
+                    );
+
+                }
+
+            }
+
+            container.innerHTML =
+                html;
 
         }
 
-        l1Container.innerHTML =
-            html;
+        await loadMembers(
+            "l1Members",
+            l1Ids
+        );
+
+        await loadMembers(
+            "l2Members",
+            l2Ids
+        );
+
+        await loadMembers(
+            "l3Members",
+            l3Ids
+        );
 
     }
     catch(error){
