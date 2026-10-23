@@ -1,838 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MyFF Dashboard</title>
-
 <script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
-
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:'Segoe UI',sans-serif;
-    background:#f8fafc;
-    color:#102a43;
-}
-
-.header{
-
-    background:
-    linear-gradient(
-        135deg,
-        #12355b,
-        #1f4e79
-    );
-
-    color:white;
-
-    padding:20px 40px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-}
-
-.logo{
-
-    font-size:28px;
-
-    font-weight:700;
-}
-
-.header-buttons{
-
-    display:flex;
-
-    gap:10px;
-}
-
-.btn{
-
-    background:white;
-
-    color:#12355b;
-
-    border:none;
-
-    padding:10px 16px;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
-    font-weight:600;
-}
-
-.btn:hover{
-
-    background:#f1f5f9;
-}
-
-.container{
-
-    max-width:1200px;
-
-    margin:30px auto;
-
-    padding:0 20px;
-}
-
-.profile-card{
-
-    background:white;
-
-    padding:25px;
-
-    border-radius:20px;
-
-    margin-bottom:25px;
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.08);
-}
-
-.profile-card h2{
-
-    color:#12355b;
-
-    margin-bottom:15px;
-}
-
-.profile-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(auto-fit,minmax(220px,1fr));
-
-    gap:15px;
-}
-
-.info-box{
-
-    background:#f8fafc;
-
-    padding:15px;
-
-    border-radius:12px;
-
-    border:1px solid #e2e8f0;
-}
-
-.info-box label{
-
-    display:block;
-
-    font-size:12px;
-
-    color:#64748b;
-
-    margin-bottom:5px;
-}
-
-.cards{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(auto-fit,minmax(250px,1fr));
-
-    gap:20px;
-}
-
-.card{
-
-    background:white;
-
-    padding:25px;
-
-    border-radius:20px;
-
-    cursor:pointer;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.08);
-
-    transition:.2s;
-}
-
-.card:hover{
-
-    transform:translateY(-4px);
-}
-
-.card h3{
-
-    color:#12355b;
-
-    margin-bottom:12px;
-}
-
-.card p{
-
-    color:#64748b;
-
-    line-height:1.6;
-}
-
-.loading{
-
-    text-align:center;
-
-    padding:50px;
-
-    color:#64748b;
-}
-
-     .welcome-card{
-
-    background:white;
-
-    border-radius:20px;
-
-    padding:20px 25px;
-
-    margin-bottom:20px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.08);
-}
-.welcome-card h1{
-
-    color:#12355b;
-
-    margin-bottom:8px;
-}
-
-.welcome-card p{
-
-    color:#64748b;
-}
-
-.action-btn{
-
-    background:#12355b;
-
-    color:white;
-
-    border:none;
-
-    padding:12px 20px;
-
-    border-radius:10px;
-
-    cursor:pointer;
-}
-
-.stats-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
-    gap:20px;
-
-    margin-bottom:25px;
-}
-
-.stat-card{
-
-    background:white;
-
-    padding:22px;
-
-    border-radius:18px;
-
-    text-align:center;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.08);
-}
-
-.stat-number{
-
-    font-size:42px;
-
-    font-weight:700;
-
-    color:#12355b;
-}
-
-.stat-label{
-
-    color:#64748b;
-
-    margin-top:8px;
-
-    font-size:14px;
-}
-
-.dashboard-grid{
-
-    display:grid;
-
-    grid-template-columns:1fr 1fr;
-
-    gap:20px;
-
-    margin-bottom:25px;
-}
-
-.trust-model{
-
-    margin-top:15px;
-
-    text-align:center;
-}
-
-.level{
-
-    background:#f8fafc;
-
-    border:1px solid #e2e8f0;
-
-    padding:12px;
-
-    border-radius:12px;
-
-    margin-bottom:10px;
-}
-
-.arrow{
-
-    font-size:20px;
-
-    color:#64748b;
-
-    margin-bottom:10px;
-}
-
-.small-note{
-
-    text-align:center;
-
-    margin-top:15px;
-
-    color:#64748b;
-}
-
-.quick-actions{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
-    gap:20px;
-}
-
-.action-card{
-
-    background:white;
-
-    border-radius:18px;
-
-    padding:25px;
-
-    text-align:center;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.08);
-
-    transition:.2s;
-}
-
-.action-card:hover{
-
-    transform:translateY(-4px);
-}
-
-@media(max-width:900px){
-
-    .stats-grid{
-
-        grid-template-columns:
-            repeat(2,1fr);
-    }
-
-    .quick-actions{
-
-        grid-template-columns:
-            repeat(2,1fr);
-    }
-
-    .dashboard-grid{
-
-        grid-template-columns:1fr;
-    }
-
-}
+:root{--navy:#12355b;--blue:#1f4e79;--ink:#102a43;--muted:#64748b;--line:#e2e8f0;--surface:#fff;--bg:#f4f7fb;--pale:#eff6ff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+button,a{font:inherit}
+button{cursor:pointer}
+.topbar{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:18px max(22px,calc((100% - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:flex;align-items:center;gap:12px;font-size:23px;font-weight:750;letter-spacing:.2px}
+.brand-mark{width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.15);display:grid;place-items:center;font-size:23px}
+.top-actions{display:flex;gap:10px;align-items:center}
+.btn{border:1px solid transparent;border-radius:10px;padding:10px 15px;font-weight:650;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:background .18s,transform .18s}
+.btn:hover{transform:translateY(-1px)}
+.btn-light{background:#fff;color:var(--navy)}
+.btn-light:hover{background:#eff6ff}
+.btn-primary{background:var(--navy);color:#fff}
+.btn-primary:hover{background:#0d2947}
+.btn-outline{border-color:#cbd5e1;background:#fff;color:var(--ink)}
+.btn-outline:hover{background:#f8fafc}
+main{max-width:1180px;margin:28px auto 48px;padding:0 22px}
+.eyebrow{text-transform:uppercase;letter-spacing:1.4px;font-size:11px;font-weight:750;color:#64748b}
+.welcome{position:relative;overflow:hidden;background:#fff;border:1px solid #e8edf4;border-radius:20px;padding:28px 30px;display:flex;align-items:center;justify-content:space-between;gap:24px;box-shadow:0 8px 24px rgba(16,42,67,.05);margin-bottom:22px}
+.welcome:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;right:15%;top:-150px;background:#eff6ff;pointer-events:none}
+.welcome-copy,.welcome-action{position:relative;z-index:1}
+.welcome h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.7px;color:var(--navy);margin:5px 0 6px}
+.welcome p{color:var(--muted);max-width:660px}
+.welcome-action{flex-shrink:0}
+.status-line{display:flex;align-items:center;gap:8px;color:#64748b;font-size:12px;margin-top:13px}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#94a3b8}
+.status-dot.online{background:#16a34a}
+.section-heading{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:27px 0 13px}
+.section-heading h2{font-size:19px;color:var(--navy)}
+.section-heading p{font-size:13px;color:var(--muted);margin-top:2px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.stat{background:#fff;border:1px solid #e8edf4;border-radius:16px;padding:19px;box-shadow:0 5px 18px rgba(16,42,67,.035);min-width:0}
+.stat-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.stat-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:12px;background:var(--pale);font-size:19px}
+.stat-number{font-size:30px;font-weight:750;line-height:1.2;color:var(--navy);margin-top:15px}
+.stat-label{font-size:13px;color:var(--muted);margin-top:4px}
+.stat-note{font-size:11px;color:#94a3b8;margin-top:9px}
+.content-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.85fr);gap:18px;margin-top:22px}
+.panel{background:#fff;border:1px solid #e8edf4;border-radius:18px;padding:23px;box-shadow:0 5px 18px rgba(16,42,67,.035);min-width:0}
+.panel-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.panel-title h2{font-size:18px;color:var(--navy)}
+.panel-title p{font-size:12px;color:var(--muted);margin-top:3px}
+.text-link{font-size:13px;color:var(--blue);font-weight:700;text-decoration:none;white-space:nowrap}
+.text-link:hover{text-decoration:underline}
+.profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.info-box{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:13px 14px;min-width:0}
+.info-box label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:700;margin-bottom:5px}
+.info-box .value{font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.empty-state{padding:22px;border:1px dashed #cbd5e1;border-radius:12px;color:var(--muted);font-size:14px;background:#f8fafc}
+.trust-intro{color:var(--muted);font-size:13px;margin-top:-8px;margin-bottom:18px}
+.trust-list{display:grid;gap:10px}
+.trust-level{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.level-icon{width:38px;height:38px;flex-shrink:0;border-radius:11px;background:var(--pale);display:grid;place-items:center;font-size:18px}
+.level-copy strong{display:block;color:var(--navy);font-size:13px}
+.level-copy span{display:block;color:var(--muted);font-size:12px;margin-top:1px}
+.level-tag{margin-left:auto;color:#64748b;background:#f1f5f9;border-radius:7px;padding:4px 7px;font-size:11px;font-weight:750}
+.trust-connector{text-align:center;height:12px;line-height:12px;color:#94a3b8;font-size:16px}
+.quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.quick-card{display:flex;align-items:flex-start;gap:13px;text-decoration:none;color:inherit;background:#fff;border:1px solid #e8edf4;border-radius:15px;padding:18px;min-height:105px;transition:transform .18s,border-color .18s,box-shadow .18s}
+.quick-card:hover{transform:translateY(-3px);border-color:#b8cbe0;box-shadow:0 8px 20px rgba(16,42,67,.06)}
+.quick-icon{width:40px;height:40px;flex-shrink:0;display:grid;place-items:center;border-radius:12px;background:var(--pale);font-size:20px}
+.quick-card strong{display:block;color:var(--navy);font-size:14px;margin:2px 0 4px}
+.quick-card span{display:block;color:var(--muted);font-size:12px;line-height:1.45}
+.footer{border-top:1px solid #e2e8f0;margin-top:30px;padding-top:18px;color:#94a3b8;font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.notice{display:none;margin-bottom:16px;padding:12px 15px;border-radius:10px;font-size:14px}
+.notice.show{display:block}.notice.error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}.notice.info{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+@media(max-width:900px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:1fr}.quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.topbar{padding:15px 17px;align-items:flex-start}.brand{font-size:19px}.brand-mark{width:36px;height:36px}.top-actions{gap:7px}.btn{padding:9px 10px;font-size:12px}.topbar .btn{white-space:nowrap}main{padding:0 14px;margin-top:16px}.welcome{padding:21px;align-items:flex-start;flex-direction:column}.welcome-action{width:100%}.welcome-action .btn{width:100%}.stats{gap:10px}.stat{padding:15px}.stat-number{font-size:26px}.stat-label{font-size:12px}.panel{padding:17px}.profile-grid{grid-template-columns:1fr}.quick-grid{gap:10px}.quick-card{padding:13px;min-height:100px;flex-direction:column;gap:8px}.quick-card span{font-size:11px}.section-heading{align-items:flex-start;flex-direction:column}}
 </style>
-
 </head>
-
 <body>
+<header class="topbar">
+  <div class="brand"><div class="brand-mark" aria-hidden="true">🤝</div><span>MyFF Network</span></div>
+  <nav class="top-actions" aria-label="Account actions">
+    <a class="btn btn-light" href="EDIT-register.html">✎ Edit Profile</a>
+    <button class="btn btn-light" id="logoutBtn" type="button">Log out</button>
+  </nav>
+</header>
 
-<body>
+<main>
+  <div id="notice" class="notice" role="status" aria-live="polite"></div>
 
-<div class="header">
-
-    <div class="logo">
-
-        MyFF Network
-
+  <section class="welcome" aria-labelledby="welcomeName">
+    <div class="welcome-copy">
+      <div class="eyebrow">Your community at a glance</div>
+      <h1 id="welcomeName">Welcome to MyFF</h1>
+      <p id="welcomeRole">Loading your profile and personal dashboard…</p>
+      <div class="status-line"><span id="statusDot" class="status-dot"></span><span id="profileStatus">Connecting to your account</span></div>
     </div>
+    <div class="welcome-action"><a class="btn btn-primary" href="EDIT-register.html">Update my profile <span aria-hidden="true">→</span></a></div>
+  </section>
 
-    <div class="header-buttons">
-
-        <button
-            class="btn"
-            onclick="window.location.href='edit-profile.html'">
-
-            Edit Profile
-
-        </button>
-
-        <button
-            class="btn"
-            id="logoutBtn">
-
-            Logout
-
-        </button>
-
+  <section aria-labelledby="networkHeading">
+    <div class="section-heading">
+      <div><h2 id="networkHeading">Your network</h2><p>Stay connected to people and opportunities.</p></div>
     </div>
-
-</div>
-
-<div class="container">
-
-    <div class="welcome-card">
-
-        <div>
-
-            <h1 id="welcomeName">
-
-                Welcome
-
-            </h1>
-
-            <p id="welcomeRole">
-
-                Loading profile...
-
-            </p>
-
-        </div>
-
-        <button
-            class="action-btn"
-            onclick="window.location.href='edit-profile.html'">
-
-            Update Profile
-
-        </button>
-
+    <div class="stats">
+      <article class="stat"><div class="stat-top"><span class="eyebrow">Connections</span><span class="stat-icon" aria-hidden="true">🤝</span></div><div class="stat-number">—</div><div class="stat-label">Direct connections (L1)</div><div class="stat-note">Connection count not yet connected</div></article>
+      <article class="stat"><div class="stat-top"><span class="eyebrow">Introductions</span><span class="stat-icon" aria-hidden="true">🔗</span></div><div class="stat-number">—</div><div class="stat-label">Trusted introductions (L2)</div><div class="stat-note">Introduction count not yet connected</div></article>
+      <article class="stat"><div class="stat-top"><span class="eyebrow">Community</span><span class="stat-icon" aria-hidden="true">🌐</span></div><div class="stat-number">—</div><div class="stat-label">Extended network (L3)</div><div class="stat-note">Network count not yet connected</div></article>
+      <article class="stat"><div class="stat-top"><span class="eyebrow">Growth</span><span class="stat-icon" aria-hidden="true">🎯</span></div><div class="stat-number">—</div><div class="stat-label">Opportunities</div><div class="stat-note">Opportunity count not yet connected</div></article>
     </div>
+  </section>
 
-    <div class="stats-grid">
+  <div class="content-grid">
+    <section class="panel" aria-labelledby="profileHeading">
+      <div class="panel-title"><div><h2 id="profileHeading">Profile overview</h2><p>Your saved MyFF profile details</p></div><a class="text-link" href="EDIT-register.html">Edit details ↗</a></div>
+      <div id="profileInfo" class="empty-state">Loading your profile…</div>
+    </section>
 
-        <div class="stat-card">
+    <section class="panel" aria-labelledby="trustHeading">
+      <div class="panel-title"><div><h2 id="trustHeading">Trust-based network</h2><p>How connections grow through MyFF</p></div></div>
+      <p class="trust-intro">Build meaningful connections through people you know and trust.</p>
+      <div class="trust-list">
+        <div class="trust-level"><div class="level-icon" aria-hidden="true">👤</div><div class="level-copy"><strong>L0 · You</strong><span>Your profile and interests</span></div><span class="level-tag">YOU</span></div>
+        <div class="trust-connector" aria-hidden="true">↓</div>
+        <div class="trust-level"><div class="level-icon" aria-hidden="true">🤝</div><div class="level-copy"><strong>L1 · Direct connections</strong><span>People you know personally</span></div></div>
+        <div class="trust-connector" aria-hidden="true">↓</div>
+        <div class="trust-level"><div class="level-icon" aria-hidden="true">🔗</div><div class="level-copy"><strong>L2 · Trusted introductions</strong><span>Connections introduced by your network</span></div></div>
+        <div class="trust-connector" aria-hidden="true">↓</div>
+        <div class="trust-level"><div class="level-icon" aria-hidden="true">🌐</div><div class="level-copy"><strong>L3 · Extended network</strong><span>A wider community of members</span></div></div>
+      </div>
+    </section>
+  </div>
 
-            <div class="stat-number">
-
-                0
-
-            </div>
-
-            <div class="stat-label">
-
-                Direct Connections (L1)
-
-            </div>
-
-        </div>
-
-        <div class="stat-card">
-
-            <div class="stat-number">
-
-                0
-
-            </div>
-
-            <div class="stat-label">
-
-                Trusted Introductions (L2)
-
-            </div>
-
-        </div>
-
-        <div class="stat-card">
-
-            <div class="stat-number">
-
-                0
-
-            </div>
-
-            <div class="stat-label">
-
-                Extended Network (L3)
-
-            </div>
-
-        </div>
-
-        <div class="stat-card">
-
-            <div class="stat-number">
-
-                0
-
-            </div>
-
-            <div class="stat-label">
-
-                Opportunities
-
-            </div>
-
-        </div>
-
+  <section aria-labelledby="actionsHeading">
+    <div class="section-heading"><div><h2 id="actionsHeading">Quick access</h2><p>Jump to the areas you use most.</p></div></div>
+    <div class="quick-grid">
+      <a class="quick-card" href="profile.html"><div class="quick-icon" aria-hidden="true">👤</div><div><strong>My profile</strong><span>View your member information</span></div></a>
+      <a class="quick-card" href="EDIT-register.html"><div class="quick-icon" aria-hidden="true">✎</div><div><strong>Edit profile</strong><span>Keep your details up to date</span></div></a>
+      <a class="quick-card" href="network.html"><div class="quick-icon" aria-hidden="true">🤝</div><div><strong>My network</strong><span>Explore your connections</span></div></a>
+      <a class="quick-card" href="opportunities.html"><div class="quick-icon" aria-hidden="true">🎯</div><div><strong>Opportunities</strong><span>Discover ways to grow and help</span></div></a>
     </div>
+  </section>
 
-    <div class="dashboard-grid">
+  <footer class="footer"><span>© <span id="year"></span> MyFF Network</span><span>Built on trust. Connected by community.</span></footer>
+</main>
 
-   document.getElementById(
-    "profileSummary"
-).innerHTML =
-
-`
-<table style="width:100%;line-height:2;">
-
-<tr>
-<td><strong>Email</strong></td>
-<td>${profile.email}</td>
-</tr>
-
-<tr>
-<td><strong>Phone</strong></td>
-<td>${profile.phone}</td>
-</tr>
-
-<tr>
-<td><strong>Company</strong></td>
-<td>${profile.company || "-"}</td>
-</tr>
-
-<tr>
-<td><strong>Role</strong></td>
-<td>${profile.role || "-"}</td>
-</tr>
-
-<tr>
-<td><strong>Location</strong></td>
-<td>
-
-${profile.city || ""}
-${profile.state ? ", " + profile.state : ""}
-${profile.country ? ", " + profile.country : ""}
-
-</td>
-</tr>
-
-</table>
-`;
-
-        <div class="card">
-
-            <h2>
-
-                🌐 Trust-Based Network Model
-
-            </h2>
-
-            <div class="trust-model">
-
-                <div class="level">
-
-                    👤 L0 — You
-
-                </div>
-
-                <div class="arrow">↓</div>
-
-                <div class="level">
-
-                    🤝 L1 — Direct Connections
-
-                </div>
-
-                <div class="arrow">↓</div>
-
-                <div class="level">
-
-                    🔗 L2 — Trusted Introductions
-
-                </div>
-
-                <div class="arrow">↓</div>
-
-                <div class="level">
-
-                    🌐 L3 — Extended Network Members
-
-                </div>
-
-            </div>
-
-            <p class="small-note">
-
-                Opportunities can emerge from any level
-                of the network.
-
-            </p>
-
-        </div>
-
-    </div>
-
-    <div class="quick-actions">
-
-        <div
-            class="action-card"
-            onclick="window.location.href='profile.html'">
-
-            👤
-
-            <br><br>
-
-            My Profile
-
-        </div>
-
-        <div
-            class="action-card">
-
-            🤝
-
-            <br><br>
-
-            My Network
-
-        </div>
-
-        <div
-            class="action-card">
-
-            📨
-
-            <br><br>
-
-            Invitations
-
-        </div>
-
-        <div
-            class="action-card">
-
-            🎯
-
-            <br><br>
-
-            Opportunities
-
-        </div>
-
-    </div>
-
-</div>
 <script>
+(() => {
+  const { Client, Account, Databases, Query } = Appwrite;
+  const client = new Client()
+    .setEndpoint("https://cloud.appwrite.io/v1")
+    .setProject("6ac6fecf002db308564b");
+  const account = new Account(client);
+  const databases = new Databases(client);
+  const DATABASE_ID = "myff";
+  const PROFILES_COLLECTION_ID = "Profiles";
 
-const {
-    Client,
-    Account,
-    Databases,
-    Query
-} = Appwrite;
+  const $ = (id) => document.getElementById(id);
+  $("year").textContent = new Date().getFullYear();
 
-const client = new Client();
+  function showNotice(message, type = "info") {
+    const notice = $("notice");
+    notice.textContent = message;
+    notice.className = `notice show ${type}`;
+  }
 
-client
-    .setEndpoint(
-        "https://cloud.appwrite.io/v1"
-    )
-    .setProject(
-        "6ac6fecf002db308564b"
-    );
+  // Render database values as text, not HTML, to avoid interpreting profile data as markup.
+  function infoBox(label, value) {
+    const box = document.createElement("div");
+    box.className = "info-box";
+    const caption = document.createElement("label");
+    caption.textContent = label;
+    const content = document.createElement("div");
+    content.className = "value";
+    content.textContent = value == null && value !== 0 ? "—" : (String(value).trim() || "—");
+    box.append(caption, content);
+    return box;
+  }
 
-const account =
-    new Account(client);
+  async function loadDashboard() {
+    try {
+      const user = await account.get();
+      const result = await databases.listDocuments(
+        DATABASE_ID,
+        PROFILES_COLLECTION_ID,
+        [Query.equal("user_id", user.$id), Query.limit(1)]
+      );
 
-const databases =
-    new Databases(client);
+      if (!result.documents.length) {
+        $("welcomeName").textContent = "Welcome to MyFF";
+        $("welcomeRole").textContent = "Your account is signed in, but no profile record was found.";
+        $("profileStatus").textContent = "Profile not found";
+        $("profileInfo").className = "empty-state";
+        $("profileInfo").textContent = "We couldn't find a profile linked to this account. Please check that your Profiles document has the correct user_id.";
+        $("statusDot").classList.remove("online");
+        showNotice("No profile record was found for this signed-in user.", "error");
+        return;
+      }
 
-const DATABASE_ID =
-    "myff";
+      const profile = result.documents[0];
+      const fullName = [profile.first_name, profile.last_name].filter(Boolean).join(" ").trim();
+      $("welcomeName").textContent = fullName ? `Welcome, ${fullName}` : "Welcome to MyFF";
+      const subtitle = [profile.role, profile.company, [profile.city, profile.state].filter(Boolean).join(", ")].filter(Boolean).join(" · ");
+      $("welcomeRole").textContent = subtitle || "Your MyFF community dashboard";
+      $("profileStatus").textContent = "Profile loaded successfully";
+      $("statusDot").classList.add("online");
 
-const PROFILES_COLLECTION_ID =
-    "Profiles";
-
-async function loadDashboard(){
-
-    try{
-
-        const user =
-            await account.get();
-
-        const result =
-            await databases.listDocuments(
-                DATABASE_ID,
-                PROFILES_COLLECTION_ID,
-                [
-                    Query.equal(
-                        "user_id",
-                        user.$id
-                    )
-                ]
-            );
-
-        if(
-            result.documents.length === 0
-        ){
-
-            document
-            .getElementById(
-                "profileInfo"
-            )
-            .innerHTML =
-            "Profile not found.";
-
-            return;
-        }
-
-        const profile =
-            result.documents[0];
-document.getElementById(
-    "welcomeName"
-).innerHTML =
-    `Welcome ${profile.first_name}`;
-
-document.getElementById(
-    "welcomeRole"
-).innerHTML =
-
-`${profile.role || ""}
-${profile.company ? " | " + profile.company : ""}
-
-${profile.city ? " | " + profile.city : ""}
-${profile.state ? ", " + profile.state : ""}`;
-          
-        document
-        .getElementById(
-            "profileInfo"
-        )
-        .innerHTML =
-
-        `
-        <div class="profile-grid">
-
-            <div class="info-box">
-                <label>Name</label>
-                ${profile.first_name}
-                ${profile.last_name}
-            </div>
-
-            <div class="info-box">
-                <label>Email</label>
-                ${profile.email}
-            </div>
-
-            <div class="info-box">
-                <label>Phone</label>
-                ${profile.phone}
-            </div>
-
-            <div class="info-box">
-                <label>Company</label>
-                ${profile.company || '-'}
-            </div>
-
-            <div class="info-box">
-                <label>Role</label>
-                ${profile.role || '-'}
-            </div>
-
-            <div class="info-box">
-                <label>Location</label>
-                ${profile.city || ''}
-                ${profile.state || ''}
-                ${profile.country || ''}
-            </div>
-
-        </div>
-        `;
-
+      const location = [profile.city, profile.state, profile.zipcode, profile.country].filter(Boolean).join(", ");
+      const info = $("profileInfo");
+      info.className = "profile-grid";
+      info.replaceChildren(
+        infoBox("Full name", fullName),
+        infoBox("Email", profile.email),
+        infoBox("Phone", profile.phone),
+        infoBox("Company / organization", profile.company),
+        infoBox("Role / title", profile.role),
+        infoBox("Location", location),
+        infoBox("Professional status", Array.isArray(profile.professional_status) ? profile.professional_status.join(", ") : profile.professional_status),
+        infoBox("Industry / profession", Array.isArray(profile.industry) ? profile.industry.join(", ") : profile.industry)
+      );
+    } catch (error) {
+      console.error("Unable to load MyFF dashboard:", error);
+      $("profileStatus").textContent = "Could not load profile";
+      $("statusDot").classList.remove("online");
+      $("profileInfo").className = "empty-state";
+      $("profileInfo").textContent = "We couldn't load your profile. Please sign in again or refresh the page.";
+      showNotice("Unable to load your dashboard. If your session has expired, please log in again.", "error");
     }
-    catch(error){
+  }
 
-        console.error(error);
-
-        window.location.href =
-            "login.html";
+  $("logoutBtn").addEventListener("click", async () => {
+    $("logoutBtn").disabled = true;
+    $("logoutBtn").textContent = "Logging out…";
+    try {
+      await account.deleteSession("current");
+      window.location.href = "login.html";
+    } catch (error) {
+      console.error("Logout failed:", error);
+      $("logoutBtn").disabled = false;
+      $("logoutBtn").textContent = "Log out";
+      showNotice("Could not log out. Please try again.", "error");
     }
+  });
 
-}
-
-document
-.getElementById(
-    "logoutBtn"
-)
-.addEventListener(
-    "click",
-    async function(){
-
-        await account.deleteSession(
-            "current"
-        );
-
-        window.location.href =
-            "login.html";
-
-    }
-);
-
-loadDashboard();
-
+  loadDashboard();
+})();
 </script>
-
 </body>
-
 </html>
