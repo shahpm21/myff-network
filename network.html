@@ -73,7 +73,7 @@ body{
 
 .container{
 
-    max-width:1200px;
+    max-width:1400px;
 
     margin:25px auto;
 
@@ -115,12 +115,12 @@ body{
 
     border-radius:18px;
 
-    padding:25px;
+    padding:22px;
 
     text-align:center;
 
     box-shadow:
-    0 10px 25px rgba(0,0,0,.08);
+        0 10px 25px rgba(0,0,0,.08);
 }
 
 .stat-number{
@@ -145,12 +145,10 @@ body{
 
     border-radius:18px;
 
-    padding:25px;
-
-    margin-bottom:20px;
+    padding:20px;
 
     box-shadow:
-    0 10px 25px rgba(0,0,0,.08);
+        0 10px 25px rgba(0,0,0,.08);
 }
 
 .card h2{
@@ -160,80 +158,71 @@ body{
     margin-bottom:20px;
 }
 
-.member{
+.network-table{
 
-    border:1px solid #e2e8f0;
+    width:100%;
 
-    border-radius:12px;
+    border-collapse:collapse;
 
-    padding:15px;
-
-    margin-bottom:15px;
-
-    background:#fafcff;
+    font-size:14px;
 }
 
-.member-name{
+.network-table th{
 
-    font-size:18px;
+    background:#12355b;
 
-    font-weight:700;
+    color:white;
+
+    padding:14px;
+
+    text-align:left;
+}
+
+.network-table td{
+
+    padding:14px;
+
+    border-bottom:1px solid #e5e7eb;
+
+    vertical-align:top;
+}
+
+.network-table tr:hover{
+
+    background:#f8fafc;
+}
+
+.level-badge{
+
+    background:#dbeafe;
 
     color:#12355b;
 
-    margin-bottom:8px;
-}
-
-.member-meta{
-
-    color:#64748b;
-
-    margin-bottom:10px;
-
-    line-height:1.6;
-}
-
-.tag{
-
-    display:inline-block;
-
-    background:#e0f2fe;
-
-    color:#0f4c81;
-
-    padding:5px 10px;
+    padding:4px 10px;
 
     border-radius:20px;
 
-    margin:3px;
-
     font-size:12px;
+
+    font-weight:600;
 }
 
 .empty{
 
     text-align:center;
 
-    color:#64748b;
-
     padding:30px;
-}
-
-    .trust-note{
-
-    margin-top:15px;
 
     color:#64748b;
-
-    text-align:center;
-
-    font-size:14px;
 }
-
-@media(max-width:900px){
+    @media(max-width:1000px){
 
     .stats-grid{
         grid-template-columns:1fr;
+    }
+
+    .network-table{
+        font-size:12px;
     }
 
 }
@@ -274,7 +263,7 @@ body{
 
         <p>
 
-            Explore your trusted network and connections.
+            Professional relationships, trusted introductions and extended network members.
 
         </p>
 
@@ -330,7 +319,7 @@ body{
 
             <div class="stat-label">
 
-                L3 Extended Network Members
+                L3 Extended Members
 
             </div>
 
@@ -342,65 +331,52 @@ body{
 
         <h2>
 
-            🤝 Direct Connections (L1)
+            My Network Directory
 
         </h2>
 
-        <div id="l1Members">
+        <table class="network-table">
 
-            <div class="empty">
+            <thead>
 
-                Loading...
+                <tr>
 
-            </div>
+                    <th>Level</th>
 
-        </div>
+                    <th>Member</th>
 
-    </div>
+                    <th>Status</th>
 
-    <div class="card">
+                    <th>Company / Role</th>
 
-        <h2>
+                    <th>Location</th>
 
-            🔗 Trusted Introductions (L2)
+                    <th>Can Help With</th>
 
-        </h2>
+                    <th>Looking For</th>
 
-        <div id="l2Members">
+                    <th>Additional Information</th>
 
-            <div class="empty">
+                </tr>
 
-                Loading...
+            </thead>
 
-            </div>
+            <tbody id="networkTableBody">
 
-        </div>
+                <tr>
 
-    </div>
+                    <td colspan="8"
+                        class="empty">
 
-    <div class="card">
+                        Loading network...
 
-        <h2>
+                    </td>
 
-            🌐 Extended Network Members (L3)
+                </tr>
 
-        </h2>
+            </tbody>
 
-        <div id="l3Members">
-
-            <div class="empty">
-
-                Loading...
-
-            </div>
-
-        </div>
-
-        <div class="trust-note">
-
-            Opportunities can emerge from any level of the network.
-
-        </div>
+        </table>
 
     </div>
 
@@ -456,64 +432,6 @@ function getConnectedUserId(
     return connection.from_user_id;
 }
 
-async function getMemberCard(
-    member
-){
-
-    return `
-    <div class="member">
-
-        <div class="member-name">
-
-            ${member.first_name}
-            ${member.last_name}
-
-        </div>
-
-        <div class="member-meta">
-
-            💼 ${member.role || "-"}
-
-            ${member.company
-                ? " | " + member.company
-                : ""}
-
-            <br>
-
-            📍 ${member.city || ""}
-
-            ${member.state
-                ? ", " + member.state
-                : ""}
-
-        </div>
-
-        <div>
-
-            <strong>
-            Can Help With
-            </strong>
-
-            <br>
-
-            ${member.support_types || "-"}
-
-            <br><br>
-
-            <strong>
-            Looking For
-            </strong>
-
-            <br>
-
-            ${member.support_seeking || "-"}
-
-        </div>
-
-    </div>
-    `;
-}
-
 async function loadNetwork(){
 
     try{
@@ -521,14 +439,14 @@ async function loadNetwork(){
         const user =
             await account.get();
 
-        const connectionResult =
+        const connectionsResult =
             await databases.listDocuments(
                 DATABASE_ID,
                 CONNECTIONS_COLLECTION_ID
             );
 
         const allConnections =
-            connectionResult.documents;
+            connectionsResult.documents;
 
         const l1Ids =
             new Set();
@@ -574,10 +492,14 @@ async function loadNetwork(){
                     if(
                         nextUser !== user.$id
                         &&
-                        !l1Ids.has(nextUser)
+                        !l1Ids.has(
+                            nextUser
+                        )
                     ){
 
-                        l2Ids.add(nextUser);
+                        l2Ids.add(
+                            nextUser
+                        );
 
                     }
 
@@ -614,7 +536,9 @@ async function loadNetwork(){
                         !l2Ids.has(nextUser)
                     ){
 
-                        l3Ids.add(nextUser);
+                        l3Ids.add(
+                            nextUser
+                        );
 
                     }
 
@@ -626,87 +550,173 @@ async function loadNetwork(){
 
         document.getElementById(
             "l1Count"
-        ).innerHTML = l1Ids.size;
+        ).innerHTML =
+            l1Ids.size;
 
         document.getElementById(
             "l2Count"
-        ).innerHTML = l2Ids.size;
+        ).innerHTML =
+            l2Ids.size;
 
         document.getElementById(
             "l3Count"
-        ).innerHTML = l3Ids.size;
+        ).innerHTML =
+            l3Ids.size;
 
-        async function loadMembers(
-            containerId,
+        const tableBody =
+            document.getElementById(
+                "networkTableBody"
+            );
+
+        tableBody.innerHTML = "";
+
+        async function addRows(
+            level,
             userIds
         ){
 
-            const container =
-                document.getElementById(
-                    containerId
-                );
-
-            if(userIds.size === 0){
-
-                container.innerHTML =
-                `
-                <div class="empty">
-
-                    No members found.
-
-                </div>
-                `;
-
-                return;
-            }
-
-            let html = "";
-
-            for(const userId of userIds){
+            for(
+                const userId
+                of userIds
+            ){
 
                 const result =
                     await databases.listDocuments(
+
                         DATABASE_ID,
+
                         PROFILES_COLLECTION_ID,
+
                         [
                             Query.equal(
                                 "user_id",
                                 userId
                             )
                         ]
+
                     );
 
                 if(
-                    result.documents.length > 0
+                    result.documents.length === 0
                 ){
-
-                    html += await getMemberCard(
-                        result.documents[0]
-                    );
-
+                    continue;
                 }
+
+                const member =
+                    result.documents[0];
+
+                tableBody.innerHTML +=
+
+                `
+                <tr>
+
+                    <td>
+
+                        <span class="level-badge">
+
+                            ${level}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        ${member.first_name}
+                        ${member.last_name}
+
+                    </td>
+
+                    <td>
+
+                        ${member.professional_status || "-"}
+
+                    </td>
+
+                    <td>
+
+                        ${member.company || "-"}
+
+                        <br>
+
+                        ${member.role || "-"}
+
+                    </td>
+
+                    <td>
+
+                        ${member.city || ""}
+
+                        ${member.state
+                            ? ", " + member.state
+                            : ""}
+
+                        ${member.country
+                            ? ", " + member.country
+                            : ""}
+
+                    </td>
+
+                    <td>
+
+                        ${member.support_types || "-"}
+
+                    </td>
+
+                    <td>
+
+                        ${member.support_seeking || "-"}
+
+                    </td>
+
+                    <td>
+
+                        ${member.comments || "-"}
+
+                    </td>
+
+                </tr>
+                `;
 
             }
 
-            container.innerHTML =
-                html;
-
         }
 
-        await loadMembers(
-            "l1Members",
+        await addRows(
+            "L1",
             l1Ids
         );
 
-        await loadMembers(
-            "l2Members",
+        await addRows(
+            "L2",
             l2Ids
         );
 
-        await loadMembers(
-            "l3Members",
+        await addRows(
+            "L3",
             l3Ids
         );
+
+        if(
+            tableBody.innerHTML.trim() === ""
+        ){
+
+            tableBody.innerHTML =
+
+            `
+            <tr>
+
+                <td colspan="8"
+                    class="empty">
+
+                    No network members found.
+
+                </td>
+
+            </tr>
+            `;
+
+        }
 
     }
     catch(error){
@@ -715,6 +725,7 @@ async function loadNetwork(){
 
         window.location.href =
             "login.html";
+
     }
 
 }
