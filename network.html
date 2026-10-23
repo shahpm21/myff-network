@@ -350,6 +350,7 @@ body{
                     <th>Company / Role</th>
 
                     <th>Location</th>
+                    <th>Contact</th>
 
                     <th>Can Help With</th>
 
@@ -643,25 +644,38 @@ async function loadNetwork(){
 
                     </td>
 
-                    <td>
+                 <td>
 
-                        ${member.city || ""}
+    ${member.city || ""}
 
-                        ${member.state
-                            ? ", " + member.state
-                            : ""}
+    ${member.state
+        ? ", " + member.state
+        : ""}
 
-                        ${member.country
-                            ? ", " + member.country
-                            : ""}
+    ${member.country
+        ? ", " + member.country
+        : ""}
 
-                    </td>
+</td>
 
-                    <td>
+<td>
 
-                        ${member.support_types || "-"}
+${
+    member.share_email === true ||
+    member.share_email === "true"
 
-                    </td>
+    ? "📧 " + member.email
+
+    : "🔒 Email Protected"
+}
+
+</td>
+
+<td>
+
+    ${member.support_types || "-"}
+
+</td>
 
                     <td>
 
