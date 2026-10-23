@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>My Network | MyFF Network</title>
+
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f8fafc;
+    color:#102a43;
+}
+
+.header{
+
+    background:
+    linear-gradient(
+        135deg,
+        #12355b,
+        #1f4e79
+    );
+
+    color:white;
+
+    padding:20px 30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.logo{
+
+    font-size:28px;
+
+    font-weight:700;
+}
+
+.btn{
+
+    background:white;
+
+    color:#12355b;
+
+    border:none;
+
+    padding:10px 16px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:600;
+}
+
+.container{
+
+    max-width:1200px;
+
+    margin:25px auto;
+
+    padding:0 20px;
+}
+
+.page-title{
+
+    margin-bottom:25px;
+}
+
+.page-title h1{
+
+    color:#12355b;
+
+    margin-bottom:8px;
+}
+
+.page-title p{
+
+    color:#64748b;
+}
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:20px;
+
+    margin-bottom:25px;
+}
+
+.stat-card{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    text-align:center;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.08);
+}
+
+.stat-number{
+
+    font-size:42px;
+
+    font-weight:700;
+
+    color:#12355b;
+}
+
+.stat-label{
+
+    color:#64748b;
+
+    margin-top:8px;
+}
+
+.card{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    margin-bottom:20px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.08);
+}
+
+.card h2{
+
+    color:#12355b;
+
+    margin-bottom:20px;
+}
+
+.member{
+
+    border:1px solid #e2e8f0;
+
+    border-radius:12px;
+
+    padding:15px;
+
+    margin-bottom:12px;
+
+    background:#fafcff;
+}
+
+.member-name{
+
+    font-weight:700;
+
+    color:#12355b;
+
+    margin-bottom:5px;
+}
+
+.member-details{
+
+    color:#64748b;
+
+    font-size:14px;
+}
+
+.empty{
+
+    color:#64748b;
+
+    text-align:center;
+
+    padding:30px;
+}
+@media(max-width:900px){
+
+    .stats-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <div class="logo">
+
+        MyFF Network
+
+    </div>
+
+    <button
+        class="btn"
+        onclick="window.location.href='dashboard.html'">
+
+        Dashboard
+
+    </button>
+
+</div>
+
+<div class="container">
+
+    <div class="page-title">
+
+        <h1>
+
+            My Network
+
+        </h1>
+
+        <p>
+
+            Direct Connections, Trusted Introductions
+            and Extended Network Members.
+
+        </p>
+
+    </div>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <div
+                class="stat-number"
+                id="l1Count">
+
+                0
+
+            </div>
+
+            <div class="stat-label">
+
+                L1 Direct Connections
+
+            </div>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div
+                class="stat-number">
+
+                0
+
+            </div>
+
+            <div class="stat-label">
+
+                L2 Trusted Introductions
+
+            </div>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div
+                class="stat-number">
+
+                0
+
+            </div>
+
+            <div class="stat-label">
+
+                L3 Extended Members
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>
+
+            🤝 Direct Connections (L1)
+
+        </h2>
+
+        <div id="l1Members">
+
+            <div class="empty">
+
+                Loading connections...
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>
+
+            🔗 Trusted Introductions (L2)
+
+        </h2>
+
+        <div class="empty">
+
+            This section will be enabled after
+            network expansion logic is implemented.
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>
+
+            🌐 Extended Network Members (L3)
+
+        </h2>
+
+        <div class="empty">
+
+            This section will be enabled after
+            L2/L3 calculations are added.
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const {
+    Client,
+    Account,
+    Databases,
+    Query
+} = Appwrite;
+
+const client = new Client();
+
+client
+    .setEndpoint(
+        "https://cloud.appwrite.io/v1"
+    )
+    .setProject(
+        "6ac6fecf002db308564b"
+    );
+
+const account =
+    new Account(client);
+
+const databases =
+    new Databases(client);
+
+const DATABASE_ID =
+    "myff";
+
+const PROFILES_COLLECTION_ID =
+    "Profiles";
+
+const CONNECTIONS_COLLECTION_ID =
+    "Connections";
+
+async function loadNetwork(){
+
+    try{
+
+        const user =
+            await account.get();
+
+        const profileResult =
+            await databases.listDocuments(
+                DATABASE_ID,
+                PROFILES_COLLECTION_ID,
+                [
+                    Query.equal(
+                        "user_id",
+                        user.$id
+                    )
+                ]
+            );
+
+        if(
+            profileResult.documents.length === 0
+        ){
+
+            alert(
+                "Profile not found."
+            );
+
+            return;
+        }
+
+        const connections =
+            await databases.listDocuments(
+                DATABASE_ID,
+                CONNECTIONS_COLLECTION_ID
+            );
+
+        const myConnections =
+            connections.documents.filter(
+
+                c =>
+
+                c.from_user_id ===
+                user.$id ||
+
+                c.to_user_id ===
+                user.$id
+            );
+
+        document.getElementById(
+            "l1Count"
+        ).innerHTML =
+            myConnections.length;
+
+        const l1Container =
+            document.getElementById(
+                "l1Members"
+            );
+
+        if(
+            myConnections.length === 0
+        ){
+
+            l1Container.innerHTML =
+
+            `
+            <div class="empty">
+                No direct connections yet.
+            </div>
+            `;
+
+            return;
+        }
+
+        let html = "";
+
+        for(
+            const connection
+            of myConnections
+        ){
+
+            const otherUserId =
+
+                connection.from_user_id ===
+                user.$id
+
+                ?
+
+                connection.to_user_id
+
+                :
+
+                connection.from_user_id;
+
+            const memberResult =
+                await databases.listDocuments(
+
+                    DATABASE_ID,
+
+                    PROFILES_COLLECTION_ID,
+
+                    [
+                        Query.equal(
+                            "user_id",
+                            otherUserId
+                        )
+                    ]
+
+                );
+
+            if(
+                memberResult.documents.length > 0
+            ){
+
+                const member =
+                    memberResult.documents[0];
+
+                html +=
+
+                `
+                <div class="member">
+
+                    <div class="member-name">
+
+                        ${member.first_name}
+                        ${member.last_name}
+
+                    </div>
+
+                    <div class="member-details">
+
+                        ${member.role || ""}
+                        ${member.company ? " | " + member.company : ""}
+
+                        <br>
+
+                        ${member.city || ""}
+                        ${member.state ? ", " + member.state : ""}
+
+                    </div>
+
+                </div>
+                `;
+
+            }
+
+        }
+
+        l1Container.innerHTML =
+            html;
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        window.location.href =
+            "login.html";
+    }
+
+}
+
+loadNetwork();
+
+</script>
+
+</body>
+</html>
