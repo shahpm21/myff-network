@@ -1,53 +1,53 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    
-    <head>
-    
-    <meta charset="UTF-8">
-    
-    <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
-    
-    <title>MyFF Dashboard</title>
-    
-    <script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
-    
-    <style>
-    
-    *{
-        margin:0;
-        padding:0;
-        box-sizing:border-box;
-    }
-    
-    body{
-        font-family:'Segoe UI',sans-serif;
-        background:#f8fafc;
-        color:#102a43;
-    }
-    
-    .header{
-    
-        background:
-        linear-gradient(
-            135deg,
-            #12355b,
-            #1f4e79
-        );
-    
-        color:white;
-    
-        padding:18px 30px;
-    
-        display:flex;
-    
-        justify-content:space-between;
-    
-        align-items:center;
-    }
-    
-  .logo{
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>MyFF Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f8fafc;
+    color:#102a43;
+}
+
+.header{
+
+    background:
+    linear-gradient(
+        135deg,
+        #12355b,
+        #1f4e79
+    );
+
+    color:white;
+
+    padding:14px 30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.logo{
 
     font-size:24px;
 
@@ -60,206 +60,232 @@
 
     color:#dbeafe;
 
-    margin-top:3px;
+    margin-top:2px;
 }
-    
-    -buttons{
-    
-        display:flex;
-    
-        gap:10px;
-    }
-    
-    .header-btn{
-    
-        background:white;
-    
-        color:#12355b;
-    
-        border:none;
-    
-        padding:10px 14px;
-    
-        border-radius:10px;
-    
-        font-weight:600;
-    
-        cursor:pointer;
-    }
-    
-    .container{
-    
-        max-width:1200px;
-    
-        margin:20px auto;
-    
-        padding:0 20px;
-    }
-    
-   .welcome-card{
+
+.header-buttons{
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+}
+
+.header-btn{
 
     background:white;
 
-    padding:14px 18px;
+    color:#12355b;
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 4px 10px rgba(0,0,0,.08);
+}
+
+.header-btn:hover{
+
+    background:#f8fafc;
+}
+
+.active-btn{
+
+    background:#dbeafe;
+
+    border:2px solid #12355b;
+}
+
+.container{
+
+    max-width:1200px;
+
+    margin:18px auto;
+
+    padding:0 20px;
+}
+
+.welcome-card{
+
+    background:white;
 
     border-radius:18px;
 
+    padding:16px 20px;
+
     margin-bottom:15px;
-    
-   .welcome-card h1{
+
+    box-shadow:
+    0 8px 18px rgba(0,0,0,.06);
+}
+
+.welcome-card h1{
 
     font-size:24px;
-    
-    .welcome-card p{
-    
-        color:#64748b;
-    }
-    
-    .stats-grid{
-    
-        display:grid;
-    
-        grid-template-columns:
-            repeat(4,1fr);
-    
-        gap:15px;
-    
-        margin-bottom:20px;
-    }
-    
-    .stat-card{
-    
-        background:white;
-    
-        border-radius:16px;
-    
+
+    color:#12355b;
+
+    margin-bottom:3px;
+}
+
+.welcome-card p{
+
+    color:#64748b;
+
+    font-size:14px;
+}
+
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:14px;
+
+    margin-bottom:18px;
+}
+
+.stat-card{
+
+    background:white;
+
+    border-radius:16px;
+
     padding:10px;
-    
-        text-align:center;
-    
-        box-shadow:
-            0 10px 20px rgba(0,0,0,.08);
+
+    text-align:center;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 8px 18px rgba(0,0,0,.06);
+}
+
+.stat-number{
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:#12355b;
+}
+
+.stat-label{
+
+    font-size:12px;
+
+    color:#64748b;
+
+    margin-top:4px;
+}
+
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:18px;
+}
+
+.card{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    box-shadow:
+    0 8px 18px rgba(0,0,0,.06);
+}
+
+.card h2{
+
+    color:#12355b;
+
+    margin-bottom:15px;
+}
+
+.profile-summary{
+
+    line-height:1.9;
+}
+    .network-model{
+
+    text-align:center;
+}
+
+.level{
+
+    padding:10px;
+
+    border:1px solid #dbeafe;
+
+    border-radius:12px;
+
+    background:#f8fafc;
+
+    margin-bottom:8px;
+}
+
+.arrow{
+
+    color:#64748b;
+
+    margin-bottom:8px;
+
+    font-size:18px;
+}
+
+.small-note{
+
+    color:#64748b;
+
+    margin-top:12px;
+
+    font-size:13px;
+}
+
+@media(max-width:900px){
+
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
     }
-    
-    .stat-number{
-    
-        font-size:28px;
-    
-        font-weight:700;
-    
-        color:#12355b;
-    }
-    
-    .stat-label{
-    
-        margin-top:4px;
-    
-        color:#64748b;
-    
-        font-size:12px;
-    }
-    
+
     .dashboard-grid{
-    
-        display:grid;
-    
-        grid-template-columns:
-            1fr 1fr;
-    
-        gap:20px;
+        grid-template-columns:1fr;
     }
-    
-    .card{
-    
-        background:white;
-    
-        border-radius:18px;
-    
-        padding:20px;
-    
-        box-shadow:
-            0 10px 25px rgba(0,0,0,.08);
-    }
-    
-    .card h2{
-    
-        color:#12355b;
-    
-        margin-bottom:15px;
-    
-        font-size:22px;
-    }
-    
-    .profile-summary{
-    
-        line-height:1.9;
-    }
-        .network-model{
-    
-        text-align:center;
-    }
-    
-    .level{
-    
-        padding:10px;
-    
-        border:1px solid #dbeafe;
-    
-        border-radius:12px;
-    
-        background:#f8fafc;
-    
-        margin-bottom:8px;
-    }
-    
-    .arrow{
-    
-        color:#64748b;
-    
-        margin-bottom:8px;
-    
-        font-size:18px;
-    }
-    
-    .small-note{
-    
-        color:#64748b;
-    
-        margin-top:12px;
-    
-        font-size:13px;
-    }
-    
-    @media(max-width:900px){
-    
-        .stats-grid{
-            grid-template-columns:repeat(2,1fr);
-        }
-    
-        .dashboard-grid{
-            grid-template-columns:1fr;
-        }
-    
-    }
-    
-    </style>
-    
-    </head>
-    
-    <body>
-    
-    <body>
+
+}
+
+</style>
+
+</head>
+
+<body>
 
 <div class="header">
 
-    <div class="logo">
+    <div>
 
-        MyFF Network
+        <div class="logo">
+            MyFF Network
+        </div>
 
         <div class="logo-small">
-
             My Friends & Family Network
-
         </div>
 
     </div>
@@ -267,8 +293,7 @@
     <div class="header-buttons">
 
         <button
-            class="header-btn"
-            onclick="window.location.href='dashboard.html'">
+            class="header-btn active-btn">
 
             Dashboard
 
@@ -306,21 +331,17 @@
 
     <div class="welcome-card">
 
-        <div>
+        <h1 id="welcomeName">
 
-            <h1 id="welcomeName">
+            Welcome
 
-                Welcome
+        </h1>
 
-            </h1>
+        <p id="welcomeRole">
 
-            <p id="welcomeRole">
+            Loading profile...
 
-                Loading profile...
-
-            </p>
-
-        </div>
+        </p>
 
     </div>
 
@@ -434,7 +455,7 @@
 
                 <div class="level">
 
-                    👤 You (L0)
+                    👤 L0 - You
 
                 </div>
 
@@ -442,7 +463,7 @@
 
                 <div class="level">
 
-                    🤝 Direct Connections (L1)
+                    🤝 L1 - Direct Connections
 
                 </div>
 
@@ -450,7 +471,7 @@
 
                 <div class="level">
 
-                    🔗 Trusted Introductions (L2)
+                    🔗 L2 - Trusted Introductions
 
                 </div>
 
@@ -458,7 +479,7 @@
 
                 <div class="level">
 
-                    🌐 Extended Network Members (L3)
+                    🌐 L3 - Extended Network Members
 
                 </div>
 
@@ -466,8 +487,7 @@
 
             <p class="small-note">
 
-                Opportunities can emerge from any level
-                of the network.
+                Opportunities can emerge from any level.
 
             </p>
 
@@ -476,216 +496,230 @@
     </div>
 
 </div>
-    <script>
-    
-    const {
-        Client,
-        Account,
-        Databases,
-        Query
-    } = Appwrite;
-    
-    const client = new Client();
-    
-    client
-        .setEndpoint(
-            "https://cloud.appwrite.io/v1"
-        )
-        .setProject(
-            "6ac6fecf002db308564b"
-        );
-    
-    const account =
-        new Account(client);
-    
-    const databases =
-        new Databases(client);
-    
-    const DATABASE_ID =
-        "myff";
-    
-    const PROFILES_COLLECTION_ID =
-        "Profiles";
-    
-    const CONNECTIONS_COLLECTION_ID =
-        "Connections";
-    
-    async function loadDashboard(){
-    
-        try{
-    
-            const user =
-                await account.get();
-    
-            const profileResult =
-                await databases.listDocuments(
-                    DATABASE_ID,
-                    PROFILES_COLLECTION_ID,
-                    [
-                        Query.equal(
-                            "user_id",
-                            user.$id
-                        )
-                    ]
-                );
-    
-            if(
-                profileResult.documents.length === 0
-            )
-            
-            {
-    
-                document
-                .getElementById(
-                    "profileSummary"
-                )
-                .innerHTML =
-                "Profile not found.";
-    
-                return;
-            }
-    
-            const profile =
-                profileResult.documents[0];
-    
-            document.getElementById(
-                "welcomeName"
-            ).innerHTML =
-            `Welcome, ${profile.first_name}
-             ${profile.last_name}`;
-    
-            document.getElementById(
-                "welcomeRole"
-            ).innerHTML =
-    
-            `
-            ${profile.role || ""}
-            ${profile.company
-                ? " | " + profile.company
-                : ""}
-    
-            ${profile.city
-                ? " | " + profile.city
-                : ""}
-    
-            ${profile.state
-                ? ", " + profile.state
-                : ""}
-            `;
-    
-         `
-<strong>
 
-${profile.first_name}
-${profile.last_name}
+<script>
 
-</strong>
+const {
+    Client,
+    Account,
+    Databases,
+    Query
+} = Appwrite;
 
-<br><br>
+const client = new Client();
 
-💼 ${profile.role || "-"}
-${profile.company ? " | " + profile.company : ""}
-
-<br>
-
-📍 ${profile.city || ""}
-${profile.state ? ", " + profile.state : ""}
-${profile.country ? ", " + profile.country : ""}
-
-<br><br>
-
-<strong>
-
-Can Help With
-
-</strong>
-
-<br>
-
-${profile.support_types || "-"}
-
-<br><br>
-
-<strong>
-
-Looking For
-
-</strong>
-
-<br>
-
-${profile.support_seeking || "-"}
-
-`;
-    
-            const connections =
-                await databases.listDocuments(
-                    DATABASE_ID,
-                    CONNECTIONS_COLLECTION_ID
-                );
-    
-            const myConnections =
-                connections.documents.filter(
-    
-                    c =>
-    
-                    c.from_user_id ===
-                    user.$id ||
-    
-                    c.to_user_id ===
-                    user.$id
-    
-                );
-    
-            document.getElementById(
-                "l1Count"
-            ).innerHTML =
-                myConnections.length;
-    
-            document.getElementById(
-                "inviteCount"
-            ).innerHTML =
-                connections.documents.filter(
-    
-                    c =>
-                    c.created_by_user_id ===
-                    user.$id
-    
-                ).length;
-    
-        }
-        catch(error){
-    
-            console.error(error);
-    
-            window.location.href =
-                "login.html";
-    
-        }
-    
-    }
-    
-    document
-    .getElementById(
-        "logoutBtn"
+client
+    .setEndpoint(
+        "https://cloud.appwrite.io/v1"
     )
-    .addEventListener(
-        "click",
-        async function(){
-    
-            await account.deleteSession(
-                "current"
-            );
-    
-            window.location.href =
-                "login.html";
-    
-        }
+    .setProject(
+        "6ac6fecf002db308564b"
     );
-    
-    loadDashboard();
-    
-    </script>
-    
-    </body>
-    </html>
+
+const account =
+    new Account(client);
+
+const databases =
+    new Databases(client);
+
+const DATABASE_ID =
+    "myff";
+
+const PROFILES_COLLECTION_ID =
+    "Profiles";
+
+const CONNECTIONS_COLLECTION_ID =
+    "Connections";
+
+async function loadDashboard(){
+
+    try{
+
+        const user =
+            await account.get();
+
+        const profileResult =
+            await databases.listDocuments(
+                DATABASE_ID,
+                PROFILES_COLLECTION_ID,
+                [
+                    Query.equal(
+                        "user_id",
+                        user.$id
+                    )
+                ]
+            );
+
+        if(
+            profileResult.documents.length === 0
+        ){
+
+            document.getElementById(
+                "profileSummary"
+            ).innerHTML =
+            "Profile not found.";
+
+            return;
+        }
+
+        const profile =
+            profileResult.documents[0];
+
+        document.getElementById(
+            "welcomeName"
+        ).innerHTML =
+        `Welcome, ${profile.first_name}
+         ${profile.last_name}`;
+
+        document.getElementById(
+            "welcomeRole"
+        ).innerHTML =
+
+        `
+        ${profile.role || "Member"}
+
+        ${profile.company
+            ? " | " + profile.company
+            : ""}
+
+        ${profile.city
+            ? " | " + profile.city
+            : ""}
+
+        ${profile.state
+            ? ", " + profile.state
+            : ""}
+
+        ${profile.country
+            ? ", " + profile.country
+            : ""}
+        `;
+
+        document.getElementById(
+            "profileSummary"
+        ).innerHTML =
+
+        `
+        <strong>
+
+        ${profile.first_name}
+        ${profile.last_name}
+
+        </strong>
+
+        <br><br>
+
+        💼 ${profile.role || "-"}
+        ${profile.company ? " | " + profile.company : ""}
+
+        <br>
+
+        📍 ${profile.city || ""}
+        ${profile.state ? ", " + profile.state : ""}
+        ${profile.country ? ", " + profile.country : ""}
+
+        <br><br>
+
+        <strong>
+        Can Help With
+        </strong>
+
+        <br>
+
+        ${profile.support_types || "-"}
+
+        <br><br>
+
+        <strong>
+        Looking For
+        </strong>
+
+        <br>
+
+        ${profile.support_seeking || "-"}
+
+        `;
+
+        const connections =
+            await databases.listDocuments(
+                DATABASE_ID,
+                CONNECTIONS_COLLECTION_ID
+            );
+
+        const myConnections =
+            connections.documents.filter(
+
+                c =>
+
+                c.from_user_id === user.$id
+
+                ||
+
+                c.to_user_id === user.$id
+
+            );
+
+        document.getElementById(
+            "l1Count"
+        ).innerHTML =
+        myConnections.length;
+
+        document.getElementById(
+            "l2Count"
+        ).innerHTML =
+        0;
+
+        document.getElementById(
+            "l3Count"
+        ).innerHTML =
+        0;
+
+        document.getElementById(
+            "inviteCount"
+        ).innerHTML =
+
+        connections.documents.filter(
+
+            c =>
+
+            c.created_by_user_id ===
+            user.$id
+
+        ).length;
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+document
+.getElementById(
+    "logoutBtn"
+)
+.addEventListener(
+    "click",
+    async function(){
+
+        await account.deleteSession(
+            "current"
+        );
+
+        window.location.href =
+            "login.html";
+
+    }
+);
+
+loadDashboard();
+
+</script>
+
+</body>
+</html>
