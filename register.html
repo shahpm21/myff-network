@@ -887,7 +887,8 @@ const {
     Client,
     Account,
     Databases,
-    ID
+    ID,
+    Query
 } = Appwrite;
 
 const client = new Client();
@@ -922,7 +923,8 @@ Copy exactly from Appwrite.
 */
 
 const PROFILES_COLLECTION_ID = "Profiles";
-
+const CONNECTIONS_COLLECTION_ID = "Connections";
+    
 function getCheckedValues(name){
 
     return [...document.querySelectorAll(
@@ -1103,6 +1105,71 @@ document
 
         );
 
+/*
+Find inviter profile
+*/
+
+const inviterPhone =
+    document.getElementById(
+        "inviter_phone"
+    ).value;
+
+const inviterResult =
+    await databases.listDocuments(
+        DATABASE_ID,
+        PROFILES_COLLECTION_ID,
+        [
+            Query.equal(
+                "phone",
+                inviterPhone
+            )
+        ]
+    );
+
+/*
+Create connection if inviter found
+*/
+
+if(inviterResult.documents.length > 0){
+
+    const inviterProfile =
+        inviterResult.documents[0];
+
+    await databases.createDocument(
+
+        DATABASE_ID,
+
+        CONNECTIONS_COLLECTION_ID,
+
+        ID.unique(),
+
+        {
+
+            from_user_id:
+                inviterProfile.user_id,
+
+            to_user_id:
+                user.$id,
+
+            relationship_type:
+                "INVITED",
+
+            status:
+                "ACTIVE",
+
+            created_by_user_id:
+                user.$id
+
+        }
+
+    );
+
+    console.log(
+        "Connection Created"
+    );
+
+}
+        
         alert(
             "Account Created Successfully!"
         );
