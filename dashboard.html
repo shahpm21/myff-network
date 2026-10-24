@@ -489,7 +489,23 @@ const PROFILES_COLLECTION_ID =
 
 const CONNECTIONS_COLLECTION_ID =
     "Connections";
+function getConnectedUserId(
+    connection,
+    myUserId
+){
 
+    if(
+        connection.from_user_id ===
+        myUserId
+    ){
+
+        return connection.to_user_id;
+    }
+
+    return connection.from_user_id;
+
+}
+    
 async function loadDashboard(){
 
     try{
@@ -601,34 +617,190 @@ async function loadDashboard(){
                 CONNECTIONS_COLLECTION_ID
             );
 
-        const myConnections =
-            connections.documents.filter(
+     const connectionsResult =
+    await databases.listDocuments(
+        DATABASE_ID,
+        CONNECTIONS_COLLECTION_ID
+    );
 
-                c =>
+const allConnections =
+    connectionsResult.documents;
 
-                c.from_user_id ===
-                user.$id ||
+/*
+--------------------------------
+L1
+--------------------------------
+*/
 
-                c.to_user_id ===
+const l1Ids =
+    new Set();
+
+allConnections.forEach(c => {
+
+    if(
+        c.from_user_id === user.$id
+        ||
+        c.to_user_id === user.$id
+    ){
+
+        const connectedUser =
+            getConnectedUserId(
+                c,
                 user.$id
-
             );
 
-        document.getElementById(
-            "l1Count"
-        ).innerHTML =
-            myConnections.length;
+        if(
+            connectedUser !== user.$id
+        ){
 
-        document.getElementById(
-            "inviteCount"
-        ).innerHTML =
-            connections.documents.filter(
+            l1Ids.add(
+                connectedUser
+            );
 
-                c =>
-                c.created_by_user_id ===
+        }
+
+    }
+
+});
+
+/*
+--------------------------------
+L2
+--------------------------------
+*/
+
+const l2Ids =
+    new Set();
+
+allConnections.forEach(c => {
+
+    l1Ids.forEach(l1User => {
+
+        if(
+            c.from_user_id === l1User
+            ||
+            c.to_user_id === l1User
+        ){
+
+            const connectedUser =
+                getConnectedUserId(
+                    c,
+                    l1User
+                );
+
+            if(
+
+                connectedUser !== user.$id
+
+                &&
+
+                !l1Ids.has(
+                    connectedUser
+                )
+
+            ){
+
+                l2Ids.add(
+                    connectedUser
+                );
+
+            }
+
+        }
+
+    });
+
+});
+
+/*
+--------------------------------
+L3
+--------------------------------
+*/
+
+const l3Ids =
+    new Set();
+
+allConnections.forEach(c => {
+
+    l2Ids.forEach(l2User => {
+
+        if(
+            c.from_user_id === l2User
+            ||
+            c.to_user_id === l2User
+        ){
+
+            const connectedUser =
+                getConnectedUserId(
+                    c,
+                    l2User
+                );
+
+            if(
+
+                connectedUser !==
                 user.$id
 
-            ).length;
+                &&
+
+                !l1Ids.has(
+                    connectedUser
+                )
+
+                &&
+
+                !l2Ids.has(
+                    connectedUser
+                )
+
+            ){
+
+                l3Ids.add(
+                    connectedUser
+                );
+
+            }
+
+        }
+
+    });
+
+});
+
+/*
+--------------------------------
+Dashboard Counts
+--------------------------------
+*/
+
+document.getElementById(
+    "l1Count"
+).innerHTML =
+    l1Ids.size;
+
+document.getElementById(
+    "l2Count"
+).innerHTML =
+    l2Ids.size;
+
+document.getElementById(
+    "l3Count"
+).innerHTML =
+    l3Ids.size;
+
+document.getElementById(
+    "inviteCount"
+).innerHTML =
+
+allConnections.filter(
+
+    c =>
+
+    c.created_by_user_id ===
+    user.$id
+
+).length;
 
     }
     catch(error){
