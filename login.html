@@ -618,6 +618,27 @@ async function checkLogin() {
     }
 
 }
+if(
+    sessionStorage.getItem(
+        "registrationSuccess"
+    )
+){
+
+    const msg =
+        document.getElementById(
+            "message"
+        );
+
+    msg.style.display =
+        "block";
+
+    msg.innerHTML =
+        "✅ Account created successfully. Please sign in.";
+
+    sessionStorage.removeItem(
+        "registrationSuccess"
+    );
+}
       
 // Login Form
 document.getElementById("loginForm")
