@@ -25,21 +25,41 @@ body{
 
 .header{
 
+    background:
+    linear-gradient(
+        135deg,
+        #12355b,
+        #1f4e79
+    );
+
+    color:white;
+
+    padding:14px 30px;
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
-
-    padding:24px 60px;
-
-    background:white;
-    border-bottom:1px solid #edf2f7;
 }
-
 .logo{
 
-    font-size:32px;
-    font-weight:800;
-    color:#12355b;
+    font-size:24px;
+
+    font-weight:700;
+
+    color:white;
+}
+
+.logo small{
+
+    display:block;
+
+    font-size:11px;
+
+    color:#dbeafe;
+
+    margin-top:2px;
 }
 
 .logo small{
@@ -383,15 +403,19 @@ input:focus{
 
 <body>
 
-<header class="header">
+<div class="header">
 
-<div class="logo">
+    <div class="logo">
 
-MyFF Network
+        MyFF Network
 
-<small>
-My Friends & Family Network
-</small>
+        <small>
+
+            My Friends & Family Network
+
+        </small>
+
+    </div>
 
 </div>
 
