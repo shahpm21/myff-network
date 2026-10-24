@@ -1355,13 +1355,13 @@ document
             "Connection Created"
         );
 
-        alert(
-            "Account Created Successfully!"
-        );
+      sessionStorage.setItem(
+    "registrationSuccess",
+    "true"
+);
 
-        window.location.href =
-            "login.html";
-
+window.location.href =
+    "login.html";
     }
     catch(error){
 
