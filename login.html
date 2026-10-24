@@ -25,19 +25,62 @@ body{
 
 .header{
 
-    background:white;
+    background:
+    linear-gradient(
+        135deg,
+        #12355b,
+        #1f4e79
+    );
 
-    padding:24px 60px;
+    color:white;
 
-    border-bottom:1px solid #edf2f7;
+    padding:18px 30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
 }
+
 .logo{
 
-    font-size:32px;
+    font-size:28px;
 
-    font-weight:800;
+    font-weight:700;
+}
+
+.header-buttons{
+
+    display:flex;
+
+    gap:10px;
+}
+
+.header-btn{
+
+    background:white;
 
     color:#12355b;
+
+    border:none;
+
+    padding:10px 14px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.container{
+
+    max-width:1200px;
+
+    margin:20px auto;
+
+    padding:0 20px;
 }
 
 .logo small{
