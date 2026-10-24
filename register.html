@@ -843,7 +843,78 @@ Additional Information You Would Like The Community To Know
 id="comments"
 placeholder="Tell members anything else that may help them connect with you, understand your experience, interests, goals, expertise, business, community involvement, or ways you would like to help others.">
 </textarea>
+<h2>
+What is this information related to?
+</h2>
 
+<div class="checkbox-grid">
+
+<div class="checkbox-row">
+
+<input
+type="checkbox"
+name="comment_category"
+value="Job Opportunity">
+
+<label>
+Job Opportunity
+</label>
+
+</div>
+
+<div class="checkbox-row">
+
+<input
+type="checkbox"
+name="comment_category"
+value="Business Opportunity">
+
+<label>
+Business Opportunity
+</label>
+
+</div>
+
+<div class="checkbox-row">
+
+<input
+type="checkbox"
+name="comment_category"
+value="General Comment">
+
+<label>
+General Comment
+</label>
+
+</div>
+
+<div class="checkbox-row">
+
+<input
+type="checkbox"
+name="comment_category"
+value="Product Service Offering">
+
+<label>
+Product / Service Offering
+</label>
+
+</div>
+
+<div class="checkbox-row">
+
+<input
+type="checkbox"
+name="comment_category"
+value="Sales Marketing">
+
+<label>
+Sales / Marketing Information
+</label>
+
+</div>
+
+</div>
 </div>
 
 <div class="card">
@@ -1099,8 +1170,13 @@ document
                 comments:
                     document.getElementById(
                         "comments"
-                    ).value
+                    ).value,
 
+comment_category:
+    getCheckedValues(
+        "comment_category"
+    ),
+                
             }
 
         );
@@ -1114,6 +1190,48 @@ const inviterPhone =
         "inviter_phone"
     ).value;
 
+const enteredName =
+    document.getElementById(
+        "inviter_name"
+    ).value
+    .trim()
+    .toLowerCase();
+
+const storedName =
+    inviterProfile.first_name
+    .trim()
+    .toLowerCase();
+
+const compareLength =
+
+    Math.min(
+        3,
+        storedName.length
+    );
+
+if(
+
+    enteredName.substring(
+        0,
+        compareLength
+    )
+
+    !==
+
+    storedName.substring(
+        0,
+        compareLength
+    )
+
+){
+
+    alert(
+        "Inviter Name and Phone do not match our records."
+    );
+
+    return;
+}
+        
 const inviterResult =
     await databases.listDocuments(
         DATABASE_ID,
