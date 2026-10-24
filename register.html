@@ -968,34 +968,21 @@ client
     .setEndpoint('https://cloud.appwrite.io/v1')
     .setProject('6ac6fecf002db308564b');
 
-const account = new Account(client);
-const databases = new Databases(client);
+const account =
+    new Account(client);
 
-const DATABASE_ID = "myff";
+const databases =
+    new Databases(client);
 
-/*
-IMPORTANT
+const DATABASE_ID =
+    "myff";
 
-Replace this with the real Profiles table ID.
+const PROFILES_COLLECTION_ID =
+    "Profiles";
 
-It may be:
+const CONNECTIONS_COLLECTION_ID =
+    "Connections";
 
-Profiles
-
-OR
-
-profiles
-
-OR
-
-something Appwrite generated.
-
-Copy exactly from Appwrite.
-*/
-
-const PROFILES_COLLECTION_ID = "Profiles";
-const CONNECTIONS_COLLECTION_ID = "Connections";
-    
 function getCheckedValues(name){
 
     return [...document.querySelectorAll(
@@ -1011,6 +998,12 @@ document
     e.preventDefault();
 
     try{
+
+        /*
+        -----------------------------------------
+        Password Validation
+        -----------------------------------------
+        */
 
         const password =
             document.getElementById(
@@ -1031,15 +1024,55 @@ document
             return;
         }
 
+        /*
+        -----------------------------------------
+        Phone Validation
+        -----------------------------------------
+        */
+
+        const phone =
+            document.getElementById(
+                "phone"
+            ).value;
+
+        const inviterPhone =
+            document.getElementById(
+                "inviter_phone"
+            ).value;
+
+        if(phone.length !== 10){
+
+            alert(
+                "Please enter a valid 10-digit phone number."
+            );
+
+            return;
+        }
+
+        if(inviterPhone.length !== 10){
+
+            alert(
+                "Please enter a valid 10-digit inviter phone number."
+            );
+
+            return;
+        }
+
+        /*
+        -----------------------------------------
+        User Information
+        -----------------------------------------
+        */
+
         const firstName =
             document.getElementById(
                 "first_name"
-            ).value;
+            ).value.trim();
 
         const lastName =
             document.getElementById(
                 "last_name"
-            ).value;
+            ).value.trim();
 
         const fullName =
             firstName + " " + lastName;
@@ -1047,108 +1080,100 @@ document
         const email =
             document.getElementById(
                 "email"
-            ).value;
+            ).value.trim();
 
-     
+        /*
+        -----------------------------------------
+        Validate Inviter Phone
+        -----------------------------------------
+        */
 
-/*
-Find inviter profile
-*/
+        const enteredName =
+            document.getElementById(
+                "inviter_name"
+            ).value
+            .trim()
+            .toLowerCase();
 
-const inviterPhone =
-    document.getElementById(
-        "inviter_phone"
-    ).value
-    .trim();
+        const inviterResult =
+            await databases.listDocuments(
 
-const enteredName =
-    document.getElementById(
-        "inviter_name"
-    ).value
-    .trim()
-    .toLowerCase();
+                DATABASE_ID,
 
-const inviterResult =
-    await databases.listDocuments(
-        DATABASE_ID,
-        PROFILES_COLLECTION_ID,
-        [
-            Query.equal(
-                "phone",
-                inviterPhone
+                PROFILES_COLLECTION_ID,
+
+                [
+                    Query.equal(
+                        "phone",
+                        inviterPhone
+                    )
+                ]
+
+            );
+
+        if(
+            inviterResult.documents.length === 0
+        ){
+
+            alert(
+                "Inviter phone number was not found in MyFF Network. Please verify the inviter information."
+            );
+
+            return;
+        }
+
+        /*
+        -----------------------------------------
+        Validate Inviter Name
+        -----------------------------------------
+        */
+
+        const inviterProfile =
+            inviterResult.documents[0];
+
+        const storedName =
+            inviterProfile.first_name
+            .trim()
+            .toLowerCase();
+
+        const compareLength =
+            Math.min(
+                3,
+                enteredName.length,
+                storedName.length
+            );
+
+        if(
+
+            enteredName.substring(
+                0,
+                compareLength
             )
-        ]
-    );
 
-/*
-Phone not found
-*/
+            !==
 
-if(inviterResult.documents.length === 0){
+            storedName.substring(
+                0,
+                compareLength
+            )
 
-    alert(
-        "Inviter phone number was not found in MyFF Network. Please verify the inviter information."
-    );
+        ){
 
-    return;
-}
+            alert(
+                "The inviter name and phone number do not match our records. Please verify the information."
+            );
 
-/*
-Validate inviter name
-*/
+            return;
+        }
 
-const inviterProfile =
-    inviterResult.documents[0];
+        console.log(
+            "Inviter validation passed."
+        );
 
-const storedName =
-    inviterProfile.first_name
-    .trim()
-    .toLowerCase();
-
-const compareLength =
-    Math.min(
-        3,
-        storedName.length,
-        enteredName.length
-    );
-
-if(
-
-    enteredName.substring(
-        0,
-        compareLength
-    )
-
-    !==
-
-    storedName.substring(
-        0,
-        compareLength
-    )
-
-){
-
-    alert(
-        "The inviter name and/or phone number do not match our records. Please verify the information and try again."
-    );
-
-    return;
-
-}
-
-/*
-Inviter verified successfully.
-Connection creation continues below.
-*/
-
-        
-if(inviterResult.documents.length > 0){
-
-    const inviterProfile =
-        inviterResult.documents[0];
-
-   /*
+        /*
+        -----------------------------------------
         Create Auth User
+        -----------------------------------------
         */
 
         const user =
@@ -1160,12 +1185,14 @@ if(inviterResult.documents.length > 0){
             );
 
         console.log(
-            "User Created:",
+            "Auth User Created:",
             user
         );
 
         /*
-        Create Profile Record
+        -----------------------------------------
+        Create Profile
+        -----------------------------------------
         */
 
         await databases.createDocument(
@@ -1191,9 +1218,7 @@ if(inviterResult.documents.length > 0){
                     email,
 
                 phone:
-                    document.getElementById(
-                        "phone"
-                    ).value,
+                    phone,
 
                 city:
                     document.getElementById(
@@ -1204,10 +1229,12 @@ if(inviterResult.documents.length > 0){
                     document.getElementById(
                         "state"
                     ).value,
-        country:
-    document.getElementById(
-        "country"
-    ).value,
+
+                country:
+                    document.getElementById(
+                        "country"
+                    ).value,
+
                 zipcode:
                     document.getElementById(
                         "zipcode"
@@ -1224,20 +1251,24 @@ if(inviterResult.documents.length > 0){
                     ).value,
 
                 professional_status:
-                   getCheckedValues("professional_status"),
+                    getCheckedValues(
+                        "professional_status"
+                    ),
 
                 industry:
-                  getCheckedValues("industry"),
+                    getCheckedValues(
+                        "industry"
+                    ),
 
                 industry_other:
                     document.getElementById(
                         "industry_other"
                     ).value,
 
-      inviter_relationship:
-    getCheckedValues(
-        "relationship"
-    ),
+                inviter_relationship:
+                    getCheckedValues(
+                        "relationship"
+                    ),
 
                 inviter_name:
                     document.getElementById(
@@ -1245,15 +1276,17 @@ if(inviterResult.documents.length > 0){
                     ).value,
 
                 inviter_phone:
-                    document.getElementById(
-                        "inviter_phone"
-                    ).value,
+                    inviterPhone,
 
                 support_types:
-                 getCheckedValues("support_types"),
+                    getCheckedValues(
+                        "support_types"
+                    ),
 
                 support_seeking:
-                  getCheckedValues("support_seeking"),
+                    getCheckedValues(
+                        "support_seeking"
+                    ),
 
                 share_email:
                     document.getElementById(
@@ -1261,59 +1294,67 @@ if(inviterResult.documents.length > 0){
                     ).checked,
 
                 consent_participate:
-    document.getElementById(
-        "consent_participate"
-    ).checked,
-                     
+                    document.getElementById(
+                        "consent_participate"
+                    ).checked,
+
                 comments:
                     document.getElementById(
                         "comments"
                     ).value,
 
-comment_category:
-    getCheckedValues(
-        "comment_category"
-    ),
-                
+                comment_category:
+                    getCheckedValues(
+                        "comment_category"
+                    )
+
             }
 
         );
-    
-    await databases.createDocument(
 
-        DATABASE_ID,
+        console.log(
+            "Profile Created"
+        );
 
-        CONNECTIONS_COLLECTION_ID,
+        /*
+        -----------------------------------------
+        Create Connection
+        -----------------------------------------
+        */
 
-        ID.unique(),
+        await databases.createDocument(
 
-        {
+            DATABASE_ID,
 
-            from_user_id:
-                inviterProfile.user_id,
+            CONNECTIONS_COLLECTION_ID,
 
-            to_user_id:
-                user.$id,
+            ID.unique(),
 
-            relationship_type:
-                "INVITED",
+            {
 
-            status:
-                "ACTIVE",
+                from_user_id:
+                    inviterProfile.user_id,
 
-            created_by_user_id:
-                user.$id
+                to_user_id:
+                    user.$id,
 
-        }
+                relationship_type:
+                    "INVITED",
 
-    );
+                status:
+                    "ACTIVE",
 
-    console.log(
-        "Connection Created"
-    );
+                created_by_user_id:
+                    user.$id
 
-}
-        
+            }
+
+        );
+
+        console.log(
+            "Connection Created"
+        );
+
         alert(
             "Account Created Successfully!"
         );
@@ -1324,7 +1365,10 @@ comment_category:
     }
     catch(error){
 
-        console.error(error);
+        console.error(
+            "REGISTRATION ERROR:",
+            error
+        );
 
         alert(
             error.message
@@ -1334,23 +1378,34 @@ comment_category:
 
 });
 
-    document
+/*
+-----------------------------------------
+Phone Validation
+-----------------------------------------
+*/
+
+document
 .getElementById("phone")
-.addEventListener("input", function () {
+.addEventListener("input", function(){
 
     this.value = this.value
         .replace(/\D/g, "")
         .slice(0, 10);
+
 });
-    document
+
+document
 .getElementById("inviter_phone")
-.addEventListener("input", function () {
+.addEventListener("input", function(){
+
     this.value = this.value
         .replace(/\D/g, "")
         .slice(0, 10);
+
 });
 
 </script>
+    
 
 </body>
 
