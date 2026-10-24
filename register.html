@@ -1049,7 +1049,105 @@ document
                 "email"
             ).value;
 
-        /*
+     
+
+/*
+Find inviter profile
+*/
+
+const inviterPhone =
+    document.getElementById(
+        "inviter_phone"
+    ).value
+    .trim();
+
+const enteredName =
+    document.getElementById(
+        "inviter_name"
+    ).value
+    .trim()
+    .toLowerCase();
+
+const inviterResult =
+    await databases.listDocuments(
+        DATABASE_ID,
+        PROFILES_COLLECTION_ID,
+        [
+            Query.equal(
+                "phone",
+                inviterPhone
+            )
+        ]
+    );
+
+/*
+Phone not found
+*/
+
+if(inviterResult.documents.length === 0){
+
+    alert(
+        "Inviter phone number was not found in MyFF Network. Please verify the inviter information."
+    );
+
+    return;
+}
+
+/*
+Validate inviter name
+*/
+
+const inviterProfile =
+    inviterResult.documents[0];
+
+const storedName =
+    inviterProfile.first_name
+    .trim()
+    .toLowerCase();
+
+const compareLength =
+    Math.min(
+        3,
+        storedName.length,
+        enteredName.length
+    );
+
+if(
+
+    enteredName.substring(
+        0,
+        compareLength
+    )
+
+    !==
+
+    storedName.substring(
+        0,
+        compareLength
+    )
+
+){
+
+    alert(
+        "The inviter name and/or phone number do not match our records. Please verify the information and try again."
+    );
+
+    return;
+
+}
+
+/*
+Inviter verified successfully.
+Connection creation continues below.
+*/
+
+        
+if(inviterResult.documents.length > 0){
+
+    const inviterProfile =
+        inviterResult.documents[0];
+
+   /*
         Create Auth User
         */
 
@@ -1180,79 +1278,7 @@ comment_category:
             }
 
         );
-
-/*
-Find inviter profile
-*/
-
-const inviterPhone =
-    document.getElementById(
-        "inviter_phone"
-    ).value;
-
-const enteredName =
-    document.getElementById(
-        "inviter_name"
-    ).value
-    .trim()
-    .toLowerCase();
-
-const storedName =
-    inviterProfile.first_name
-    .trim()
-    .toLowerCase();
-
-const compareLength =
-
-    Math.min(
-        3,
-        storedName.length
-    );
-
-if(
-
-    enteredName.substring(
-        0,
-        compareLength
-    )
-
-    !==
-
-    storedName.substring(
-        0,
-        compareLength
-    )
-
-){
-
-    alert(
-        "Inviter Name and Phone do not match our records."
-    );
-
-    return;
-}
-        
-const inviterResult =
-    await databases.listDocuments(
-        DATABASE_ID,
-        PROFILES_COLLECTION_ID,
-        [
-            Query.equal(
-                "phone",
-                inviterPhone
-            )
-        ]
-    );
-
-/*
-Create connection if inviter found
-*/
-
-if(inviterResult.documents.length > 0){
-
-    const inviterProfile =
-        inviterResult.documents[0];
-
+    
     await databases.createDocument(
 
         DATABASE_ID,
