@@ -38,7 +38,7 @@ body{
 
     color:white;
 
-    padding:20px 30px;
+    padding:14px 30px;
 
     display:flex;
 
@@ -49,9 +49,18 @@ body{
 
 .logo{
 
-    font-size:28px;
+    font-size:24px;
 
     font-weight:700;
+}
+
+.logo-small{
+
+    font-size:11px;
+
+    color:#dbeafe;
+
+    margin-top:2px;
 }
 
 .btn{
@@ -235,19 +244,45 @@ body{
 
 <div class="header">
 
-    <div class="logo">
+    <div>
 
-        MyFF Network
+        <div class="logo">
+            MyFF Network
+        </div>
+
+        <div class="logo-small">
+            My Friends & Family Network
+        </div>
 
     </div>
 
-    <button
-        class="btn"
-        onclick="window.location.href='dashboard.html'">
+    <div class="header-buttons">
 
-        Dashboard
+        <button
+            class="header-btn"
+            onclick="window.location.href='dashboard.html'">
 
-    </button>
+            Dashboard
+
+        </button>
+
+        <button
+            class="header-btn"
+            onclick="window.location.href='edit-profile.html'">
+
+            Edit Profile
+
+        </button>
+
+        <button
+            class="header-btn"
+            id="logoutBtn">
+
+            Logout
+
+        </button>
+
+    </div>
 
 </div>
 
