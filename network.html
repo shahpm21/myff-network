@@ -29,12 +29,22 @@ body{
 
 .header{
 
-    background:
-    linear-gradient(
-        135deg,
-        #12355b,
-        #1f4e79
-    );
+    background:white;
+
+    border-bottom:
+        1px solid #e5e7eb;
+
+    padding:14px 30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,.05);
+}
 
     color:white;
 
@@ -71,21 +81,23 @@ body{
 
 .header-btn{
 
-    background:white;
+    background:#f8fafc;
 
     color:#12355b;
 
-    border:none;
+    border:1px solid #dbeafe;
 
-    padding:10px 14px;
+    padding:10px 18px;
 
-    border-radius:10px;
+    border-radius:12px;
 
     font-weight:600;
-
-    cursor:pointer;
 }
 
+    .header-btn:hover{
+
+    background:#dbeafe;
+}
 .container{
 
     max-width:1400px;
