@@ -180,6 +180,8 @@ body{
 
     border-collapse:collapse;
 
+    table-layout:fixed;
+
     font-size:14px;
 }
 
@@ -203,6 +205,15 @@ body{
     vertical-align:top;
 }
 
+    .network-table td,
+.network-table th{
+
+    overflow-wrap:break-word;
+
+    word-wrap:break-word;
+
+    vertical-align:top;
+}
 .network-table tr:hover{
 
     background:#f8fafc;
@@ -243,6 +254,12 @@ body{
 
 }
 
+    .comments-column{
+
+    max-width:220px;
+
+    width:220px;
+}
 </style>
 
 </head>
@@ -397,8 +414,9 @@ body{
                     <th>Can Help With</th>
 
                     <th>Looking For</th>
-
-                    <th>Additional Information</th>
+<th class="comments-column">
+Additional Information
+</th>
 
                 </tr>
 
