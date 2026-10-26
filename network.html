@@ -26,9 +26,26 @@ button,input{font:inherit}
 .header-btn:hover{background:#0b6597;border-color:#0b6597}
 .header-btn:focus-visible,.search-panel input:focus-visible{outline:3px solid rgba(14,165,233,.35);outline-offset:2px}
 .container{width:min(100% - 32px,1500px);margin:18px auto 32px}
-.page-title{margin-bottom:12px}
-.page-title h1{color:var(--navy);font-size:clamp(20px,2.4vw,30px);line-height:1.2;letter-spacing:-.40px;margin-bottom:3px}
-.page-title p{color:var(--muted);font-size:14px}
+
+.page-title {
+    margin-bottom: 14px;
+}
+
+.page-title h1 {
+    color: var(--navy);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.4px;
+    margin-bottom: 3px;
+}
+
+.page-title p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
 .stats-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px}
 .stat-card{min-width:0;padding:10px 14px;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:10px;text-align:left;box-shadow:0 2px 7px rgba(16,42,67,.035);display:flex;align-items:center;gap:11px}
 .stat-number{color:var(--navy);font-size:23px;font-weight:750;line-height:1.1;min-width:30px}
