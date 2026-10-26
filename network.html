@@ -18,14 +18,15 @@ content="width=device-width, initial-scale=1.0">
     padding:0;
     box-sizing:border-box;
 }
-
 body{
     font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(
+    background:
+    linear-gradient(
         180deg,
-        #f8fafc,
+        #f7faff,
         #eef6ff
     );
+
     color:#102a43;
 }
 
@@ -76,11 +77,11 @@ body{
 
 .header-btn{
 
-    background:#f8fafc;
+    background:#12355b;
 
-    color:#12355b;
+    color:white;
 
-    border:1px solid #dbeafe;
+    border:none;
 
     padding:10px 18px;
 
@@ -95,7 +96,7 @@ body{
 
 .header-btn:hover{
 
-    background:#dbeafe;
+    background:#0ea5e9;
 
     transform:translateY(-1px);
 }
@@ -157,20 +158,17 @@ body{
 
     background:white;
 
+    border-top:
+        4px solid #0ea5e9;
+
     border-radius:20px;
 
     padding:16px;
 
-    text-align:center;
-
-    border-top:
-        4px solid #0ea5e9;
-
     box-shadow:
         0 10px 24px rgba(0,0,0,.06);
-
-    transition:.2s;
 }
+
 
 .stat-card:hover{
 
@@ -439,19 +437,20 @@ body{
 
     <div class="page-title-card">
 </div>
-        <h1>
 
-            My Network
+    <h1>
 
-        </h1>
+        My Network
 
-        <p>
+    </h1>
 
-            Professional relationships, trusted introductions and extended network members.
+    <p>
 
-        </p>
+        Professional relationships, trusted introductions and extended network members.
 
-    </div>
+    </p>
+
+</div>
 
     <div class="stats-grid">
 
@@ -935,7 +934,39 @@ ${
     }
 
 }
+document
+.getElementById(
+    "networkSearch"
+)
+.addEventListener(
+    "keyup",
+    function(){
 
+        const term =
+            this.value.toLowerCase();
+
+        const rows =
+            document.querySelectorAll(
+                "#networkTableBody tr"
+            );
+
+        rows.forEach(row => {
+
+            row.style.display =
+
+                row.innerText
+                    .toLowerCase()
+                    .includes(term)
+
+                    ? ""
+
+                    : "none";
+
+        });
+
+    }
+);
+    
 loadNetwork();
 
 </script>
