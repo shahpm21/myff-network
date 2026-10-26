@@ -283,16 +283,12 @@ body{
     width:160px;
 }
 
-.location-column{
-    width:200px;
-}
-
 .contact-column{
-    width:240px;
+    width:260px;
 }
 
 .comments-column{
-    width:300px;
+    width:380px;
 }
 
 /* LEVEL BADGES */
@@ -520,12 +516,8 @@ Status
 Company / Role
 </th>
 
-<th class="location-column">
-Location
-</th>
-
 <th class="contact-column">
-Contact
+Location & Contact
 </th>
 
 <th>
@@ -825,22 +817,25 @@ async function loadNetwork(){
                         ${member.role || "-"}
 
                     </td>
-
-                 <td>
-
-    ${member.city || ""}
-
-    ${member.state
-        ? ", " + member.state
-        : ""}
-
-    ${member.country
-        ? ", " + member.country
-        : ""}
-
-</td>
-
 <td>
+
+${member.city || ""}
+
+${member.state
+    ? ", " + member.state
+    : ""}
+${
+    member.country === "United States"
+
+    ? ", USA"
+
+    : member.country
+
+        ? ", " + member.country
+
+        : ""
+}
+<br><br>
 
 ${
     member.share_email === true ||
@@ -852,8 +847,6 @@ ${
 }
 
 </td>
-
-<td>
 
     ${member.support_types || "-"}
 
