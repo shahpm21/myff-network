@@ -253,7 +253,7 @@ body{
 
     border-collapse:collapse;
 
-    table-layout:fixed;
+    table-layout:auto;
 
     font-size:14px;
 }
@@ -295,6 +295,11 @@ body{
     background:#f0f9ff;
 }
 
+    .table-wrapper{
+
+    overflow-x:auto;
+}
+    
 /* LEVEL BADGES */
 
 .level-l1{
@@ -519,7 +524,9 @@ body{
         placeholder="Search members, company, role, industry, support...">
 
 </div>
-        <table class="network-table">
+  <div class="table-wrapper">
+
+<table class="network-table">
 
             <thead>
 
@@ -563,7 +570,7 @@ Additional Information
             </tbody>
 
         </table>
-
+</div>
     </div>
 
 </div>
