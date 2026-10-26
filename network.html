@@ -290,15 +290,13 @@ body{
 }
 .network-table td{
 
-    padding:12px;
+    padding:10px;
 
     border-bottom:1px solid #e5e7eb;
 
     vertical-align:top;
 
-    line-height:1.5;
-
-    overflow:hidden;
+    line-height:1.4;
 }
 /* LEVEL BADGES */
 
@@ -306,11 +304,11 @@ body{
 
     display:inline-block;
 
-    padding:5px 12px;
+    padding:4px 10px;
 
     border-radius:20px;
 
-    font-size:12px;
+    font-size:11px;
 
     font-weight:700;
 }
@@ -783,89 +781,92 @@ async function loadNetwork(){
 
                 tableBody.innerHTML +=
 
-                `
-                <tr>
+`
+<tr>
 
-                    <td>
+    <td>
 
-                        <span class="level-badge">
+        <span class="level-badge level-${level.toLowerCase()}">
 
-                            ${level}
+            ${level}
 
-                        </span>
+        </span>
 
-                    </td>
+    </td>
 
-                    <td>
+    <td>
 
-                        ${member.first_name}
-                        ${member.last_name}
+        ${member.first_name || ""}
+        <br>
+        ${member.last_name || ""}
 
-                    </td>
+    </td>
 
-                    <td>
+    <td>
 
-                        ${member.professional_status || "-"}
+        ${member.professional_status || "-"}
 
-                    </td>
+    </td>
 
-                    <td>
+    <td>
 
-                        ${member.company || "-"}
+        ${member.company || "-"}
 
-                        <br>
+        <br>
 
-                        ${member.role || "-"}
+        ${member.role || "-"}
 
-                    </td>
-<td>
+    </td>
 
-${member.city || ""}
+    <td>
 
-${member.state
-    ? ", " + member.state
-    : ""}
+        ${member.city || ""}
 
-${
-    member.country === "United States"
-    ? ", USA"
-    : member.country
-        ? ", " + member.country
-        : ""
-}
+        ${member.state
+            ? ", " + member.state
+            : ""}
 
-<br><br>
+        ${
+            member.country === "United States"
+            ? ", USA"
+            : member.country
+                ? ", " + member.country
+                : ""
+        }
 
-${
-    member.share_email === true ||
-    member.share_email === "true"
+        <br><br>
 
-    ? "📧 " + member.email
+        ${
+            member.share_email === true ||
+            member.share_email === "true"
 
-    : "🔒 Email Protected"
-}
+            ? "📧 " + member.email
 
-</td>
+            : "🔒 Email Protected"
+        }
 
-    ${member.support_types || "-"}
+    </td>
 
-</td>
+    <td>
 
-                    <td>
+        ${member.support_types || "-"}
 
-                        ${member.support_seeking || "-"}
+    </td>
 
-                    </td>
+    <td>
 
-                    <td>
+        ${member.support_seeking || "-"}
 
-                        ${member.comments || "-"}
+    </td>
 
-                    </td>
+    <td>
 
-                </tr>
-                `;
+        ${member.comments || "-"}
 
+    </td>
+
+</tr>
+`;
             }
 
         }
