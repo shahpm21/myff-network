@@ -24,34 +24,47 @@ button,input{font:inherit}
 .header-buttons{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px}
 .header-btn{border:1px solid var(--navy);border-radius:10px;padding:9px 15px;background:var(--navy);color:#fff;font-size:14px;font-weight:650;white-space:nowrap;cursor:pointer;transition:background .18s ease}
 .header-btn:hover{background:#0b6597;border-color:#0b6597}
-.header-btn:focus-visible,.search-panel input:focus-visible{outline:3px solid rgba(14,165,233,.35);outline-offset:2px}
+.header-btn:focus-visible,
+    .search-panel input:focus-visible{outline:3px solid rgba(14,165,233,.35);outline-offset:2px}
 .container{width:min(100% - 32px,1500px);margin:26px auto 40px}
-.page-title{margin-bottom:20px}
-.page-title h1{color:var(--navy);font-size:clamp(28px,3vw,36px);line-height:1.2;letter-spacing:-.5px;margin-bottom:6px}
-.page-title p{color:var(--muted);font-size:16px}
-.stats-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:22px}
-.stat-card{min-width:0;padding:17px 16px;background:var(--surface);border-top:4px solid var(--blue);border-radius:15px;text-align:center;box-shadow:0 5px 16px rgba(16,42,67,.05)}
-.stat-number{color:var(--navy);font-size:30px;font-weight:750;line-height:1.2}
-.stat-label{color:var(--muted);margin-top:6px;font-size:14px}
+.page-title{ margin-bottom:12px;}
+.page-title h1{ color:var(--navy); font-size:32px;   line-height:1.1;    margin-bottom:2px;}
+.page-title p{    color:var(--muted);    font-size:13px;}
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:10px;
+    margin-bottom:14px;
+}
+
+.stat-card{
+    min-width:0;
+    padding:10px;
+.stat-number{color:var(--navy);font-size:24px;font-weight:750;line-height:1.2}
+.stat-label{color:var(--muted);margin-top:2px;font-size:12px}
 .card{min-width:0;padding:clamp(16px,2vw,24px);background:var(--surface);border:1px solid #edf2f7;border-radius:17px;box-shadow:0 5px 18px rgba(16,42,67,.045)}
 .card h2{color:var(--navy);font-size:23px;margin-bottom:14px}
 .search-panel{margin-bottom:16px}
 .search-panel input{display:block;width:100%;min-width:0;padding:12px 15px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:var(--text);font-size:15px}
 .search-panel input::placeholder{color:#718096}
 .table-wrapper{width:100%;max-width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:10px;-webkit-overflow-scrolling:touch}
-.network-table{width:100%;min-width:1120px;table-layout:fixed;border-collapse:separate;border-spacing:0;font-size:13px}
+.network-table{
+    width:100%;
+    table-layout:fixed;
+}
+    
 .network-table th{background:var(--blue-soft);color:var(--navy);text-align:left;font-weight:700;padding:12px 11px;border-bottom:2px solid #dbeafe;vertical-align:top;white-space:normal;overflow-wrap:anywhere}
 .network-table td{padding:11px;border-bottom:1px solid #e5e7eb;vertical-align:top;line-height:1.45;white-space:normal;overflow-wrap:anywhere;word-break:normal}
 .network-table tbody tr:last-child td{border-bottom:0}
 .network-table tbody tr:hover{background:#f8fbff}
 .network-table th:nth-child(1),.network-table td:nth-child(1){width:72px}
-.network-table th:nth-child(2),.network-table td:nth-child(2){width:130px}
-.network-table th:nth-child(3),.network-table td:nth-child(3){width:135px}
-.network-table th:nth-child(4),.network-table td:nth-child(4){width:160px}
-.network-table th:nth-child(5),.network-table td:nth-child(5){width:185px}
+.network-table th:nth-child(2),.network-table td:nth-child(2){width:110px}
+.network-table th:nth-child(3),.network-table td:nth-child(3){width:110px}
+.network-table th:nth-child(4),.network-table td:nth-child(4){width:150px}
+.network-table th:nth-child(5),.network-table td:nth-child(5){width:160px}
 .network-table th:nth-child(6),.network-table td:nth-child(6){width:175px}
 .network-table th:nth-child(7),.network-table td:nth-child(7){width:175px}
-.network-table th:nth-child(8),.network-table td:nth-child(8){width:220px}
+.network-table th:nth-child(8),.network-table td:nth-child(8){width:200px}
 .level-badge{display:inline-block;padding:4px 9px;border-radius:20px;font-size:11px;font-weight:750;white-space:nowrap}
 .level-l1{background:#dcfce7;color:#166534}.level-l2{background:#fef3c7;color:#92400e}.level-l3{background:#ede9fe;color:#6d28d9}
 .empty{text-align:center;padding:28px;color:var(--muted)}
@@ -520,15 +533,29 @@ async function loadNetwork(){
 
     </td>
 
-    <td>
+  <td>
+
+    <div style="
+        font-weight:700;
+        color:#12355b;
+        margin-bottom:2px;
+    ">
 
         ${escapeHtml(member.company || "-")}
 
-        <br>
+    </div>
+
+    <div style="
+        color:#64748b;
+        font-size:12px;
+        line-height:1.4;
+    ">
 
         ${escapeHtml(member.role || "-")}
 
-    </td>
+    </div>
+
+</td>
 
     <td>
 
