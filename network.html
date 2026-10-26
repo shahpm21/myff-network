@@ -27,7 +27,7 @@ button,input{font:inherit}
 .header-btn:focus-visible,.search-panel input:focus-visible{outline:3px solid rgba(14,165,233,.35);outline-offset:2px}
 .container{width:min(100% - 32px,1500px);margin:18px auto 32px}
 .page-title{margin-bottom:12px}
-.page-title h1{color:var(--navy);font-size:clamp(24px,2.4vw,30px);line-height:1.2;letter-spacing:-.45px;margin-bottom:3px}
+.page-title h1{color:var(--navy);font-size:clamp(20px,2.4vw,30px);line-height:1.2;letter-spacing:-.45px;margin-bottom:3px}
 .page-title p{color:var(--muted);font-size:14px}
 .stats-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px}
 .stat-card{min-width:0;padding:10px 14px;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:10px;text-align:left;box-shadow:0 2px 7px rgba(16,42,67,.035);display:flex;align-items:center;gap:11px}
@@ -37,7 +37,20 @@ button,input{font:inherit}
 .card h2{color:var(--navy);font-size:19px;margin-bottom:10px}
 .search-panel{margin-bottom:12px;position:relative}
 .search-panel input{display:block;width:100%;min-width:0;padding:10px 42px 10px 38px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:var(--text);font-size:14px;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}.search-panel input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,.12);background:#fcfeff}
-.search-panel input::placeholder{color:#718096}.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#718096;pointer-events:none;font-size:15px}.clear-search{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;border-radius:7px;padding:4px 8px;background:transparent;color:#64748b;cursor:pointer;font-size:12px;display:none}.clear-search:hover{background:#eff6ff;color:var(--navy)}.company-name{display:block;color:#12355b;font-weight:750;font-size:13px;line-height:1.35}.role-name{display:inline-block;margin-top:5px;padding:3px 7px;border-radius:5px;background:#f1f5f9;color:#475569;font-size:12px;line-height:1.35;border:1px solid #e2e8f0}.network-table tbody tr{transition:background .15s ease}.search-status{font-size:12px;color:var(--muted);margin:-4px 0 9px;min-height:0}.search-status:empty{display:none}
+.search-panel input::placeholder{color:#718096}.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#718096;pointer-events:none;font-size:15px}.clear-search{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;border-radius:7px;padding:4px 8px;background:transparent;color:#64748b;cursor:pointer;font-size:12px;display:none}.clear-search:hover{background:#eff6ff;color:var(--navy)}.company-name{display:block;color:#12355b;font-weight:750;font-size:13px;line-height:1.35}
+.role-name {
+    display: block;
+    margin-top: 3px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
 .table-wrapper{width:100%;max-width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:10px;-webkit-overflow-scrolling:touch}
 .network-table{width:100%;min-width:1120px;table-layout:fixed;border-collapse:separate;border-spacing:0;font-size:13px}
 .network-table th{background:var(--blue-soft);color:var(--navy);text-align:left;font-weight:700;padding:12px 11px;border-bottom:2px solid #dbeafe;vertical-align:top;white-space:normal;overflow-wrap:anywhere}
