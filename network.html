@@ -835,23 +835,15 @@ clearNetworkSearch.addEventListener("click", () => {
     networkSearch.focus();
 });
 loadNetwork();
-document
-.getElementById(
-    "logoutBtn"
-)
-.addEventListener(
-    "click",
-    async function(){
-
-        await account.deleteSession(
-            "current"
-        );
-
-        window.location.href =
-            "login.html";
-
+document.getElementById("logoutBtn")?.addEventListener("click", async () => {
+    try {
+        await account.deleteSession("current");
+        window.location.href = "login.html";
+    } catch (error) {
+        console.error("Logout failed:", error);
+        alert("Logout failed. Please try again.");
     }
-);
+});
     
 </script>
 
