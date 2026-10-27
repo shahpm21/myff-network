@@ -835,7 +835,24 @@ clearNetworkSearch.addEventListener("click", () => {
     networkSearch.focus();
 });
 loadNetwork();
+document
+.getElementById(
+    "logoutBtn"
+)
+.addEventListener(
+    "click",
+    async function(){
 
+        await account.deleteSession(
+            "current"
+        );
+
+        window.location.href =
+            "login.html";
+
+    }
+);
+    
 </script>
 
 </body>
