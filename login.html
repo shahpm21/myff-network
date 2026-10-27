@@ -32,18 +32,15 @@ body{
         #1f4e79
     );
 
-    color:white;
-
-    padding:12px 28px;
+    padding:10px 28px;
 
     display:flex;
 
-    justify-content:space-between;
-
     align-items:center;
 
-    box-shadow:
-        0 4px 20px rgba(0,0,0,.15);
+    justify-content:space-between;
+
+    min-height:68px;
 }
 .brand{
 
@@ -51,61 +48,72 @@ body{
 
     align-items:center;
 
-    gap:14px;
-}
-      .logo-icon{
-
-    width:48px;
-
-    height:48px;
-
-    object-fit:contain;
+    gap:12px;
 }
 
-.tagline{
+.brand-text{
 
-    color:#dbeafe;
+    display:flex;
 
-    font-size:12px;
-
-    letter-spacing:.2px;
-
-    margin-top:2px;
+    flex-direction:column;
 }
 .logo{
 
     display:flex;
 
-    align-items:baseline;
+    align-items:flex-end;
 
-    gap:0;
-
-    font-weight:800;
+    line-height:1;
 }
 
 .logo-refer{
 
     color:white;
 
-    font-size:42px;
+    font-size:28px;
+
+    font-weight:800;
 }
+
 
 .logo-me{
 
     color:#8BC53F;
 
-    font-size:42px;
-}
+    font-size:28px;
 
+    font-weight:800;
+}
+      .tagline{
+
+    color:#dbeafe;
+
+    font-size:11px;
+
+    margin-top:3px;
+
+    letter-spacing:.3px;
+}
+.logo-icon{
+
+    width:44px;
+
+    height:44px;
+
+    flex-shrink:0;
+
+    object-fit:contain;
+}
+      
 .logo-network{
 
     color:#dbeafe;
 
-    font-size:28px;
+    font-size:22px;
 
     font-weight:600;
 
-    margin-left:10px;
+    margin-left:8px;
 }
 
 .header-buttons{
@@ -498,21 +506,58 @@ input:focus{
 <body>
 
 <div class="header">
-<div class="brand">
 
-    <img src="handlogo.png"
-         class="logo-icon">
+    <div class="brand">
 
-    <div class="brand-text">
+        <img
+            src="handlogo.png"
+            class="logo-icon"
+            alt="ReferMe Network">
 
-        <div class="logo">
-            <span class="logo-refer">Refer</span><span class="logo-me">Me</span>
-            <span class="logo-network">Network</span>
+        <div class="brand-text">
+
+            <div class="logo">
+
+                <span class="logo-refer">Refer</span><span class="logo-me">Me</span>
+
+                <span class="logo-network">
+                    Network
+                </span>
+
+            </div>
+
+            <div class="tagline">
+
+                Connected by Trust • Growing Together
+
+            </div>
+
         </div>
 
-        <div class="tagline">
-           Connected by Trust • Grow Together
-        </div>
+    </div>
+
+    <div class="header-buttons">
+
+        <button
+            class="header-btn">
+
+            About
+
+        </button>
+
+        <button
+            class="header-btn">
+
+            Login
+
+        </button>
+
+        <button
+            class="header-btn active-btn">
+
+            Join Network
+
+        </button>
 
     </div>
 
