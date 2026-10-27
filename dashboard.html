@@ -32,27 +32,25 @@ body {
     line-height: 1.5;
 }
 button { font: inherit; }
-.header{
 
-    background:
-    linear-gradient(
-        135deg,
-        #12355b,
-        #1f4e79
-    );
-
-    color:white;
-
-    padding:8px 24px;
-
-    min-height:60px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
+.header {
+    background: linear-gradient(135deg, #12355b, #1f4e79);
+    color: white;
+    padding: 8px 24px;
+    min-height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
 }
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
 
 .logo{
 
@@ -70,12 +68,7 @@ button { font: inherit; }
     margin-top:2px;
 }
 
-.header-buttons{
 
-    display:flex;
-
-    gap:10px;
-}
 
 .header-btn{
 
@@ -179,28 +172,50 @@ button { font: inherit; }
     .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .dashboard-grid { grid-template-columns: 1fr; }
 }
+
+.brand {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    min-width: 0;
+}
+
+.brand-logo {
+    height: 42px;
+    width: auto;
+    max-width: 220px;
+    object-fit: contain;
+    display: block;
+}
+
+@media (max-width: 900px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 640px) {
-    .header { align-items: flex-start; flex-direction: column; gap: 8px; }
-    
-  .brand{
+    .header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
 
-    display:flex;
+    .brand-logo {
+        height: 36px;
+        max-width: 200px;
+    }
 
-    align-items:center;
-
-    flex:0 0 auto;
+    .header-buttons {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
 }
 
-.brand-logo{
-
-    height:42px;
-
-    width:auto;
-
-    max-width:320px;
-
-    display:block;
-}
 </style>
 
 </head>
