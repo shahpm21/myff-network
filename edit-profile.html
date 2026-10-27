@@ -278,18 +278,23 @@ textarea{
 
     border:2px solid #12355b;
 }
-@media(max-width:768px){
-
-    .grid{
-        grid-template-columns:1fr;
+@media (max-width: 1050px) {
+    .header {
+        height: auto;
+        min-height: 90px;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px 16px;
     }
 
-    .personal-grid{
-        grid-template-columns:1fr;
+    .brand-logo {
+        height: 95px;
+        max-width: 88vw;
     }
 
-    .checkbox-grid{
-        grid-template-columns:1fr;
+    .header-buttons {
+        justify-content: flex-start;
     }
 }
 
@@ -343,26 +348,32 @@ textarea:focus{
     color:#64748b;
 }
 
-.header{
-
-    background:
-    linear-gradient(
-        135deg,
-        #12355b,
-        #1f4e79
-    );
-
-    color:white;
-
-    padding:14px 30px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
+.header {
+    background: linear-gradient(135deg, #12355b, #1f4e79);
+    color: white;
+    padding: 4px 24px;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+.brand {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    min-width: 0;
 }
 
+.brand-logo {
+    display: block;
+    height: 120px;
+    width: auto;
+    max-width: 550px;
+    object-fit: contain;
+    object-position: left center;
+}
+    
 .logo{
 
     font-size:24px;
@@ -379,37 +390,34 @@ textarea:focus{
     margin-top:2px;
 }
 
-.header-buttons{
-
-    display:flex;
-
-    gap:10px;
-
-    flex-wrap:wrap;
+.header-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
-.header-btn{
-
-    background:white;
-
-    color:#12355b;
-
-    border:none;
-
-    padding:12px 20px;
-
-    border-radius:16px;
-
-    font-weight:600;
-
-    cursor:pointer;
+.header-btn {
+    background: white;
+    color: #12355b;
+    border: none;
+    padding: 9px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 650;
+    white-space: nowrap;
+    cursor: pointer;
 }
 
-.header-btn:hover{
-
-    background:#f8fafc;
+.header-btn:hover {
+    background: #eaf4ff;
 }
 
+.header-btn:focus-visible {
+    outline: 3px solid rgba(14, 165, 233, .4);
+    outline-offset: 2px;
+}
 .active-btn{
 
     background:#dbeafe;
@@ -455,50 +463,27 @@ textarea:focus{
 <body>
 
 <div class="header">
-
-    <div>
-
-        <div class="logo">
-            MyFF Network
-        </div>
-
-        <div class="logo-small">
-            My Friends & Family Network
-        </div>
-
+    <div class="brand">
+        <img
+            src="ReferG_bg_removed.png.png"
+            alt="ReferMe Network"
+            class="brand-logo"
+        >
     </div>
 
     <div class="header-buttons">
-
-        <button
-            class="header-btn"
+        <button class="header-btn"
             onclick="window.location.href='dashboard.html'">
-
             Dashboard
-
         </button>
-
-        <button
-            class="header-btn"
+ <button class="header-btn"
             onclick="window.location.href='network.html'">
-
             My Network
-
         </button>
 
-        <button
-            class="header-btn active-btn">
-
-            Edit Profile
-
-        </button>
-
-        <button
-            class="header-btn"
-            onclick="window.location.href='login.html'">
-
+      
+       <button class="header-btn" id="logoutBtn">
             Logout
-
         </button>
 
     </div>
