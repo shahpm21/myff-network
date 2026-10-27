@@ -33,15 +33,49 @@ body{
     );
 
     color:white;
-    padding:14px 30px;
+
+    padding:12px 28px;
+
     display:flex;
-    justify-content:flex-start;
+
+    justify-content:space-between;
+
     align-items:center;
+
+    box-shadow:
+        0 4px 20px rgba(0,0,0,.15);
 }
 
 .logo{
+
+    font-size:30px;
+
+    font-weight:800;
+
+    letter-spacing:-0.5px;
+
+    color:#ffffff;
+
+    line-height:1;
+}
+
+.logo-me{
+
+    color:#8BC53F;
+
+    text-shadow:
+        0 0 8px rgba(139,197,63,.35);
+}
+
+.logo-network{
+
+    color:#dbeafe;
+
     font-size:24px;
-    font-weight:700;
+
+    font-weight:600;
+
+    margin-left:4px;
 }
 
 .logo-small{
@@ -62,11 +96,11 @@ body{
 
 .header-btn{
 
-    background:white;
+    background:rgba(255,255,255,.12);
 
-    color:#12355b;
+    color:white;
 
-    border:none;
+    border:1px solid rgba(255,255,255,.20);
 
     padding:10px 14px;
 
@@ -75,8 +109,23 @@ body{
     font-weight:600;
 
     cursor:pointer;
+
+    backdrop-filter:blur(4px);
 }
 
+.header-btn:hover{
+
+    background:rgba(255,255,255,.20);
+}
+
+      .active-btn{
+
+    background:#8BC53F !important;
+
+    color:#12355b !important;
+
+    border-color:#8BC53F !important;
+}
 .container{
 
     max-width:1200px;
@@ -431,9 +480,15 @@ input:focus{
 
     <div>
 
-        <div class="logo">
-            referMeNetwork
-        </div>
+   <div class="logo">
+
+    refer<span class="logo-me">Me</span>
+
+    <span class="logo-network">
+        Network
+    </span>
+
+</div>>
 
         <div class="logo-small">
             Trusted Connections - Grow Togather
