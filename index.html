@@ -24,36 +24,62 @@ body{
 .header{
 
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
 
-    padding:24px 60px;
+    padding:16px 40px;
 
-    background:white;
+    background:
+    linear-gradient(
+        135deg,
+        #12355b,
+        #1f4e79
+    );
 
-    border-bottom:1px solid #edf2f7;
+    border-bottom:none;
+
+    box-shadow:
+        0 4px 20px rgba(0,0,0,.12);
 
     position:sticky;
+
     top:0;
+
     z-index:100;
 }
 
 .logo{
 
     font-size:32px;
+
     font-weight:800;
-    color:#12355b;
+
+    letter-spacing:-0.5px;
+
+    color:#ffffff;
+
+    line-height:1;
 }
 
-.logo small{
+.logo-me{
 
-    display:block;
+    color:#8BC53F;
 
-    font-size:11px;
+    text-shadow:
+        0 0 8px rgba(139,197,63,.35);
+}
 
-    color:#64748b;
+.logo-network{
 
-    margin-top:2px;
+    color:#dbeafe;
+
+    font-size:26px;
+
+    font-weight:600;
+
+    margin-left:4px;
 }
 
 .nav{
@@ -67,20 +93,27 @@ body{
 
     text-decoration:none;
 
-    color:#12355b;
+    color:white;
 
     font-weight:600;
 }
 
 .join-btn{
 
-    background:#12355b;
+    background:#8BC53F;
 
-    color:white !important;
+    color:#12355b !important;
+
+    font-weight:700;
 
     padding:12px 22px;
 
     border-radius:10px;
+}
+
+.join-btn:hover{
+
+    background:#9BC836;
 }
 
 /* HERO */
@@ -357,9 +390,11 @@ body{
 
 .login-btn{
 
-    border:2px solid #12355b;
+    border:1px solid rgba(255,255,255,.35);
 
-    color:#12355b !important;
+    color:white !important;
+
+    background:rgba(255,255,255,.10);
 
     padding:10px 18px;
 
@@ -370,9 +405,7 @@ body{
 
 .login-btn:hover{
 
-    background:#12355b;
-
-    color:white !important;
+    background:rgba(255,255,255,.20);
 }
 
 </style>
@@ -385,15 +418,14 @@ body{
 
 <div class="logo">
 
-MyFF Network
+    refer<span class="logo-me">Me</span>
 
-<small>
-
-My Friends & Family Network
-
-</small>
+    <span class="logo-network">
+        Network
+    </span>
 
 </div>
+
 
 <nav class="nav">
 
