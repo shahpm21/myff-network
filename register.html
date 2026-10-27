@@ -9,7 +9,7 @@
 name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Create MyFF Account</title>
+<title>Join ReferMe Network</title>
 
 <style>
 
@@ -24,7 +24,6 @@ body{
     background:#f8fafc;
     color:#102a43;
 }
-
 .hero{
 
     background:
@@ -36,41 +35,91 @@ body{
 
     color:white;
 
-    text-align:center;
+    padding:18px 24px;
 
-    padding:28px 20px;
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
 }
 
-.hero h1{
+.brand{
 
-    font-size:30px;
+    display:flex;
 
-    margin-bottom:6px;
+    align-items:center;
 
-    font-weight:700;
+    gap:12px;
 }
 
-.hero h2{
+.logo-icon{
 
-    font-size:15px;
+    width:44px;
+
+    height:44px;
+
+    object-fit:contain;
+
+    flex-shrink:0;
+}
+
+.brand-text{
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+.logo{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    line-height:1;
+}
+
+.logo-refer{
+
+    color:white;
+
+    font-size:28px;
+
+    font-weight:800;
+}
+
+.logo-me{
+
+    color:#8BC53F;
+
+    font-size:28px;
+
+    font-weight:800;
+}
+
+.logo-network{
 
     color:#dbeafe;
 
-    font-weight:400;
+    font-size:22px;
 
-    margin-bottom:8px;
+    font-weight:600;
+
+    margin-left:8px;
 }
 
-.hero p{
+.tagline{
 
-    font-size:13px;
+    color:#dbeafe;
 
-    line-height:1.6;
+    font-size:11px;
 
-    max-width:700px;
+    margin-top:3px;
 
-    margin:auto;
+    letter-spacing:.3px;
 }
+
 
 .container{
 
@@ -295,14 +344,52 @@ textarea:focus{
 
 <div class="hero">
 
-<h1>
-Create MyFF Account
-</h1>
+    <div class="brand">
 
-<h2>
-My Friends & Family Network
-</h2>
+        <img
+            src="handlogo.png"
+            class="logo-icon"
+            alt="ReferMe Network">
 
+        <div class="brand-text">
+
+            <div class="logo">
+
+                <span class="logo-refer">Refer</span><span class="logo-me">Me</span>
+
+                <span class="logo-network">
+                    Network
+                </span>
+
+            </div>
+
+            <div class="tagline">
+
+                Connected by Trust • Growing Together
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+    <div class="container">
+
+    <div class="card">
+
+        <h2>
+            Join ReferMe Network
+        </h2>
+
+        <p class="note">
+
+            Create your profile, connect with trusted professionals,
+            and grow your network through meaningful introductions.
+
+        </p>
+
+    </div>
 <p>
 Tell us about yourself, your professional interests,
 and how you'd like to connect with the community.
@@ -825,7 +912,7 @@ id="share_email">
 
 <label for="share_email">
 
-I consent to sharing my email address with MyFF members.
+I consent to sharing my email address with referMe Network members.
 
 </label>
 
@@ -928,7 +1015,7 @@ required>
 
 <label for="consent_participate">
 
-I understand that the information I provide may be shared with MyFF members for networking, mentoring, opportunities, introductions, education, collaboration and mutual support.
+I understand that the information I provide may be shared with referMe Network members for networking, mentoring, opportunities, introductions, education, collaboration and mutual support.
 
 </label>
 
@@ -942,7 +1029,7 @@ I understand that the information I provide may be shared with MyFF members for 
 class="btn"
 type="submit">
 
-Create MyFF Account
+Create referMe Network Account
 
 </button>
 
@@ -1116,7 +1203,7 @@ document
         ){
 
             alert(
-                "Inviter phone number was not found in MyFF Network. Please verify the inviter information."
+                "Inviter phone number was not found in referMe Network. Please verify the inviter information."
             );
 
             return;
