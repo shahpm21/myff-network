@@ -48,34 +48,38 @@ body{
 
 .logo{
 
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
     font-size:30px;
 
     font-weight:800;
 
-    letter-spacing:-0.5px;
+    color:white;
+}
 
-    color:#ffffff;
+.logo-icon{
 
-    line-height:1;
+    width:40px;
+
+    height:40px;
+
+    object-fit:contain;
 }
 
 .logo-me{
 
     color:#8BC53F;
-
-    text-shadow:
-        0 0 8px rgba(139,197,63,.35);
 }
 
 .logo-network{
 
     color:#dbeafe;
 
-    font-size:24px;
-
     font-weight:600;
-
-    margin-left:4px;
 }
 
 .logo-small{
@@ -481,7 +485,7 @@ input:focus{
     <div>
 
    <div class="logo">
-
+ <img src="handlogo.png" class="logo-icon">
     refer<span class="logo-me">Me</span>
 
     <span class="logo-network">
