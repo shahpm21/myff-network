@@ -45,50 +45,67 @@ body{
     box-shadow:
         0 4px 20px rgba(0,0,0,.15);
 }
-
-.logo{
+.brand{
 
     display:flex;
 
     align-items:center;
 
-    gap:10px;
-
-    font-size:30px;
-
-    font-weight:800;
-
-    color:white;
+    gap:14px;
 }
+      .logo-icon{
 
-.logo-icon{
+    width:48px;
 
-    width:40px;
-
-    height:40px;
+    height:48px;
 
     object-fit:contain;
+}
+
+.tagline{
+
+    color:#dbeafe;
+
+    font-size:12px;
+
+    letter-spacing:.2px;
+
+    margin-top:2px;
+}
+.logo{
+
+    display:flex;
+
+    align-items:baseline;
+
+    gap:0;
+
+    font-weight:800;
+}
+
+.logo-refer{
+
+    color:white;
+
+    font-size:42px;
 }
 
 .logo-me{
 
     color:#8BC53F;
+
+    font-size:42px;
 }
 
 .logo-network{
 
     color:#dbeafe;
 
+    font-size:28px;
+
     font-weight:600;
-}
 
-.logo-small{
-
-    font-size:11px;
-
-    color:#dbeafe;
-
-    margin-top:2px;
+    margin-left:10px;
 }
 
 .header-buttons{
@@ -481,17 +498,20 @@ input:focus{
 <body>
 
 <div class="header">
+<div class="brand">
 
-    <div>
+    <img src="handlogo.png"
+         class="logo-icon">
 
-   <div class="logo">
- <img src="handlogo.png" class="logo-icon">
-    refer<span class="logo-me">Me</span>
-    <span class="logo-network"> Network</span>
-</div>
+    <div class="brand-text">
 
-        <div class="logo-small">
-            Trusted Connections - Grow Togather
+        <div class="logo">
+            <span class="logo-refer">Refer</span><span class="logo-me">Me</span>
+            <span class="logo-network">Network</span>
+        </div>
+
+        <div class="tagline">
+           Connected by Trust • Grow Together
         </div>
 
     </div>
