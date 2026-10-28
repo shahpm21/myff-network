@@ -240,9 +240,14 @@ body{
 
     justify-content:center;
 }
-
+.tree-root{
+    list-style:none;
+    padding-left:0;
+}
 .tree ul{
-
+border-left:2px solid #cbd5e1;
+    margin-left:25px;
+    padding-left:20px;
     padding-top:20px;
 
     position:relative;
@@ -257,7 +262,7 @@ body{
     text-align:center;
 
     list-style:none;
-
+margin:10px 0;
     position:relative;
 
     padding:20px 5px 0 5px;
@@ -510,9 +515,10 @@ body{
 const {
     Client,
     Account,
-    Databases,
-    Query
+    Databases
 } = Appwrite;
+
+/* APPWRITE */
 
 const client = new Client();
 
@@ -539,57 +545,331 @@ const PROFILES_COLLECTION_ID =
 const CONNECTIONS_COLLECTION_ID =
     "Connections";
 
-function getConnectedUserId(
-    connection,
-    myUserId
+/* HELPERS */
+
+function getProfileName(profile){
+
+    if(!profile){
+        return "Unknown User";
+    }
+
+    return (
+        `${profile.first_name || ""}
+         ${profile.last_name || ""}`
+    )
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+/* BUILD BIDIRECTIONAL GRAPH */
+
+function buildGraph(connections){
+
+    const graph = {};
+
+    connections.forEach(connection => {
+
+        const from =
+            connection.from_user_id;
+
+        const to =
+            connection.to_user_id;
+
+        if(!graph[from]){
+            graph[from] = [];
+        }
+
+        if(!graph[to]){
+            graph[to] = [];
+        }
+
+        graph[from].push(to);
+
+        graph[to].push(from);
+
+    });
+
+    return graph;
+}
+
+/* BUILD BFS TREE */
+
+function buildTree(
+    rootUserId,
+    graph
+){
+
+    const tree = {};
+
+    const visited =
+        new Set();
+
+    const queue = [];
+
+    visited.add(
+        rootUserId
+    );
+
+    queue.push(
+        rootUserId
+    );
+
+    while(
+        queue.length > 0
+    ){
+
+        const current =
+            queue.shift();
+
+        const neighbors =
+            graph[current] || [];
+
+        neighbors.forEach(
+            neighbor => {
+
+                if(
+                    !visited.has(
+                        neighbor
+                    )
+                ){
+
+                    visited.add(
+                        neighbor
+                    );
+
+                    queue.push(
+                        neighbor
+                    );
+
+                    if(
+                        !tree[current]
+                    ){
+                        tree[current] = [];
+                    }
+
+                    tree[current]
+                        .push(
+                            neighbor
+                        );
+
+                }
+
+            }
+        );
+
+    }
+
+    return tree;
+}
+
+/* DETERMINE LEVEL */
+
+function getLevel(
+    rootId,
+    targetId,
+    tree
 ){
 
     if(
-        connection.from_user_id ===
-        myUserId
+        rootId === targetId
     ){
-        return connection.to_user_id;
+        return 0;
     }
 
-    return connection.from_user_id;
+    const queue = [
+
+        {
+            id:rootId,
+            level:0
+        }
+
+    ];
+
+    const visited =
+        new Set();
+
+    visited.add(
+        rootId
+    );
+
+    while(
+        queue.length > 0
+    ){
+
+        const current =
+            queue.shift();
+
+        const children =
+            tree[current.id] || [];
+
+        for(
+            const child
+            of children
+        ){
+
+            if(
+                child === targetId
+            ){
+
+                return current.level + 1;
+            }
+
+            if(
+                !visited.has(child)
+            ){
+
+                visited.add(
+                    child
+                );
+
+                queue.push({
+
+                    id:child,
+
+                    level:
+                    current.level + 1
+
+                });
+
+            }
+
+        }
+
+    }
+
+    return 3;
+
 }
 
-function getProfileName(
-    profile
-){
+/* CSS CLASS */
 
-    if(!profile)
-        return "Unknown";
+function getNodeClass(level){
 
-    return (
-        (profile.first_name || "")
-        + " "
-        + (profile.last_name || "")
-    ).trim();
+    if(level === 0){
+        return "l0";
+    }
+
+    if(level === 1){
+        return "l1";
+    }
+
+    if(level === 2){
+        return "l2";
+    }
+
+    return "l3";
 
 }
 
-function buildNode(
-    label,
-    cssClass
+/* RENDER TREE */
+
+function renderTreeNode(
+
+    userId,
+
+    tree,
+
+    profileMap,
+
+    rootUserId
+
 ){
 
-    return `
-        <li>
+    const level =
+        getLevel(
 
-            <div class="node ${cssClass}">
+            rootUserId,
 
-                ${label}
+            userId,
 
-                <small>
-                    ${cssClass.toUpperCase()}
-                </small>
+            tree
 
-            </div>
+        );
 
-        </li>
+    const cssClass =
+        getNodeClass(
+            level
+        );
+
+    const profile =
+        profileMap[userId];
+
+    const name =
+        getProfileName(
+            profile
+        );
+
+    let badge = "L3";
+
+    if(level === 0){
+        badge = "YOU";
+    }
+    else if(level === 1){
+        badge = "L1";
+    }
+    else if(level === 2){
+        badge = "L2";
+    }
+
+    let html =
+
+    `
+    <li>
+
+        <div
+            class="node ${cssClass}">
+
+            ${name}
+
+            <small>
+
+                ${badge}
+
+            </small>
+
+        </div>
     `;
+
+    const children =
+        tree[userId] || [];
+
+    if(
+        children.length > 0
+    ){
+
+        html += "<ul>";
+
+        children.forEach(
+            child => {
+
+                html +=
+
+                    renderTreeNode(
+
+                        child,
+
+                        tree,
+
+                        profileMap,
+
+                        rootUserId
+
+                    );
+
+            }
+        );
+
+        html += "</ul>";
+
+    }
+
+    html += "</li>";
+
+    return html;
+
 }
+
+/* LOAD TREE */
 
 async function loadRelationshipTree(){
 
@@ -598,275 +878,83 @@ async function loadRelationshipTree(){
         const user =
             await account.get();
 
-        const container =
+        const treeContainer =
             document.getElementById(
                 "treeContainer"
             );
 
-        container.innerHTML =
-            "Loading network...";
+        treeContainer.innerHTML =
+            "Loading relationship tree...";
 
         const profilesResult =
             await databases.listDocuments(
+
                 DATABASE_ID,
+
                 PROFILES_COLLECTION_ID
+
             );
 
         const connectionsResult =
             await databases.listDocuments(
+
                 DATABASE_ID,
+
                 CONNECTIONS_COLLECTION_ID
+
             );
 
-        const profiles =
-            profilesResult.documents;
+        const profileMap =
+            {};
 
-        const connections =
-            connectionsResult.documents;
-
-        const profileMap = {};
-
-        profiles.forEach(
-            p => {
+        profilesResult.documents.forEach(
+            profile => {
 
                 profileMap[
-                    p.user_id
-                ] = p;
+                    profile.user_id
+                ] = profile;
 
             }
         );
 
-        const myProfile =
-            profileMap[
-                user.$id
-            ];
+        const graph =
+            buildGraph(
 
-        /* L1 */
+                connectionsResult.documents
 
-        const l1Ids =
-            new Set();
+            );
 
-        connections.forEach(
-            c => {
+        const tree =
+            buildTree(
 
-                if(
-                    c.from_user_id === user.$id
-                    ||
-                    c.to_user_id === user.$id
-                ){
+                user.$id,
 
-                    l1Ids.add(
-                        getConnectedUserId(
-                            c,
-                            user.$id
-                        )
-                    );
+                graph
 
-                }
+            );
 
-            }
-        );
-
-        /* L2 */
-
-        const l2Ids =
-            new Set();
-
-        connections.forEach(
-            c => {
-
-                l1Ids.forEach(
-                    l1User => {
-
-                        if(
-
-                            c.from_user_id === l1User
-                            ||
-                            c.to_user_id === l1User
-
-                        ){
-
-                            const nextUser =
-                                getConnectedUserId(
-                                    c,
-                                    l1User
-                                );
-
-                            if(
-                                nextUser !== user.$id
-                                &&
-                                !l1Ids.has(
-                                    nextUser
-                                )
-                            ){
-
-                                l2Ids.add(
-                                    nextUser
-                                );
-
-                            }
-
-                        }
-
-                    }
-                );
-
-            }
-        );
-
-        /* L3 */
-
-        const l3Ids =
-            new Set();
-
-        connections.forEach(
-            c => {
-
-                l2Ids.forEach(
-                    l2User => {
-
-                        if(
-                            c.from_user_id === l2User
-                            ||
-                            c.to_user_id === l2User
-                        ){
-
-                            const nextUser =
-                                getConnectedUserId(
-                                    c,
-                                    l2User
-                                );
-
-                            if(
-                                nextUser !== user.$id
-                                &&
-                                !l1Ids.has(
-                                    nextUser
-                                )
-                                &&
-                                !l2Ids.has(
-                                    nextUser
-                                )
-                            ){
-
-                                l3Ids.add(
-                                    nextUser
-                                );
-
-                            }
-
-                        }
-
-                    }
-                );
-
-            }
-        );
-
-        let l1Html = "";
-        let l2Html = "";
-        let l3Html = "";
-
-        l1Ids.forEach(
-            userId => {
-
-                l1Html +=
-                    buildNode(
-                        getProfileName(
-                            profileMap[userId]
-                        ),
-                        "l1"
-                    );
-
-            }
-        );
-
-        l2Ids.forEach(
-            userId => {
-
-                l2Html +=
-                    buildNode(
-                        getProfileName(
-                            profileMap[userId]
-                        ),
-                        "l2"
-                    );
-
-            }
-        );
-
-        l3Ids.forEach(
-            userId => {
-
-                l3Html +=
-                    buildNode(
-                        getProfileName(
-                            profileMap[userId]
-                        ),
-                        "l3"
-                    );
-
-            }
-        );
-
-        container.innerHTML =
+        treeContainer.innerHTML =
 
         `
         <div class="tree">
 
-            <ul>
+            <ul class="tree-root">
 
-                <li>
+                ${
 
-                    <div class="node l0">
+                    renderTreeNode(
 
-                        ${
-                            getProfileName(
-                                myProfile
-                            )
-                        }
+                        user.$id,
 
-                        <small>
-                            YOU
-                        </small>
+                        tree,
 
-                    </div>
+                        profileMap,
 
-                    <ul>
+                        user.$id
 
-                        ${l1Html}
+                    )
 
-                    </ul>
-
-                    ${
-                        l2Html
-                        ?
-                        `
-                        <ul>
-
-                            ${l2Html}
-
-                        </ul>
-                        `
-                        :
-                        ""
-                    }
-
-                    ${
-                        l3Html
-                        ?
-                        `
-                        <ul>
-
-                            ${l3Html}
-
-                        </ul>
-                        `
-                        :
-                        ""
-                    }
-
-                </li>
+                }
 
             </ul>
 
@@ -886,6 +974,8 @@ async function loadRelationshipTree(){
     }
 
 }
+
+/* LOGOUT */
 
 document
 .getElementById(
@@ -915,9 +1005,11 @@ document
     }
 );
 
+/* START */
+
 loadRelationshipTree();
 
 </script>
-
+      
 </body>
 </html>
