@@ -8,7 +8,9 @@
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0">
 
-<title>Network Map | ReferMe Network</title>
+<title>Network Tree | ReferMe Network</title>
+
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
 
 <style>
 
@@ -74,8 +76,6 @@ body{
     display:flex;
 
     align-items:flex-end;
-
-    line-height:1;
 }
 
 .logo-refer{
@@ -133,14 +133,14 @@ body{
 
     border-radius:10px;
 
-    font-weight:600;
-
     cursor:pointer;
 }
 
 .active-btn{
 
     background:#8BC53F;
+
+    border-color:#8BC53F;
 
     color:#12355b;
 }
@@ -151,39 +151,51 @@ body{
 
     max-width:1400px;
 
-    margin:20px auto;
+    margin:24px auto;
 
     padding:0 20px;
 }
 
-.title{
+.page-title{
 
     text-align:center;
 
-    margin-bottom:20px;
+    margin-bottom:24px;
 }
 
-.title h1{
+.page-title h1{
 
     color:#12355b;
 
     margin-bottom:6px;
 }
 
-.title p{
+.page-title p{
 
     color:#64748b;
+}
+
+.tree-card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.06);
 }
 
 .legend{
 
     display:flex;
 
+    gap:20px;
+
     justify-content:center;
 
-    gap:24px;
-
-    margin-bottom:20px;
+    margin-bottom:30px;
 }
 
 .legend-item{
@@ -193,8 +205,6 @@ body{
     align-items:center;
 
     gap:8px;
-
-    font-size:14px;
 }
 
 .dot{
@@ -206,134 +216,174 @@ body{
     border-radius:50%;
 }
 
-/* GRAPH */
-
-.network-map{
-
-    position:relative;
-
-    width:100%;
-
-    height:800px;
-
-    background:white;
-
-    border-radius:24px;
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.08);
-
-    overflow:hidden;
+.l0-dot{
+    background:#8BC53F;
 }
 
-.node{
+.l1-dot{
+    background:#0ea5e9;
+}
 
-    position:absolute;
+.l2-dot{
+    background:#EE7D11;
+}
 
-    width:110px;
+.l3-dot{
+    background:#94a3b8;
+}
 
-    height:110px;
+/* TREE */
 
-    border-radius:50%;
+.tree{
 
     display:flex;
 
-    flex-direction:column;
-
     justify-content:center;
+}
 
-    align-items:center;
+.tree ul{
 
-    color:white;
+    padding-top:20px;
 
-    font-weight:700;
+    position:relative;
+
+    transition:.3s;
+}
+
+.tree li{
+
+    float:left;
 
     text-align:center;
 
+    list-style:none;
+
+    position:relative;
+
+    padding:20px 5px 0 5px;
+}
+
+/* CONNECTOR LINES */
+
+.tree li::before,
+.tree li::after{
+
+    content:'';
+
+    position:absolute;
+
+    top:0;
+
+    right:50%;
+
+    border-top:2px solid #cbd5e1;
+
+    width:50%;
+
+    height:20px;
+}
+
+.tree li::after{
+
+    right:auto;
+
+    left:50%;
+
+    border-left:2px solid #cbd5e1;
+}
+
+.tree li:only-child::after,
+.tree li:only-child::before{
+
+    display:none;
+}
+
+.tree li:only-child{
+
+    padding-top:0;
+}
+
+.tree li:first-child::before{
+
+    border:none;
+}
+
+.tree li:last-child::after{
+
+    border:none;
+}
+
+.tree ul ul::before{
+
+    content:'';
+
+    position:absolute;
+
+    top:0;
+
+    left:50%;
+
+    border-left:2px solid #cbd5e1;
+
+    width:0;
+
+    height:20px;
+}
+
+/* NODES */
+
+.node{
+
+    border-radius:14px;
+
+    padding:12px 18px;
+
+    display:inline-block;
+
+    min-width:120px;
+
+    color:white;
+
+    font-weight:600;
+
     box-shadow:
-        0 8px 20px rgba(0,0,0,.15);
+        0 4px 12px rgba(0,0,0,.08);
 }
-
-.node small{
-
-    font-size:11px;
-
-    font-weight:normal;
-}
-
-/* LEVEL COLORS */
 
 .l0{
+
     background:#8BC53F;
 }
 
 .l1{
+
     background:#0ea5e9;
 }
 
 .l2{
+
     background:#EE7D11;
 }
 
 .l3{
+
     background:#94a3b8;
 }
 
-/* SAMPLE DATA */
+.node small{
 
-.you{
-    top:340px;
-    left:50%;
-    transform:translateX(-50%);
+    display:block;
+
+    margin-top:4px;
+
+    font-size:11px;
+
+    opacity:.9;
 }
 
-.l1a{
-    top:180px;
-    left:50%;
-    transform:translateX(-50%);
-}
-
-.l1b{
-    top:420px;
-    left:290px;
-}
-
-.l1c{
-    top:420px;
-    right:290px;
-}
-
-.l2a{
-    top:40px;
-    left:50%;
-    transform:translateX(-50%);
-}
-
-.l2b{
-    top:220px;
-    left:120px;
-}
-
-.l2c{
-    top:220px;
-    right:120px;
-}
-
-.l3a{
-    top:40px;
-    left:180px;
-}
-
-.l3b{
-    top:40px;
-    right:180px;
-}
-
-.note{
+.loading{
 
     text-align:center;
-
-    margin-top:20px;
 
     color:#64748b;
 }
@@ -376,27 +426,28 @@ body{
 
     <div class="header-buttons">
 
-        <button
-            class="header-btn"
-            onclick="location.href='dashboard.html'">
-
+        <button class="header-btn"
+                onclick="location.href='dashboard.html'">
             Dashboard
-
         </button>
 
-        <button
-            class="header-btn"
-            onclick="location.href='network.html'">
-
+        <button class="header-btn"
+                onclick="location.href='network.html'">
             My Network
-
         </button>
 
-        <button
-            class="header-btn active-btn">
+        <button class="header-btn active-btn">
+            Network Tree
+        </button>
 
-            Network Map
+        <button class="header-btn"
+                onclick="location.href='edit-profile.html'">
+            Edit Profile
+        </button>
 
+        <button class="header-btn"
+                id="logoutBtn">
+            Logout
         </button>
 
     </div>
@@ -405,98 +456,468 @@ body{
 
 <div class="container">
 
-    <div class="title">
+    <div class="page-title">
 
         <h1>
-            Network Map
+            Relationship Tree
         </h1>
 
         <p>
-            Visualize your trusted connections and opportunities.
+            Visualize how trusted relationships expand your network.
         </p>
 
     </div>
 
-    <div class="legend">
+    <div class="tree-card">
 
-        <div class="legend-item">
-            <div class="dot l0"></div>
-            You (L0)
+        <div class="legend">
+
+            <div class="legend-item">
+                <div class="dot l0-dot"></div>
+                You (L0)
+            </div>
+
+            <div class="legend-item">
+                <div class="dot l1-dot"></div>
+                Direct Connections (L1)
+            </div>
+
+            <div class="legend-item">
+                <div class="dot l2-dot"></div>
+                Trusted Introductions (L2)
+            </div>
+
+            <div class="legend-item">
+                <div class="dot l3-dot"></div>
+                Extended Network (L3)
+            </div>
+
         </div>
 
-        <div class="legend-item">
-            <div class="dot l1"></div>
-            L1
+        <div
+            id="treeContainer"
+            class="loading">
+
+            Loading network...
+
         </div>
-
-        <div class="legend-item">
-            <div class="dot l2"></div>
-            L2
-        </div>
-
-        <div class="legend-item">
-            <div class="dot l3"></div>
-            L3
-        </div>
-
-    </div>
-
-    <div class="network-map">
-
-        <div class="node l0 you">
-            Snehal
-            <small>You</small>
-        </div>
-
-        <div class="node l1 l1a">
-            Pragnesh
-            <small>L1</small>
-        </div>
-
-        <div class="node l1 l1b">
-            Ravi
-            <small>L1</small>
-        </div>
-
-        <div class="node l1 l1c">
-            Sonia
-            <small>L1</small>
-        </div>
-
-        <div class="node l2 l2a">
-            Amit
-            <small>L2</small>
-        </div>
-
-        <div class="node l2 l2b">
-            Sarah
-            <small>L2</small>
-        </div>
-
-        <div class="node l2 l2c">
-            Mike
-            <small>L2</small>
-        </div>
-
-        <div class="node l3 l3a">
-            Emma
-            <small>L3</small>
-        </div>
-
-        <div class="node l3 l3b">
-            John
-            <small>L3</small>
-        </div>
-
-    </div>
-
-    <div class="note">
-
-        Example: Snehal → Pragnesh → Amit can help unlock opportunities through trusted introductions.
 
     </div>
 
 </div>
+<script>
+
+const {
+    Client,
+    Account,
+    Databases,
+    Query
+} = Appwrite;
+
+const client = new Client();
+
+client
+    .setEndpoint(
+        "https://cloud.appwrite.io/v1"
+    )
+    .setProject(
+        "6ac6fecf002db308564b"
+    );
+
+const account =
+    new Account(client);
+
+const databases =
+    new Databases(client);
+
+const DATABASE_ID =
+    "myff";
+
+const PROFILES_COLLECTION_ID =
+    "Profiles";
+
+const CONNECTIONS_COLLECTION_ID =
+    "Connections";
+
+function getConnectedUserId(
+    connection,
+    myUserId
+){
+
+    if(
+        connection.from_user_id ===
+        myUserId
+    ){
+        return connection.to_user_id;
+    }
+
+    return connection.from_user_id;
+}
+
+function getProfileName(
+    profile
+){
+
+    if(!profile)
+        return "Unknown";
+
+    return (
+        (profile.first_name || "")
+        + " "
+        + (profile.last_name || "")
+    ).trim();
+
+}
+
+function buildNode(
+    label,
+    cssClass
+){
+
+    return `
+        <li>
+
+            <div class="node ${cssClass}">
+
+                ${label}
+
+                <small>
+                    ${cssClass.toUpperCase()}
+                </small>
+
+            </div>
+
+        </li>
+    `;
+}
+
+async function loadRelationshipTree(){
+
+    try{
+
+        const user =
+            await account.get();
+
+        const container =
+            document.getElementById(
+                "treeContainer"
+            );
+
+        container.innerHTML =
+            "Loading network...";
+
+        const profilesResult =
+            await databases.listDocuments(
+                DATABASE_ID,
+                PROFILES_COLLECTION_ID
+            );
+
+        const connectionsResult =
+            await databases.listDocuments(
+                DATABASE_ID,
+                CONNECTIONS_COLLECTION_ID
+            );
+
+        const profiles =
+            profilesResult.documents;
+
+        const connections =
+            connectionsResult.documents;
+
+        const profileMap = {};
+
+        profiles.forEach(
+            p => {
+
+                profileMap[
+                    p.user_id
+                ] = p;
+
+            }
+        );
+
+        const myProfile =
+            profileMap[
+                user.$id
+            ];
+
+        /* L1 */
+
+        const l1Ids =
+            new Set();
+
+        connections.forEach(
+            c => {
+
+                if(
+                    c.from_user_id === user.$id
+                    ||
+                    c.to_user_id === user.$id
+                ){
+
+                    l1Ids.add(
+                        getConnectedUserId(
+                            c,
+                            user.$id
+                        )
+                    );
+
+                }
+
+            }
+        );
+
+        /* L2 */
+
+        const l2Ids =
+            new Set();
+
+        connections.forEach(
+            c => {
+
+                l1Ids.forEach(
+                    l1User => {
+
+                        if(
+
+                            c.from_user_id === l1User
+                            ||
+                            c.to_user_id === l1User
+
+                        ){
+
+                            const nextUser =
+                                getConnectedUserId(
+                                    c,
+                                    l1User
+                                );
+
+                            if(
+                                nextUser !== user.$id
+                                &&
+                                !l1Ids.has(
+                                    nextUser
+                                )
+                            ){
+
+                                l2Ids.add(
+                                    nextUser
+                                );
+
+                            }
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+        /* L3 */
+
+        const l3Ids =
+            new Set();
+
+        connections.forEach(
+            c => {
+
+                l2Ids.forEach(
+                    l2User => {
+
+                        if(
+                            c.from_user_id === l2User
+                            ||
+                            c.to_user_id === l2User
+                        ){
+
+                            const nextUser =
+                                getConnectedUserId(
+                                    c,
+                                    l2User
+                                );
+
+                            if(
+                                nextUser !== user.$id
+                                &&
+                                !l1Ids.has(
+                                    nextUser
+                                )
+                                &&
+                                !l2Ids.has(
+                                    nextUser
+                                )
+                            ){
+
+                                l3Ids.add(
+                                    nextUser
+                                );
+
+                            }
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+        let l1Html = "";
+        let l2Html = "";
+        let l3Html = "";
+
+        l1Ids.forEach(
+            userId => {
+
+                l1Html +=
+                    buildNode(
+                        getProfileName(
+                            profileMap[userId]
+                        ),
+                        "l1"
+                    );
+
+            }
+        );
+
+        l2Ids.forEach(
+            userId => {
+
+                l2Html +=
+                    buildNode(
+                        getProfileName(
+                            profileMap[userId]
+                        ),
+                        "l2"
+                    );
+
+            }
+        );
+
+        l3Ids.forEach(
+            userId => {
+
+                l3Html +=
+                    buildNode(
+                        getProfileName(
+                            profileMap[userId]
+                        ),
+                        "l3"
+                    );
+
+            }
+        );
+
+        container.innerHTML =
+
+        `
+        <div class="tree">
+
+            <ul>
+
+                <li>
+
+                    <div class="node l0">
+
+                        ${
+                            getProfileName(
+                                myProfile
+                            )
+                        }
+
+                        <small>
+                            YOU
+                        </small>
+
+                    </div>
+
+                    <ul>
+
+                        ${l1Html}
+
+                    </ul>
+
+                    ${
+                        l2Html
+                        ?
+                        `
+                        <ul>
+
+                            ${l2Html}
+
+                        </ul>
+                        `
+                        :
+                        ""
+                    }
+
+                    ${
+                        l3Html
+                        ?
+                        `
+                        <ul>
+
+                            ${l3Html}
+
+                        </ul>
+                        `
+                        :
+                        ""
+                    }
+
+                </li>
+
+            </ul>
+
+        </div>
+        `;
+
+    }
+    catch(error){
+
+        console.error(
+            error
+        );
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+document
+.getElementById(
+    "logoutBtn"
+)
+.addEventListener(
+    "click",
+    async () => {
+
+        try{
+
+            await account.deleteSession(
+                "current"
+            );
+
+            window.location.href =
+                "login.html";
+
+        }
+        catch(error){
+
+            console.error(
+                error
+            );
+        }
+
+    }
+);
+
+loadRelationshipTree();
+
+</script>
 
 </body>
 </html>
