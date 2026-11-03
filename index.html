@@ -22,24 +22,18 @@ body{
 }
 /* HEADER */
 
+/* HEADER */
+
 .header{
 
-    background:
-    linear-gradient(
-        180deg,
-        #f7fbff,
-        #edf5fc
-    );
+    background:#f4f8fc;
 
     border-bottom:
         1px solid #dbe4ef;
 
-    box-shadow:
-        0 2px 8px rgba(0,0,0,.05);
+    height:78px;
 
-    height:72px;
-
-    padding:8px 24px;
+    padding:0 32px;
 
     display:flex;
 
@@ -54,46 +48,23 @@ body{
     z-index:100;
 }
 
-/* BRAND */
-
 .brand{
 
     display:flex;
 
-    flex-direction:column;
-
-    justify-content:center;
-
-    flex-shrink:0;
+    align-items:center;
 }
 
 .brand-logo{
 
-    height:46px;
+    height:58px;
 
     width:auto;
 
     display:block;
-
-    object-fit:contain;
 }
 
-.brand-tagline{
-
-    font-size:10px;
-
-    color:#64748b;
-
-    font-weight:500;
-
-    margin-top:-2px;
-
-    margin-left:6px;
-
-    letter-spacing:.2px;
-}
-
-/* NAVIGATION */
+/* NAV */
 
 .nav{
 
@@ -101,7 +72,7 @@ body{
 
     align-items:center;
 
-    gap:14px;
+    gap:16px;
 }
 
 .nav a{
@@ -115,39 +86,27 @@ body{
     font-weight:700;
 }
 
-.nav a:hover{
-
-    color:#0f2a45;
-}
-
-/* LOGIN BUTTON */
+/* LOGIN */
 
 .login-btn{
 
-    background:#ffffff;
+    background:white;
 
     color:#12355b !important;
 
     border:1px solid #cbd5e1;
 
-    padding:10px 22px;
+    padding:11px 24px;
 
-    border-radius:12px;
+    border-radius:14px;
 
     font-weight:700;
 
     box-shadow:
-        0 2px 4px rgba(0,0,0,.04);
-
-    transition:.2s;
+        0 2px 6px rgba(0,0,0,.04);
 }
 
-.login-btn:hover{
-
-    background:#f8fafc;
-}
-
-/* JOIN NETWORK */
+/* JOIN */
 
 .join-btn{
 
@@ -155,13 +114,11 @@ body{
 
     color:#12355b !important;
 
-    padding:10px 24px;
+    padding:11px 26px;
 
-    border-radius:12px;
+    border-radius:14px;
 
     font-weight:700;
-
-    transition:.2s;
 }
 
 .join-btn:hover{
@@ -211,21 +168,17 @@ body{
 
         <img
             src="RMLogoGTP.png"
-            class="brand-logo"
-            alt="ReferMe Network">
-
-        <div class="brand-tagline">
-
-            Connected by Trust • Growing Together
-
-        </div>
+            alt="ReferMe Network"
+            class="brand-logo">
 
     </div>
 
     <nav class="nav">
 
         <a href="#about">
+
             About
+
         </a>
 
         <a
