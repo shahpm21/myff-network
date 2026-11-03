@@ -20,25 +20,26 @@ body{
     color:#102a43;
     background:white;
 }
+/* HEADER */
 
 .header{
 
     background:
     linear-gradient(
         180deg,
-        #f8fafc,
-        #eef4f9
+        #f7fbff,
+        #edf5fc
     );
 
     border-bottom:
         1px solid #dbe4ef;
 
     box-shadow:
-        0 2px 12px rgba(0,0,0,.05);
+        0 2px 8px rgba(0,0,0,.05);
 
-    min-height:90px;
+    height:72px;
 
-    padding:12px 28px;
+    padding:8px 24px;
 
     display:flex;
 
@@ -53,16 +54,22 @@ body{
     z-index:100;
 }
 
+/* BRAND */
+
 .brand{
 
     display:flex;
 
-    align-items:center;
+    flex-direction:column;
+
+    justify-content:center;
+
+    flex-shrink:0;
 }
 
 .brand-logo{
 
-    height:75px;
+    height:46px;
 
     width:auto;
 
@@ -71,13 +78,30 @@ body{
     object-fit:contain;
 }
 
+.brand-tagline{
+
+    font-size:10px;
+
+    color:#64748b;
+
+    font-weight:500;
+
+    margin-top:-2px;
+
+    margin-left:6px;
+
+    letter-spacing:.2px;
+}
+
+/* NAVIGATION */
+
 .nav{
 
     display:flex;
 
     align-items:center;
 
-    gap:18px;
+    gap:14px;
 }
 
 .nav a{
@@ -86,22 +110,34 @@ body{
 
     color:#12355b;
 
-    font-weight:700;
-
     font-size:15px;
+
+    font-weight:700;
 }
+
+.nav a:hover{
+
+    color:#0f2a45;
+}
+
+/* LOGIN BUTTON */
 
 .login-btn{
 
-    background:white;
+    background:#ffffff;
 
     color:#12355b !important;
 
-    border:1px solid #dbe4ef;
+    border:1px solid #cbd5e1;
 
-    padding:12px 24px;
+    padding:10px 22px;
 
     border-radius:12px;
+
+    font-weight:700;
+
+    box-shadow:
+        0 2px 4px rgba(0,0,0,.04);
 
     transition:.2s;
 }
@@ -111,13 +147,15 @@ body{
     background:#f8fafc;
 }
 
+/* JOIN NETWORK */
+
 .join-btn{
 
     background:#8BC53F;
 
     color:#12355b !important;
 
-    padding:12px 24px;
+    padding:10px 24px;
 
     border-radius:12px;
 
@@ -131,315 +169,36 @@ body{
     background:#9BC836;
 }
 
-
-/* HERO */
-
-.hero{
-
-    padding:24px 20px 70px;
-
-    text-align:center;
-}
-
-.eyebrow{
-
-    display:inline-block;
-
-    background:#eef6ff;
-
-    color:#12355b;
-
-    padding:8px 18px;
-
-    border-radius:999px;
-
-    border:1px solid #dbeafe;
-margin-bottom:12px;
-    font-size:12px;
-
-    font-weight:700;
-}
-
-.hero h1{
-
-    font-size:48px;
-
-    line-height:1.2;
-
-    max-width:1000px;
-
-      margin:0 auto 12px auto;
-
-    font-weight:700;
-
-    color:#12355b;
-}
-
-.hero p{
-
-    font-size:22px;
-
-    max-width:850px;
-
-    margin:auto;
-
-    line-height:1.8;
-
-    color:#555;
-}
-
-.hero-buttons{
-
-    margin-top:40px;
-
-    display:flex;
-    justify-content:center;
-
-    gap:16px;
-
-    flex-wrap:wrap;
-}
-
-.btn{
-
-    text-decoration:none;
-
-    padding:16px 30px;
-
-    border-radius:12px;
-
-    font-weight:600;
-}
-
-.btn-primary{
-
-    background:#12355b;
-
-    color:white;
-}
-
-.btn-secondary{
-
-    border:2px solid #12355b;
-
-    color:#12355b;
-}
-
-/* SECTIONS */
-
-.section{
-
-    text-align:center;
-
-    padding:120px 25px;
-}
-
-.section-light{
-
-    background:#f8fafc;
-}
-
-.section-dark{
-
-    background:#12355b;
-
-    color:white;
-}
-
-.section h2{
-
-    font-size:48px;
-
-    margin-bottom:20px;
-}
-
-.section p{
-
-    max-width:850px;
-
-    margin:auto;
-
-    font-size:22px;
-
-    line-height:1.8;
-}
-
-.section-dark p{
-
-    color:#dbeafe;
-}
-
-/* CARDS */
-
-.cards-section{
-
-    padding:120px 25px;
-}
-
-.cards-title{
-
-    text-align:center;
-
-    margin-bottom:60px;
-}
-
-.cards-title h2{
-
-    font-size:48px;
-
-    color:#12355b;
-}
-
-.cards{
-
-    max-width:1200px;
-
-    margin:auto;
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(250px,1fr));
-
-    gap:25px;
-}
-
-.card{
-
-    background:white;
-
-    padding:35px;
-
-    border-radius:18px;
-
-    box-shadow:
-    0 10px 25px rgba(0,0,0,.07);
-}
-
-.card h3{
-
-    color:#12355b;
-
-    margin-bottom:15px;
-}
-
-.card p{
-
-    color:#555;
-
-    line-height:1.8;
-}
-
-/* CTA */
-
-.cta{
-
-    background:
-    linear-gradient(
-    135deg,
-    #12355b,
-    #1f4e79
-    );
-
-    color:white;
-
-    padding:120px 25px;
-
-    text-align:center;
-}
-
-.cta h2{
-
-    font-size:48px;
-
-    margin-bottom:20px;
-}
-
-.cta p{
-
-    max-width:850px;
-
-    margin:auto;
-
-    line-height:1.8;
-
-    margin-bottom:35px;
-
-    font-size:20px;
-}
-
-.footer{
-
-    text-align:center;
-
-    padding:40px;
-
-    color:#64748b;
-}
+/* MOBILE */
 
 @media(max-width:900px){
 
-.header{
+    .header{
 
-    flex-direction:column;
+        height:auto;
 
-    align-items:flex-start;
+        padding:12px 16px;
 
-    gap:12px;
+        flex-direction:column;
 
-    padding:16px;
-}
+        align-items:flex-start;
 
-.nav{
+        gap:10px;
+    }
 
-    width:100%;
+    .brand-logo{
 
-    flex-wrap:wrap;
-}
-.hero h1{
+        height:42px;
+    }
 
-    font-size:36px;
-}
+    .nav{
 
-.hero p{
+        width:100%;
 
-    font-size:18px;
-}
-
-.section h2,
-.cards-title h2,
-.cta h2{
-
-    font-size:34px;
-}
-
-.section p{
-
-    font-size:18px;
-}
+        flex-wrap:wrap;
+    }
 
 }
-
-.login-btn{
-
-    border:1px solid rgba(255,255,255,.35);
-
-    color:white !important;
-
-    background:rgba(255,255,255,.10);
-
-    padding:10px 18px;
-
-    border-radius:10px;
-
-    transition:.2s;
-}
-
-.login-btn:hover{
-
-    background:rgba(255,255,255,.20);
-}
-
 </style>
 
 </head>
@@ -448,14 +207,20 @@ margin-bottom:12px;
 
 <header class="header">
 
- <div class="brand">
+    <div class="brand">
 
-    <img
-        src="RMLogoGTP.png"
-        class="brand-logo"
-        alt="ReferMe Network">
+        <img
+            src="RMLogoGTP.png"
+            class="brand-logo"
+            alt="ReferMe Network">
 
-</div>
+        <div class="brand-tagline">
+
+            Connected by Trust • Growing Together
+
+        </div>
+
+    </div>
 
     <nav class="nav">
 
