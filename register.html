@@ -547,7 +547,8 @@ Phone
 Password
 <span class="required">*</span>
 </label>
-<input type="password" id="password" required>
+<input type="password" id="password" minlength="8" autocomplete="new-password" aria-describedby="passwordRules" required>
+<small id="passwordRules" style="display:block;margin-top:6px;color:#526477;line-height:1.5">Use 8+ characters with uppercase, lowercase, a number, and a symbol.</small>
 </div>
 
 <div>
@@ -555,7 +556,7 @@ Password
 Confirm Password
 <span class="required">*</span>
 </label>
-<input type="password" id="confirm_password" required>
+<input type="password" id="confirm_password" minlength="8" autocomplete="new-password" required>
 </div>
 
 
@@ -1106,6 +1107,15 @@ document
             document.getElementById(
                 "confirm_password"
             ).value;
+
+        const strongPassword = password.length >= 8 &&
+            /[A-Z]/.test(password) && /[a-z]/.test(password) &&
+            /[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password);
+        if (!strongPassword) {
+            alert("Password must contain at least 8 characters, including uppercase and lowercase letters, a number, and a special character.");
+            document.getElementById("password").focus();
+            return;
+        }
 
         if(password !== confirmPassword){
 
