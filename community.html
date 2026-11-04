@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Community Posts | ReferMe Network</title>
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
+<style>
+:root{--navy:#182C43;--green:#A6D64F;--line:#E2E8EE;--muted:#627287}
+*{box-sizing:border-box}
+body{margin:0;background:#F5F7F9;color:var(--navy);font:14px "Segoe UI",Arial,sans-serif}
+header{background:var(--navy);color:white;border-bottom:3px solid var(--green);padding:16px 24px}
+.header-inner{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{color:white;text-decoration:none;font-size:24px;font-weight:750}
+.brand span{color:var(--green)}
+.tagline{font-size:10px;color:#DFEAF5;margin-top:3px}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+nav a,nav button{color:white;background:transparent;border:0;text-decoration:none;padding:8px;cursor:pointer;font:inherit}
+nav a:hover,nav button:hover{background:#30475F;border-radius:7px}
+main{max-width:900px;margin:24px auto;padding:0 16px 60px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.tabs a{padding:10px 16px;border:1px solid var(--line);border-radius:9px;text-decoration:none;color:var(--navy);background:white;font-weight:650}
+.tabs .active{background:var(--navy);color:white}
+h1{font-size:26px;margin:0 0 6px}
+.subtitle{color:var(--muted);margin:0 0 22px}
+.card{background:white;border:1px solid var(--line);border-radius:13px;padding:20px;margin-bottom:16px;box-shadow:0 3px 12px #182c4308}
+textarea{width:100%;min-height:100px;resize:vertical;padding:12px;border:1px solid var(--line);border-radius:9px;font:inherit}
+input{padding:10px;border:1px solid var(--line);border-radius:8px;font:inherit;min-width:0}
+button{font:inherit}
+.btn{background:var(--navy);color:white;border:0;border-radius:8px;padding:10px 16px;cursor:pointer}
+.btn:disabled{opacity:.5;cursor:wait}
+.btn-secondary{background:#EEF3F7;color:var(--navy)}
+.actions{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.muted{color:var(--muted);font-size:12px}
+.author{font-weight:750}
+.post-content{white-space:pre-wrap;overflow-wrap:anywhere;margin:14px 0;line-height:1.6}
+.post-actions{display:flex;gap:8px;flex-wrap:wrap}
+.post-actions button{background:white;border:1px solid var(--line);padding:7px 11px;border-radius:7px;cursor:pointer}
+.comment{border-top:1px solid var(--line);padding:10px 0}
+.comment-form{display:flex;gap:8px;margin-top:12px}
+.comment-form input{flex:1}
+.search{display:flex;gap:8px;margin:18px 0}
+.search input{flex:1;width:100%}
+#error{color:#A32222}
+#status{color:var(--muted);margin:12px 0}
+@media(max-width:600px){header{padding:14px}.card{padding:14px}.comment-form{flex-wrap:wrap}.comment-form input{width:100%;flex:auto}}
+</style>
+</head>
+<body>
+<header>
+ <div class="header-inner">
+  <a class="brand" href="index.html">
+   refer<span>Me</span> Network
+   <div class="tagline">Connected by Trust · Growing Together</div>
+  </a>
+  <nav>
+   <a href="dashboard.html">Dashboard</a>
+   <a href="network.html">My Network</a>
+   <a href="profile.html">My Profile</a>
+   <button id="logout">Logout</button>
+  </nav>
+ </div>
+</header>
+
+<main>
+ <div class="tabs">
+  <a href="network.html">Members</a>
+  <a class="active" href="community.html">Community Posts</a>
+  <a href="network-map.html">Network Map</a>
+ </div>
+
+ <h1>Community Posts</h1>
+ <p class="subtitle">
+  Share updates, ask questions, and connect with your trusted network.
+  Posts expire after 90 days.
+ </p>
+
+ <section class="card">
+  <h3>Share with your network</h3>
+  <textarea id="postText" maxlength="3000"
+    placeholder="What would you like to share?"></textarea>
+  <div class="actions">
+   <span class="muted"><span id="count">0</span>/3000 characters</span>
+   <button class="btn" id="publish">Publish Post</button>
+  </div>
+ </section>
+
+ <div class="search">
+  <input id="search" type="search" placeholder="Search loaded posts...">
+  <button class="btn btn-secondary" id="refresh">Refresh</button>
+ </div>
+
+ <div id="status">Loading...</div>
+ <div id="error"></div>
+ <div id="posts"></div>
+ <button class="btn btn-secondary" id="more" hidden>Load older posts</button>
+</main>
+
+<script>
+const {Client,Account,Functions}=Appwrite;
+
+const client=new Client()
+ .setEndpoint("https://cloud.appwrite.io/v1")
+ .setProject("6ac6fecf002db308564b");
+
+const account=new Account(client);
+const functions=new Functions(client);
+const FUNCTION_ID="referme-community";
+
+let currentUser=null;
+let allPosts=[];
+let cursor=null;
+let loading=false;
+
+const $=id=>document.getElementById(id);
+
+function element(tag,text,cls){
+ const e=document.createElement(tag);
+ if(text!==undefined)e.textContent=text;
+ if(cls)e.className=cls;
+ return e;
+}
+
+function errorMessage(message){
+ $("error").textContent=message||"";
+}
+
+async function api(action,payload={}){
+ const jwt=await account.createJWT();
+
+ const execution=await functions.createExecution(
+  FUNCTION_ID,
+  JSON.stringify({action,jwt:jwt.jwt,...payload}),
+  false
+ );
+
+ let data;
+ try{
+  data=JSON.parse(execution.responseBody||"{}");
+ }catch{
+  throw Error("Invalid response from community service.");
+ }
+
+ if(execution.status==="failed"||
+    execution.responseStatusCode>=400||
+    data.error){
+  throw Error(data.error||"Community request failed.");
+ }
+ return data;
+}
+
+function displayDate(value){
+ const d=new Date(value);
+ return Number.isNaN(d.getTime())?"":d.toLocaleString();
+}
+
+async function refreshPosts(reset=true){
+ if(loading)return;
+ loading=true;
+ errorMessage("");
+ $("status").textContent="Loading posts...";
+
+ try{
+  if(reset){
+   cursor=null;
+   allPosts=[];
+  }
+
+  const data=await api("listPosts",{cursor,limit:15});
+  allPosts.push(...(data.posts||[]));
+  cursor=data.nextCursor||null;
+  renderPosts();
+
+  $("more").hidden=!cursor;
+  $("status").textContent="Showing available community posts.";
+ }catch(e){
+  errorMessage(e.message);
+  $("status").textContent="Unable to load posts.";
+ }finally{
+  loading=false;
+ }
+}
+
+async function changePost(action,payload){
+ try{
+  errorMessage("");
+  await api(action,payload);
+  await refreshPosts(true);
+ }catch(e){
+  errorMessage(e.message);
+ }
+}
+
+function renderPosts(){
+ const container=$("posts");
+ container.replaceChildren();
+
+ const search=$("search").value.trim().toLowerCase();
+ const visible=allPosts.filter(p=>
+  ((p.content||"")+" "+(p.authorName||""))
+   .toLowerCase().includes(search)
+ );
+
+ if(!visible.length){
+  container.append(element("div",
+   search?"No matching posts.":"No posts to display.","card"));
+  return;
+ }
+
+ for(const p of visible){
+  const card=element("article",undefined,"card");
+
+  card.append(element("div",p.authorName||"Member","author"));
+  card.append(element("div",displayDate(p.createdAt),"muted"));
+  card.append(element("div",p.content||"","post-content"));
+
+  const bar=element("div",undefined,"post-actions");
+
+  const like=element("button",
+   (p.likedByMe?"♥":"♡")+" Helpful ("+(p.likeCount||0)+")");
+  like.onclick=()=>changePost("toggleLike",{postId:p.id});
+  bar.append(like);
+
+  const commentsBtn=element("button",
+   "Comments ("+(p.commentCount||0)+")");
+  bar.append(commentsBtn);
+
+  if(p.authorId===currentUser.$id){
+   const edit=element("button","Edit");
+   edit.onclick=()=>{
+    const value=prompt("Edit your post:",p.content);
+    if(value!==null&&value.trim()&&value.trim()!==p.content){
+     changePost("editPost",{postId:p.id,content:value.trim()});
+    }
+   };
+   bar.append(edit);
+
+   const del=element("button","Delete");
+   del.onclick=()=>{
+    if(confirm("Delete this post?")){
+     changePost("deletePost",{postId:p.id});
+    }
+   };
+   bar.append(del);
+  }
+
+  card.append(bar);
+
+  const commentArea=element("div");
+  commentArea.hidden=true;
+  card.append(commentArea);
+
+  commentsBtn.onclick=async()=>{
+   commentArea.hidden=!commentArea.hidden;
+   if(commentArea.hidden)return;
+
+   commentArea.replaceChildren(element("p","Loading comments..."));
+
+   try{
+    const data=await api("comments",{postId:p.id});
+    commentArea.replaceChildren();
+
+    for(const c of data.comments||[]){
+     const item=element("div",undefined,"comment");
+     item.append(element("strong",c.authorName||"Member"));
+     item.append(element("div",displayDate(c.createdAt),"muted"));
+     item.append(element("div",c.content));
+
+     if(c.authorId===currentUser.$id){
+      const del=element("button","Delete comment","btn btn-secondary");
+      del.onclick=()=>changePost("deleteComment",{
+       commentId:c.id,postId:p.id
+      });
+      item.append(del);
+     }
+     commentArea.append(item);
+    }
+
+    const form=element("form",undefined,"comment-form");
+    const input=element("input");
+    input.placeholder="Write a comment...";
+    input.maxLength=1000;
+    input.required=true;
+
+    const submit=element("button","Comment","btn");
+    submit.type="submit";
+    form.append(input,submit);
+
+    form.onsubmit=async event=>{
+     event.preventDefault();
+     if(!input.value.trim())return;
+
+     submit.disabled=true;
+     try{
+      await api("addComment",{
+       postId:p.id,
+       content:input.value.trim()
+      });
+      await refreshPosts(true);
+     }catch(e){
+      errorMessage(e.message);
+     }finally{
+      submit.disabled=false;
+     }
+    };
+    commentArea.append(form);
+
+   }catch(e){
+    commentArea.replaceChildren(element("p",e.message));
+   }
+  };
+
+  container.append(card);
+ }
+}
+
+$("postText").oninput=()=>{
+ $("count").textContent=$("postText").value.length;
+};
+
+$("publish").onclick=async()=>{
+ const content=$("postText").value.trim();
+ if(!content){
+  errorMessage("Please write something before publishing.");
+  return;
+ }
+
+ $("publish").disabled=true;
+ try{
+  errorMessage("");
+  await api("createPost",{content});
+  $("postText").value="";
+  $("count").textContent="0";
+  await refreshPosts(true);
+ }catch(e){
+  errorMessage(e.message);
+ }finally{
+  $("publish").disabled=false;
+ }
+};
+
+$("refresh").onclick=()=>refreshPosts(true);
+$("more").onclick=()=>refreshPosts(false);
+$("search").oninput=renderPosts;
+
+$("logout").onclick=async()=>{
+ await account.deleteSession("current");
+ location.href="login.html";
+};
+
+(async()=>{
+ try{
+  currentUser=await account.get();
+  await refreshPosts(true);
+ }catch(e){
+  if(e.code===401){
+   location.href="login.html";
+  }else{
+   errorMessage(e.message);
+  }
+ }
+})();
+</script>
+</body>
+</html>
