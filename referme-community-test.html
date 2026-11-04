@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ReferMe Community Test</title>
+  <script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
+  <style>
+    body {
+      font: 15px "Segoe UI", Arial, sans-serif;
+      background: #f5f7f9;
+      color: #182c43;
+      max-width: 680px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    main {
+      background: white;
+      padding: 25px;
+      border: 1px solid #e2e8ee;
+      border-radius: 12px;
+    }
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 10px;
+      margin: 12px 0;
+    }
+    button {
+      background: #182c43;
+      color: white;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    pre {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      background: #f5f7f9;
+      padding: 15px;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h2>ReferMe Community Test</h2>
+  <p>Sign in to ReferMe before running this test.</p>
+
+  <label for="fid">Appwrite Function ID</label>
+  <input id="fid" placeholder="Enter Function ID">
+
+  <button id="test">Test listPosts</button>
+  <pre id="result">Ready.</pre>
+</main>
+
+<script>
+const client = new Appwrite.Client()
+  .setEndpoint("https://cloud.appwrite.io/v1")
+  .setProject("6ac6fecf002db308564b");
+
+const account = new Appwrite.Account(client);
+const functions = new Appwrite.Functions(client);
+
+document.getElementById("test").onclick = async () => {
+  const result = document.getElementById("result");
+  const fid = document.getElementById("fid").value.trim();
+
+  if (!fid) {
+    result.textContent = "Enter Function ID first.";
+    return;
+  }
+
+  result.textContent = "Testing...";
+
+  try {
+    const user = await account.get();
+    const token = await account.createJWT();
+
+    const execution = await functions.createExecution(
+      fid,
+      JSON.stringify({
+        action: "listPosts",
+        jwt: token.jwt
+      }),
+      false
+    );
+
+    result.textContent = JSON.stringify({
+      loggedIn: true,
+      userId: user.$id,
+      status: execution.responseStatusCode,
+      executionStatus: execution.status,
+      response: JSON.parse(execution.responseBody || "{}")
+    }, null, 2);
+
+  } catch (error) {
+    result.textContent = JSON.stringify({
+      error: error.message,
+      code: error.code
+    }, null, 2);
+  }
+};
+</script>
+</body>
+</html>
