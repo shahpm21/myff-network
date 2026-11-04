@@ -10,7 +10,7 @@
 :root{--navy:#182C43;--green:#A6D64F;--line:#E2E8EE;--muted:#627287}
 *{box-sizing:border-box}
 body{margin:0;background:#F5F7F9;color:var(--navy);font:14px "Segoe UI",Arial,sans-serif}
-header{background:var(--navy);color:white;border-bottom:3px solid var(--green);padding:16px 24px}
+header:not(.rm-site-header){background:var(--navy);color:white;border-bottom:3px solid var(--green);padding:16px 24px}
 .header-inner{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .brand{color:white;text-decoration:none;font-size:24px;font-weight:750}
 .brand span{color:var(--green)}
@@ -46,22 +46,46 @@ button{font:inherit}
 #status{color:var(--muted);margin:12px 0}
 @media(max-width:600px){header{padding:14px}.card{padding:14px}.comment-form{flex-wrap:wrap}.comment-form input{width:100%;flex:auto}}
 </style>
+<style>/* ReferMe Network unified design — presentation only */
+:root{--navy:#182C43;--blue:#42617F;--blue-soft:#F4F7FA;--text:#23364A;--muted:#627287;--line:#E2E8EE;--surface:#fff;--page:#fff;--green:#A6D64F}
+html{scroll-behavior:smooth}
+body{background:#fff!important;color:#23364A;font-family:"Segoe UI",Arial,sans-serif}
+.rm-site-header{background:#182C43!important;color:#fff!important;position:relative;z-index:30;border-bottom:3px solid #A6D64F;box-shadow:0 2px 12px rgba(18,35,54,.10)}
+.rm-header-inner{max-width:1500px;margin:auto;min-height:74px;padding:12px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.rm-brand{display:inline-flex;align-items:center;gap:9px;text-decoration:none!important;flex-shrink:0}
+.rm-network-icon{width:43px;height:40px;flex-shrink:0}
+.rm-brand-words{display:flex;flex-direction:column;gap:2px;line-height:1.15}
+.rm-wordmark{font-size:25px;letter-spacing:-.6px;font-weight:750;color:#fff;white-space:nowrap}
+.rm-green{color:#A6D64F}
+.rm-tagline{font-size:10px;letter-spacing:.1px;color:#DFEAF5;white-space:nowrap}
+.rm-nav{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:7px}
+.rm-nav a,.rm-nav button{appearance:none;text-decoration:none!important;border:1px solid transparent!important;background:transparent!important;color:#E7EEF6!important;border-radius:8px!important;font:600 13px "Segoe UI",Arial,sans-serif!important;padding:9px 11px!important;line-height:1.3!important;cursor:pointer;white-space:nowrap;box-shadow:none!important}
+.rm-nav a:hover,.rm-nav button:hover,.rm-nav .rm-current{background:rgba(255,255,255,.11)!important;color:#fff!important}
+.rm-nav a.rm-current[aria-current="page"]{background:rgba(166,214,79,.16)!important;color:#A6D64F!important;border-color:rgba(166,214,79,.5)!important}
+.rm-nav .rm-join{background:#A6D64F!important;color:#182C43!important;border-color:#A6D64F!important;font-weight:750!important}
+.rm-nav .rm-join:hover{background:#B7E370!important;color:#182C43!important}
+.rm-nav .rm-logout{border-color:rgba(255,255,255,.3)!important}
+.rm-site-header+main,.rm-site-header~.container{background:transparent}
+body .card,body .welcome-card,body .stat-card,body .tree-card,body .page-title-card,body .intro-card,body .network-card,body .field{border-color:#E2E8EE;box-shadow:0 4px 18px rgba(24,44,67,.045)}
+body .card,body .welcome-card,body .tree-card,body .page-title-card,body .intro-card,body .network-card{background:#fff}
+body h1,body h2,body h3,body .page-title h1{color:#182C43}
+body .stat-number{color:#182C43}
+body .stat-card{border-left-color:#A6D64F}
+body input:focus,body textarea:focus,body select:focus{outline-color:#42617F}
+body .edit-btn,body .btn-primary,body button[type="submit"]{background:#182C43;color:#fff}
+body .edit-btn:hover,body .btn-primary:hover,body button[type="submit"]:hover{background:#2A4967}
+body .section-light{background:#F5F7F9}
+@media(max-width:920px){.rm-header-inner{padding:12px 16px;align-items:flex-start;flex-direction:column;gap:10px}.rm-nav{justify-content:flex-start}.rm-nav a,.rm-nav button{padding:8px 9px!important;font-size:12px!important}}
+@media(max-width:540px){.rm-wordmark{font-size:22px}.rm-network-icon{width:39px;height:37px}.rm-tagline{font-size:9px}.rm-header-inner{padding:12px}.rm-nav{gap:3px}}
+
+
+
+/* Consistent member navigation and active-page indicator */
+.rm-nav a.rm-current[aria-current="page"]{background:rgba(166,214,79,.16)!important;color:#A6D64F!important;border-color:rgba(166,214,79,.5)!important}
+</style>
 </head>
 <body>
-<header>
- <div class="header-inner">
-  <a class="brand" href="index.html">
-   refer<span>Me</span> Network
-   <div class="tagline">Connected by Trust · Growing Together</div>
-  </a>
-  <nav>
-   <a href="dashboard.html">Dashboard</a>
-   <a href="network.html">My Network</a>
-   <a href="profile.html">My Profile</a>
-   <button id="logout">Logout</button>
-  </nav>
- </div>
-</header>
+<header class="rm-site-header"><div class="rm-header-inner"><a class="rm-brand" href="index.html" aria-label="ReferMe Network homepage"><svg class="rm-network-icon" viewBox="0 0 52 48" width="43" height="40" role="img" aria-label="Trusted relationship network"><g stroke="#A6D64F" stroke-width="2.5" fill="none" stroke-linecap="round"><path d="M9 24 L24 9 L42 15 M9 24 L24 39 L42 31 M24 9 L42 31 M42 15 L24 39"/></g><circle cx="9" cy="24" r="6.5" fill="#A6D64F" stroke="#E1EDFA" stroke-width="1"/><circle cx="9" cy="22.2" r="1.7" fill="#194778"/><path d="M6 27 Q9 24 12 27" stroke="#194778" stroke-width="1.2" fill="none"/><circle cx="24" cy="9" r="6.5" fill="#2D6090" stroke="#E1EDFA" stroke-width="1"/><circle cx="24" cy="7.2" r="1.7" fill="#FFFFFF"/><path d="M21 12 Q24 9 27 12" stroke="#FFFFFF" stroke-width="1.2" fill="none"/><circle cx="42" cy="15" r="6.5" fill="#2D6090" stroke="#E1EDFA" stroke-width="1"/><circle cx="42" cy="13.2" r="1.7" fill="#FFFFFF"/><path d="M39 18 Q42 15 45 18" stroke="#FFFFFF" stroke-width="1.2" fill="none"/><circle cx="24" cy="39" r="6.5" fill="#2D6090" stroke="#E1EDFA" stroke-width="1"/><circle cx="24" cy="37.2" r="1.7" fill="#FFFFFF"/><path d="M21 42 Q24 39 27 42" stroke="#FFFFFF" stroke-width="1.2" fill="none"/><circle cx="42" cy="31" r="6.5" fill="#2D6090" stroke="#E1EDFA" stroke-width="1"/><circle cx="42" cy="29.2" r="1.7" fill="#FFFFFF"/><path d="M39 34 Q42 31 45 34" stroke="#FFFFFF" stroke-width="1.2" fill="none"/></svg><span class="rm-brand-words"><span class="rm-wordmark">refer<span class="rm-green">Me</span> Network</span><span class="rm-tagline">Connected by Trust · Growing Together</span></span></a><nav class="rm-nav" aria-label="Member navigation"><a href="dashboard.html">Dashboard</a><a href="network.html">My Network</a><a href="network-map.html">Network Tree</a><a href="community.html" class="rm-current" aria-current="page">Community Posts</a><a href="profile.html">My Profile</a><a href="edit-profile.html">Edit Profile</a><button class="rm-logout" type="button" id="logout">Logout</button></nav></div></header>
 
 <main>
 
