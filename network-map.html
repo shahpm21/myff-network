@@ -1,5 +1,400 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Network Map | referMe Network</title><script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
-<style>*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:#f5f8fc;color:#182c43}button,input,select{font:inherit}button{cursor:pointer}.shell{max-width:1500px;margin:24px auto;padding:0 20px}.heading{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:18px}.heading h1{font-size:27px;margin:0 0 5px}.heading p{margin:0;color:#627287}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat{background:#fff;border:1px solid #e1e8f0;border-radius:13px;padding:14px 18px;display:flex;align-items:center;gap:13px}.stat .number{font-size:28px;font-weight:800}.stat small{display:block;color:#66788a;font-size:12px}.bubble{height:13px;width:13px;border-radius:50%;display:inline-block;flex-shrink:0}.green{background:#8cc63f}.blue{background:#0ea5e9}.orange{background:#f47b0b}.gray{background:#94a3b8}.panel{background:white;border:1px solid #e1e8f0;border-radius:16px;box-shadow:0 5px 24px rgba(24,44,67,.055)}.tools{display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:14px;border-bottom:1px solid #e1e8f0}.tools input{min-width:180px;flex:1;max-width:340px;padding:10px 12px;border:1px solid #cdd8e5;border-radius:9px}.tools button,.tools select{background:#fff;border:1px solid #d3dfea;border-radius:9px;padding:10px 12px;color:#182c43}.tools button:hover,.tools button.active{background:#eaf4dd;border-color:#a6d64f}.tools .primary{background:#182c43;color:#fff}.tools .primary:hover{background:#294862;color:white}.stage{position:relative;height:590px;overflow:hidden;background:radial-gradient(#e4eaf1 1px,transparent 1px);background-size:23px 23px;touch-action:none;border-radius:0 0 16px 16px}.stage svg{display:block;width:100%;height:100%;cursor:grab}.stage svg:active{cursor:grabbing}.hint{position:absolute;bottom:12px;left:14px;font-size:12px;color:#64748b;background:#ffffffed;padding:7px 11px;border-radius:9px;pointer-events:none}.notice{padding:12px 16px;font-size:13px;color:#64748b}.node text{fill:white;pointer-events:none;font-size:12px;font-weight:700}.node{cursor:pointer}.node:hover circle{stroke:#182c43;stroke-width:3}.node.selected circle{stroke:#182c43;stroke-width:4}.edge{stroke:#c0cddd;stroke-width:1.6;fill:none}.tree-list{display:none;padding:20px;max-height:600px;overflow:auto}.tree-list ul{list-style:none;margin:0 0 0 18px;padding:0 0 0 17px;border-left:2px solid #e2e8f0}.tree-list li{margin:7px 0}.tree-list button{background:#f5f8fc;border:1px solid #e1e8f0;border-radius:8px;padding:8px 11px;color:#182c43;text-align:left}.tree-list button:hover{background:#eaf4dd}.tree-list .child{margin-left:12px}.drawer{position:absolute;right:15px;top:15px;width:min(300px,calc(100% - 30px));background:#fff;border:1px solid #dbe4ed;border-radius:13px;box-shadow:0 10px 32px #1b304b25;padding:18px;z-index:5}.drawer h3{margin:0 0 8px}.drawer p{color:#627287;font-size:13px;line-height:1.5}.drawer a{display:inline-block;background:#182c43;color:white;text-decoration:none;padding:9px 12px;border-radius:8px}.drawer .close{float:right;border:0;background:none;font-size:21px}.empty{display:grid;place-items:center;min-height:250px;color:#627287;text-align:center;padding:20px}.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}@media(max-width:750px){.shell{padding:0 10px;margin:16px auto}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat{padding:10px}.stat .number{font-size:23px}.stage{height:510px}.heading h1{font-size:24px}.tools{gap:6px}.tools input{max-width:none;flex-basis:100%}}</style>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Network Tree | ReferMe Network</title>
+
+<script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#f4f8fd;
+    color:#102a43;
+}
+
+/* HEADER */
+
+.header{
+
+    background:
+    linear-gradient(
+        135deg,
+        #12355b,
+        #1f4e79
+    );
+
+    padding:10px 28px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.logo-icon{
+
+    width:44px;
+
+    height:44px;
+
+    object-fit:contain;
+}
+
+.brand-text{
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+.logo{
+
+    display:flex;
+
+    align-items:flex-end;
+}
+
+.logo-refer{
+
+    color:white;
+
+    font-size:28px;
+
+    font-weight:800;
+}
+
+.logo-me{
+
+    color:#8BC53F;
+
+    font-size:28px;
+
+    font-weight:800;
+}
+
+.logo-network{
+
+    color:#dbeafe;
+
+    font-size:22px;
+
+    font-weight:600;
+
+    margin-left:8px;
+}
+
+.tagline{
+
+    color:#dbeafe;
+
+    font-size:11px;
+}
+
+.header-buttons{
+
+    display:flex;
+
+    gap:10px;
+}
+
+.header-btn{
+
+    background:rgba(255,255,255,.12);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.2);
+
+    padding:10px 14px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+}
+
+.active-btn{
+
+    background:#8BC53F;
+
+    border-color:#8BC53F;
+
+    color:#12355b;
+}
+
+/* PAGE */
+
+.container{
+
+    max-width:1400px;
+
+    margin:24px auto;
+
+    padding:0 20px;
+}
+
+.page-title{
+
+    text-align:center;
+
+    margin-bottom:24px;
+}
+
+.page-title h1{
+
+    color:#12355b;
+
+    margin-bottom:6px;
+}
+
+.page-title p{
+
+    color:#64748b;
+}
+
+.tree-card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.06);
+}
+
+.legend{
+
+    display:flex;
+
+    gap:20px;
+
+    justify-content:center;
+
+    margin-bottom:30px;
+}
+
+.legend-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+}
+
+.dot{
+
+    width:14px;
+
+    height:14px;
+
+    border-radius:50%;
+}
+
+.l0-dot{
+    background:#8BC53F;
+}
+
+.l1-dot{
+    background:#0ea5e9;
+}
+
+.l2-dot{
+    background:#EE7D11;
+}
+
+.l3-dot{
+    background:#94a3b8;
+}
+
+/* TREE */
+
+.tree{
+
+    display:flex;
+
+    justify-content:center;
+}
+.tree-root{
+    list-style:none;
+    padding-left:0;
+}
+.tree ul{
+border-left:2px solid #cbd5e1;
+    margin-left:25px;
+    padding-left:20px;
+    padding-top:20px;
+
+    position:relative;
+
+    transition:.3s;
+}
+
+.tree li{
+
+    float:left;
+
+    text-align:center;
+
+    list-style:none;
+margin:10px 0;
+    position:relative;
+
+    padding:20px 5px 0 5px;
+}
+
+/* CONNECTOR LINES */
+
+.tree li::before,
+.tree li::after{
+
+    content:'';
+
+    position:absolute;
+
+    top:0;
+
+    right:50%;
+
+    border-top:2px solid #cbd5e1;
+
+    width:50%;
+
+    height:20px;
+}
+
+.tree li::after{
+
+    right:auto;
+
+    left:50%;
+
+    border-left:2px solid #cbd5e1;
+}
+
+.tree li:only-child::after,
+.tree li:only-child::before{
+
+    display:none;
+}
+
+.tree li:only-child{
+
+    padding-top:0;
+}
+
+.tree li:first-child::before{
+
+    border:none;
+}
+
+.tree li:last-child::after{
+
+    border:none;
+}
+
+.tree ul ul::before{
+
+    content:'';
+
+    position:absolute;
+
+    top:0;
+
+    left:50%;
+
+    border-left:2px solid #cbd5e1;
+
+    width:0;
+
+    height:20px;
+}
+
+/* NODES */
+
+.node{
+
+    border-radius:14px;
+
+    padding:12px 18px;
+
+    display:inline-block;
+
+    min-width:120px;
+
+    color:white;
+
+    font-weight:600;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,.08);
+}
+
+.l0{
+
+    background:#8BC53F;
+}
+
+.l1{
+
+    background:#0ea5e9;
+}
+
+.l2{
+
+    background:#EE7D11;
+}
+
+.l3{
+
+    background:#94a3b8;
+}
+
+.node small{
+
+    display:block;
+
+    margin-top:4px;
+
+    font-size:11px;
+
+    opacity:.9;
+}
+
+.loading{
+
+    text-align:center;
+
+    color:#64748b;
+}
+
+</style>
+
 <style>
 
 /* ReferMe Network unified design — presentation only */
@@ -37,35 +432,307 @@ body .section-light{background:#F5F7F9}
 <style>
 /* Consistent member navigation and active-page indicator */
 .rm-nav a.rm-current[aria-current="page"]{background:rgba(166,214,79,.16)!important;color:#A6D64F!important;border-color:rgba(166,214,79,.5)!important}
-</style></head><body><header class="rm-site-header"><div class="rm-header-inner"><a class="rm-brand" href="index.html" aria-label="ReferMe Network homepage"><svg class="rm-network-icon" viewBox="0 0 52 48" width="43" height="40" role="img" aria-label="Trusted relationship network"><g stroke="#A6D64F" stroke-width="2.5" fill="none" stroke-linecap="round"><path d="M9 24 L24 9 L42 15 M9 24 L24 39 L42 31 M24 9 L42 31 M42 15 L24 39"/></g><circle cx="9" cy="24" r="6.5" fill="#A6D64F" stroke="#E1EDFA" stroke-width="1"/><circle cx="9" cy="22.2" r="1.7" fill="#194778"/><path d="M6 27 Q9 24 12 27" stroke="#194778" stroke-width="1.2" fill="none"/><circle cx="24" cy="9" r="6.5" fill="#2D6090" stroke="#E1EDFA" stroke-width="1"/><circle cx="24" cy="7.2" r="1.7" fill="#FFFFFF"/><path d="M21 12 Q24 9 27 12" stroke="#FFFFFF" stroke-width="1.2" fill="none"/><circle cx="42" cy="15" r="6.5" fill="#2D6090" stroke="#E1EDFA" stroke-width="1"/><circle cx="42" cy="13.2" r="1.7" fill="#FFFFFF"/><path d="M39 18 Q42 15 45 18" stroke="#FFFFFF" stroke-width="1.2" fill="none"/><circle cx="24" cy="39" r="6.5" fill="#2D6090" stroke="#E1EDFA" stroke-width="1"/><circle cx="24" cy="37.2" r="1.7" fill="#FFFFFF"/><path d="M21 42 Q24 39 27 42" stroke="#FFFFFF" stroke-width="1.2" fill="none"/><circle cx="42" cy="31" r="6.5" fill="#2D6090" stroke="#E1EDFA" stroke-width="1"/><circle cx="42" cy="29.2" r="1.7" fill="#FFFFFF"/><path d="M39 34 Q42 31 45 34" stroke="#FFFFFF" stroke-width="1.2" fill="none"/></svg><span class="rm-brand-words"><span class="rm-wordmark">refer<span class="rm-green">Me</span> Network</span><span class="rm-tagline">Connected by Trust · Growing Together</span></span></a><nav class="rm-nav" aria-label="Member navigation"><a href="dashboard.html">Dashboard</a><a href="network.html">My Network</a><a href="network-map.html" class="rm-current" aria-current="page">Network Map</a><a href="community.html">Community Posts</a><a href="profile.html">My Profile</a><a href="edit-profile.html">Edit Profile</a><button class="rm-logout" type="button" id="logoutBtn">Logout</button></nav></div></header><main class="shell"><div class="heading"><div><h1>My Network Map</h1><p>Explore connections, discover introductions, and grow your trusted network.</p></div><button id="refresh" class="visually-hidden">Refresh</button></div><section class="stats" aria-label="Network counts"><div class="stat"><span class="bubble blue"></span><div><div id="count1" class="number">—</div><small>Direct (L1)</small></div></div><div class="stat"><span class="bubble orange"></span><div><div id="count2" class="number">—</div><small>Introductions (L2)</small></div></div><div class="stat"><span class="bubble gray"></span><div><div id="count3" class="number">—</div><small>Extended (L3)</small></div></div><div class="stat"><span class="bubble green"></span><div><div id="countAll" class="number">—</div><small>Total connections</small></div></div></section><section class="panel"><div class="tools"><label class="visually-hidden" for="search">Search members</label><input id="search" type="search" placeholder="Search someone in your network…"><select id="level" aria-label="Connection level"><option value="3">L1 + L2 + L3</option><option value="2">L1 + L2</option><option value="1">Direct (L1) only</option></select><button id="graphBtn" class="active" type="button">Network graph</button><button id="treeBtn" type="button">Tree view</button><button id="zoomIn" title="Zoom in">＋</button><button id="zoomOut" title="Zoom out">－</button><button id="fit" title="Fit to screen">Fit</button><button id="reset" title="Expand all branches">Reset branches</button></div><div id="status" class="notice" role="status">Loading your network…</div><div class="stage" id="stage"><svg id="map" role="img" aria-label="Interactive network map"><g id="viewport"><g id="edges"></g><g id="nodes"></g></g></svg><div id="detail" class="drawer" hidden></div><div class="hint">Drag to move · Scroll to zoom · Click a person to expand/collapse · Double-click for details</div></div><div id="treeList" class="tree-list"></div></section></main>
+</style>
+<style>
+/* Compact, responsive original-style relationship tree */
+.tree-card{padding:22px!important;min-height:420px}
+.legend{flex-wrap:wrap;gap:12px 22px;margin-bottom:18px}
+.tree-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin:0 0 18px}
+.tree-search{flex:1;min-width:210px;max-width:380px;padding:11px 14px;border:1px solid #d5dfe9;border-radius:10px;font:inherit;background:#fff;color:#182c43}
+.tree-actions{display:flex;gap:8px;flex-wrap:wrap}
+.tree-action{background:#fff;border:1px solid #d5dfe9;border-radius:9px;padding:9px 12px;color:#182c43;font-weight:600;cursor:pointer}
+.tree-action:hover{background:#f0f6fb}
+.tree-hint{font-size:13px;color:#627287;margin-bottom:16px}
+#treeContainer{display:block!important;text-align:left!important;overflow:auto;max-height:75vh;padding:12px 8px 24px}
+#treeContainer .tree{display:block;min-width:0}
+#treeContainer .tree-root,#treeContainer .tree ul{border:0;margin:0;padding:0;list-style:none}
+#treeContainer .tree li{float:none;text-align:left;display:block;margin:0;padding:0;position:relative}
+#treeContainer .tree li:before,#treeContainer .tree li:after,#treeContainer .tree ul:before{display:none!important}
+#treeContainer .tree-root>li>.node-row{margin-bottom:14px}
+#treeContainer .tree ul{margin-left:24px;padding-left:22px;border-left:2px solid #cbd5e1}
+#treeContainer .tree ul>li{padding:5px 0}
+#treeContainer .tree ul>li:before{display:block!important;content:"";position:absolute;top:26px;left:-22px;width:20px;height:0;border-top:2px solid #cbd5e1;border-left:0}
+.node-row{display:flex;align-items:center;gap:9px;min-width:0}
+#treeContainer .node{min-width:0;width:auto;max-width:min(100%,420px);padding:10px 15px;display:inline-flex;align-items:center;gap:12px;border-radius:11px;font-size:14px;box-shadow:0 3px 9px rgba(24,44,67,.10);white-space:normal;overflow-wrap:anywhere}
+#treeContainer .node small{display:inline-block;margin:0;font-size:11px;opacity:.9}
+.node-name{font-weight:650}
+.node-count{font-size:11px;color:#627287;white-space:nowrap}
+.branch-toggle{flex:none;min-width:28px;height:28px;border-radius:7px;border:1px solid #d5dfe9;background:#fff;color:#182c43;font-size:17px;cursor:pointer}
+.branch-toggle:hover{background:#f0f6fb}
+.branch-toggle[aria-expanded="false"]{background:#f4f7fa}
+.tree li.branch-collapsed>ul{display:none}
+.tree-empty{padding:30px;text-align:center;color:#627287}
+.tree-summary{font-size:13px;color:#627287;margin-bottom:12px}
+.tree-highlight>.node-row .node{outline:3px solid #facc15;outline-offset:3px}
+@media(max-width:600px){.tree-card{padding:12px!important}#treeContainer .tree ul{margin-left:10px;padding-left:14px}#treeContainer .tree ul>li:before{left:-14px;width:12px}#treeContainer .node{padding:9px 11px;font-size:12px}.node-count{font-size:10px}}
+</style>
+</head>
+
+<body>
+
+<header class="rm-site-header"><div class="rm-header-inner"><a class="rm-brand" href="index.html" aria-label="ReferMe Network homepage"><svg class="rm-network-icon" viewBox="0 0 52 48" width="43" height="40" role="img" aria-label="Trusted relationship network"><g stroke="#A6D64F" stroke-width="2.5" fill="none" stroke-linecap="round"><path d="M9 24 L24 9 L42 15 M9 24 L24 39 L42 31 M24 9 L42 31 M42 15 L24 39"/></g><circle cx="9" cy="24" r="6.5" fill="#A6D64F" stroke="#E1EDFA" stroke-width="1"/><circle cx="9" cy="22.2" r="1.7" fill="#194778"/><path d="M6 27 Q9 24 12 27" stroke="#194778" stroke-width="1.2" fill="none"/><circle cx="24" cy="9" r="6.5" fill="#2D6090" stroke="#E1EDFA" stroke-width="1"/><circle cx="24" cy="7.2" r="1.7" fill="#FFFFFF"/><path d="M21 12 Q24 9 27 12" stroke="#FFFFFF" stroke-width="1.2" fill="none"/><circle cx="42" cy="15" r="6.5" fill="#2D6090" stroke="#E1EDFA" stroke-width="1"/><circle cx="42" cy="13.2" r="1.7" fill="#FFFFFF"/><path d="M39 18 Q42 15 45 18" stroke="#FFFFFF" stroke-width="1.2" fill="none"/><circle cx="24" cy="39" r="6.5" fill="#2D6090" stroke="#E1EDFA" stroke-width="1"/><circle cx="24" cy="37.2" r="1.7" fill="#FFFFFF"/><path d="M21 42 Q24 39 27 42" stroke="#FFFFFF" stroke-width="1.2" fill="none"/><circle cx="42" cy="31" r="6.5" fill="#2D6090" stroke="#E1EDFA" stroke-width="1"/><circle cx="42" cy="29.2" r="1.7" fill="#FFFFFF"/><path d="M39 34 Q42 31 45 34" stroke="#FFFFFF" stroke-width="1.2" fill="none"/></svg><span class="rm-brand-words"><span class="rm-wordmark">refer<span class="rm-green">Me</span> Network</span><span class="rm-tagline">Connected by Trust · Growing Together</span></span></a><nav class="rm-nav" aria-label="Member navigation"><a href="dashboard.html">Dashboard</a><a href="network.html">My Network</a><a href="network-map.html" class="rm-current" aria-current="page">Network Tree</a><a href="community.html">Community Posts</a><a href="profile.html">My Profile</a><a href="edit-profile.html">Edit Profile</a><button class="rm-logout" type="button" id="logoutBtn">Logout</button></nav></div></header>
+
+<div class="container">
+
+    <div class="page-title">
+
+        <h1>
+            Relationship Tree
+        </h1>
+
+        <p>
+            Visualize how trusted relationships expand your network.
+        </p>
+
+    </div>
+
+    <div class="tree-card">
+
+        <div class="legend">
+
+            <div class="legend-item">
+                <div class="dot l0-dot"></div>
+                You (L0)
+            </div>
+
+            <div class="legend-item">
+                <div class="dot l1-dot"></div>
+                Direct Connections (L1)
+            </div>
+
+            <div class="legend-item">
+                <div class="dot l2-dot"></div>
+                Trusted Introductions (L2)
+            </div>
+
+            <div class="legend-item">
+                <div class="dot l3-dot"></div>
+                Extended Network (L3)
+            </div>
+
+        </div>
+
+        <div class="tree-toolbar"><input id="treeSearch" class="tree-search" type="search" placeholder="Search a person in your network…" aria-label="Search network members"><div class="tree-actions"><button type="button" id="expandAll" class="tree-action">Expand all</button><button type="button" id="collapseAll" class="tree-action">Collapse branches</button></div></div>
+        <div class="tree-hint">Select + to expand connections. Members are shown once at their closest connection level (L1–L3).</div>
+        <div id="treeSummary" class="tree-summary"></div>
+        <div
+            id="treeContainer"
+            class="loading">
+
+            Loading network...
+
+        </div>
+
+    </div>
+
+</div>
 <script>
-'use strict';
-const {Client,Account,Databases,Query}=Appwrite;
-const client=new Client().setEndpoint('https://cloud.appwrite.io/v1').setProject('6ac6fecf002db308564b');
-const account=new Account(client), db=new Databases(client);
-const DB='myff',PROFILES='Profiles',CONNECTIONS='Connections';
-const $=id=>document.getElementById(id);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let root='',names=new Map(),levels=new Map(),parents=new Map(),children=new Map(),collapsed=new Set(),selected=null,mode='graph',limit=3,search='',view={x:0,y:0,k:1},positions=new Map(),visible=new Set(),drag=null;
-function fullName(p){return [p.first_name,p.last_name].filter(Boolean).join(' ').trim()||p.name||'Member';}
-async function fetchAll(collection){const results=[];let cursor=null;for(let i=0;i<100;i++){let queries=[Query.limit(100)];if(cursor)queries.push(Query.cursorAfter(cursor));const page=await db.listDocuments(DB,collection,queries);results.push(...page.documents);if(page.documents.length<100||results.length>=page.total)break;cursor=page.documents.at(-1).$id;}return results;}
-function calculate(connections){const adjacency=new Map();function add(a,b){if(!adjacency.has(a))adjacency.set(a,new Set());adjacency.get(a).add(b);}for(const c of connections){const a=c.from_user_id,b=c.to_user_id;if(!a||!b||a===b)continue;const status=String(c.status||'').toLowerCase();if(status&& !['active','accepted','approved','connected'].includes(status))continue;add(a,b);add(b,a);}levels=new Map([[root,0]]);parents=new Map();children=new Map();const queue=[root];for(let i=0;i<queue.length;i++){const id=queue[i],level=levels.get(id);if(level>=3)continue;for(const next of adjacency.get(id)||[]){if(levels.has(next))continue;levels.set(next,level+1);parents.set(next,id);if(!children.has(id))children.set(id,[]);children.get(id).push(next);queue.push(next);}}for(const [id,kids] of children)kids.sort((a,b)=>name(a).localeCompare(name(b)));}
-function name(id){return names.get(id)||'Member';}
-function color(level){return ['#8cc63f','#0ea5e9','#f47b0b','#94a3b8'][level]||'#94a3b8';}
-function counts(){for(let l=1;l<=3;l++)$('count'+l).textContent=[...levels.values()].filter(x=>x===l).length;$('countAll').textContent=Math.max(0,levels.size-1);}
-function shown(){visible=new Set([root]);const q=[root];for(let i=0;i<q.length;i++){const id=q[i];if(collapsed.has(id))continue;for(const child of children.get(id)||[]){if(levels.get(child)>limit)continue;visible.add(child);q.push(child);}}}
-function layout(){shown();const buckets=[[],[],[],[]];for(const id of visible)buckets[levels.get(id)].push(id);positions=new Map([[root,{x:0,y:0}]]);const radius=[0,190,340,490];for(let l=1;l<=limit;l++){const arr=buckets[l];const n=arr.length;if(!n)continue;for(let i=0;i<n;i++){const angle=(2*Math.PI*i/n)-Math.PI/2;positions.set(arr[i],{x:Math.cos(angle)*radius[l],y:Math.sin(angle)*radius[l]});}}}
-function svg(tag,attrs,parent){const el=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v] of Object.entries(attrs||{}))el.setAttribute(k,v);if(parent)parent.append(el);return el;}
-function label(id){const s=name(id);return s.length>17?s.slice(0,16)+'…':s;}
-function draw(){layout();const eg=$('edges'),ng=$('nodes');eg.replaceChildren();ng.replaceChildren();for(const id of visible){if(id===root)continue;const p=positions.get(id),pp=positions.get(parents.get(id));if(!p||!pp)continue;svg('line',{x1:pp.x,y1:pp.y,x2:p.x,y2:p.y,class:'edge'},eg);}for(const id of visible){const p=positions.get(id),l=levels.get(id),r=l===0?49:l===1?38:31;const g=svg('g',{class:'node'+(selected===id?' selected':''),transform:`translate(${p.x},${p.y})`,tabindex:'0',role:'button','aria-label':name(id)+', level '+l},ng);svg('circle',{r,fill:color(l),stroke:'#fff','stroke-width':3},g);const text=svg('text',{'text-anchor':'middle',y:l===0?-5:-2},g);text.textContent=label(id);const sub=svg('text',{'text-anchor':'middle',y:15,style:'font-size:10px;opacity:.92'},g);sub.textContent=l===0?'YOU':`L${l}`;if((children.get(id)||[]).length){const b=svg('g',{transform:`translate(${r-3},${-r+3})`},g);svg('circle',{r:11,fill:'#182c43',stroke:'white','stroke-width':1.5},b);const t=svg('text',{'text-anchor':'middle',y:4,style:'font-size:13px'},b);t.textContent=collapsed.has(id)?'+':'−';}g.addEventListener('click',e=>{e.stopPropagation();selected=id;if((children.get(id)||[]).length){collapsed.has(id)?collapsed.delete(id):collapsed.add(id);draw();}else{showDetail(id);draw();}});g.addEventListener('dblclick',e=>{e.stopPropagation();showDetail(id);});g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showDetail(id);}});}
-applyView();$('status').textContent=`Showing ${visible.size-1} of ${levels.size-1} connections · Click a member to expand or collapse their branch.`;}
-function applyView(){const rect=$('stage').getBoundingClientRect();$('viewport').setAttribute('transform',`translate(${rect.width/2+view.x} ${rect.height/2+view.y}) scale(${view.k})`);}
-function fit(){layout();let maxX=200,maxY=200;for(const p of positions.values()){maxX=Math.max(maxX,Math.abs(p.x)+60);maxY=Math.max(maxY,Math.abs(p.y)+60);}const r=$('stage').getBoundingClientRect();view={x:0,y:0,k:Math.min(1.15,(r.width-45)/(2*maxX),(r.height-45)/(2*maxY))};applyView();}
-function showDetail(id){selected=id;const l=levels.get(id),parent=parents.get(id),n=(children.get(id)||[]).length;const d=$('detail');d.hidden=false;d.innerHTML=`<button class="close" id="closeDetail" aria-label="Close">×</button><h3>${esc(name(id))}</h3><p><strong>${l===0?'You':'Level L'+l}</strong>${parent?'<br>Connected through: '+esc(name(parent)):''}<br>${n} visible-network branch${n===1?'':'es'}</p>${id!==root?'<a href="network.html">Explore My Network</a>':''}`;$('closeDetail').onclick=()=>{d.hidden=true;selected=null;draw();};}
-function treeRender(){const box=$('treeList');box.replaceChildren();function branch(id,depth){const li=document.createElement('li');const b=document.createElement('button');b.textContent=`${'L'+levels.get(id)} · ${name(id)}${(children.get(id)||[]).length?' ▾':''}`;b.onclick=()=>{selected=id;showDetail(id);};li.append(b);if(depth<limit){const kids=(children.get(id)||[]);if(kids.length){const ul=document.createElement('ul');for(const kid of kids)ul.append(branch(kid,depth+1));li.append(ul);}}return li;}const ul=document.createElement('ul');ul.append(branch(root,0));box.append(ul);}
-function render(){if(mode==='graph'){ $('stage').style.display='block';$('treeList').style.display='none';draw();fit();}else{$('stage').style.display='none';$('treeList').style.display='block';treeRender();$('status').textContent=`Tree view · ${levels.size-1} total connections`;}}
-function focusSearch(){const q=search.trim().toLowerCase();if(!q){selected=null;draw();fit();return;}const matches=[...levels.keys()].filter(id=>name(id).toLowerCase().includes(q));if(!matches.length){$('status').textContent='No matching members in your L1–L3 network.';return;}const id=matches[0];limit=Math.max(limit,levels.get(id));$('level').value=String(limit);for(let a=id;a&&a!==root;a=parents.get(a))collapsed.delete(parents.get(a));mode='graph';$('graphBtn').classList.add('active');$('treeBtn').classList.remove('active');$('stage').style.display='block';$('treeList').style.display='none';selected=id;draw();const p=positions.get(id);if(p){view.k=Math.max(view.k,.9);view.x=-p.x*view.k;view.y=-p.y*view.k;applyView();}showDetail(id);}
-$('search').addEventListener('input',e=>{search=e.target.value;clearTimeout(window.searchTimer);window.searchTimer=setTimeout(focusSearch,180);});$('level').onchange=e=>{limit=Number(e.target.value);render();};$('graphBtn').onclick=()=>{mode='graph';$('graphBtn').classList.add('active');$('treeBtn').classList.remove('active');render();};$('treeBtn').onclick=()=>{mode='tree';$('treeBtn').classList.add('active');$('graphBtn').classList.remove('active');render();};$('zoomIn').onclick=()=>{view.k=Math.min(5,view.k*1.25);applyView();};$('zoomOut').onclick=()=>{view.k=Math.max(.15,view.k/1.25);applyView();};$('fit').onclick=fit;$('reset').onclick=()=>{collapsed.clear();render();};$('stage').addEventListener('wheel',e=>{e.preventDefault();view.k=Math.max(.15,Math.min(5,view.k*(e.deltaY<0?1.12:.89)));applyView();},{passive:false});$('stage').addEventListener('pointerdown',e=>{if(e.target.closest('.node')||e.target.closest('.drawer'))return;drag={x:e.clientX,y:e.clientY,ox:view.x,oy:view.y};$('stage').setPointerCapture(e.pointerId);});$('stage').addEventListener('pointermove',e=>{if(!drag)return;view.x=drag.ox+e.clientX-drag.x;view.y=drag.oy+e.clientY-drag.y;applyView();});$('stage').addEventListener('pointerup',()=>drag=null);$('stage').addEventListener('pointercancel',()=>drag=null);window.addEventListener('resize',()=>{if(mode==='graph')fit();});
-$('logoutBtn').onclick=async()=>{try{await account.deleteSession('current');location.href='login.html';}catch(e){alert('Unable to log out. Please try again.');}};
-(async()=>{try{const user=await account.get();root=user.$id;const [profiles,connections]=await Promise.all([fetchAll(PROFILES),fetchAll(CONNECTIONS)]);for(const p of profiles)if(p.user_id)names.set(p.user_id,fullName(p));if(!names.has(root))names.set(root,user.name||'You');calculate(connections);counts();render();}catch(e){console.error('Network map loading error:',e);$('status').textContent='Unable to load the network. Please refresh or check your permissions.';$('stage').innerHTML='<div class="empty">Could not load network data. Please check your connection or sign in again.</div>';try{await account.get();}catch{location.href='login.html';}}})();
-</script></body></html>
+
+const {
+    Client,
+    Account,
+    Databases
+} = Appwrite;
+
+/* APPWRITE */
+
+const client = new Client();
+
+client
+    .setEndpoint(
+        "https://cloud.appwrite.io/v1"
+    )
+    .setProject(
+        "6ac6fecf002db308564b"
+    );
+
+const account =
+    new Account(client);
+
+const databases =
+    new Databases(client);
+
+const DATABASE_ID =
+    "myff";
+
+const PROFILES_COLLECTION_ID =
+    "Profiles";
+
+const CONNECTIONS_COLLECTION_ID =
+    "Connections";
+
+/* HELPERS */
+
+function getProfileName(profile){
+
+    if(!profile){
+        return "Unknown User";
+    }
+
+    return (
+        `${profile.first_name || ""}
+         ${profile.last_name || ""}`
+    )
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+/* BUILD BIDIRECTIONAL GRAPH */
+
+function buildGraph(connections){
+
+    const graph = {};
+
+    connections.forEach(connection => {
+
+        const from =
+            connection.from_user_id;
+
+        const to =
+            connection.to_user_id;
+
+        if(!graph[from]){
+            graph[from] = [];
+        }
+
+        if(!graph[to]){
+            graph[to] = [];
+        }
+
+        graph[from].push(to);
+
+        graph[to].push(from);
+
+    });
+
+    return graph;
+}
+
+/* Build a shortest-path tree, stopping at L3. Each person appears once. */
+function buildTree(root, graph){
+ const children={},levels={[root]:0},queue=[root];
+ for(let i=0;i<queue.length;i++){
+  const id=queue[i],level=levels[id];
+  if(level>=3)continue;
+  for(const next of (graph[id]||[])){
+   if(Object.prototype.hasOwnProperty.call(levels,next))continue;
+   levels[next]=level+1;
+   (children[id]??=[]).push(next);
+   queue.push(next);
+  }
+ }
+ return {children,levels};
+}
+function escapeHTML(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+let currentTree=null;
+function renderTreeNode(id, tree, profiles){
+ const level=tree.levels[id]??3, kids=tree.children[id]||[];
+ const name=getProfileName(profiles[id])||'Unknown member';
+ const className=['l0','l1','l2','l3'][level];
+ const collapsed=level>=1 && kids.length>0;
+ const node=`<div class="node-row">${kids.length?`<button type="button" class="branch-toggle" aria-label="${collapsed?'Expand':'Collapse'} ${escapeHTML(name)}" aria-expanded="${!collapsed}">${collapsed?'+':'−'}</button>`:'<span style="width:28px;flex:none"></span>'}<div class="node ${className}"><span class="node-name">${escapeHTML(name)}</span><small>${level===0?'YOU':'L'+level}</small></div>${kids.length?`<span class="node-count">${kids.length} direct branch${kids.length===1?'':'es'}</span>`:''}</div>`;
+ return `<li data-member="${escapeHTML(name.toLowerCase())}" class="${collapsed?'branch-collapsed':''}">${node}${kids.length?`<ul>${kids.map(child=>renderTreeNode(child,tree,profiles)).join('')}</ul>`:''}</li>`;
+}
+function toggleBranch(li, expand){
+ const button=li.querySelector(':scope > .node-row > .branch-toggle');
+ if(!button)return;
+ li.classList.toggle('branch-collapsed',!expand);
+ button.textContent=expand?'−':'+';
+ button.setAttribute('aria-expanded',String(expand));
+ button.setAttribute('aria-label',(expand?'Collapse ':'Expand ')+li.querySelector(':scope > .node-row .node-name').textContent);
+}
+function setAllBranches(expand){
+ document.querySelectorAll('#treeContainer li').forEach(li=>toggleBranch(li,expand));
+}
+function searchTree(){
+ const q=document.getElementById('treeSearch').value.trim().toLowerCase();
+ const nodes=[...document.querySelectorAll('#treeContainer li')];
+ nodes.forEach(li=>li.classList.remove('tree-highlight'));
+ if(!q)return;
+ let found=0;
+ nodes.forEach(li=>{
+  const name=li.querySelector(':scope > .node-row .node-name')?.textContent.toLowerCase()||'';
+  if(!name.includes(q))return;
+  found++;
+  li.classList.add('tree-highlight');
+  let parent=li.parentElement.closest('li');
+  while(parent){toggleBranch(parent,true);parent=parent.parentElement.closest('li');}
+ });
+ document.getElementById('treeSummary').textContent=found?`${found} matching member${found===1?'':'s'} highlighted`:'No matching members found';
+}
+/* Appwrite returns documents in pages; fetch them all rather than only first 25. */
+async function fetchAll(collection){
+ const result=[];let offset=0;
+ for(let page=0;page<200;page++){
+  const response=await databases.listDocuments(DATABASE_ID,collection,[Appwrite.Query.limit(100),Appwrite.Query.offset(offset)]);
+  const docs=response.documents||[];
+  result.push(...docs);
+  offset+=docs.length;
+  if(!docs.length||docs.length<100||offset>=response.total)break;
+ }
+ return result;
+}
+async function loadRelationshipTree(){
+ const container=document.getElementById('treeContainer');
+ try{
+  const user=await account.get();
+  container.textContent='Loading your relationship tree…';
+  const [connections,profiles]=await Promise.all([fetchAll(CONNECTIONS_COLLECTION_ID),fetchAll(PROFILES_COLLECTION_ID)]);
+  const profileMap={};
+  profiles.forEach(p=>{if(p.user_id)profileMap[p.user_id]=p;});
+  const graph=buildGraph(connections);
+  const tree=buildTree(user.$id,graph);
+  const counts=[0,0,0,0];Object.values(tree.levels).forEach(level=>counts[level]++);
+  document.getElementById('treeSummary').textContent=`${counts[1]} direct (L1) · ${counts[2]} introductions (L2) · ${counts[3]} extended (L3) · ${counts[1]+counts[2]+counts[3]} members`;
+  container.innerHTML=`<div class="tree"><ul class="tree-root">${renderTreeNode(user.$id,tree,profileMap)}</ul></div>`;
+  document.getElementById('expandAll').addEventListener('click',()=>setAllBranches(true));
+  document.getElementById('collapseAll').addEventListener('click',()=>setAllBranches(false));
+  document.getElementById('treeSearch').addEventListener('input',searchTree);
+  container.addEventListener('click',e=>{
+   const btn=e.target.closest('.branch-toggle');if(!btn)return;
+   const li=btn.closest('li');toggleBranch(li,li.classList.contains('branch-collapsed'));
+  });
+ }catch(error){
+  console.error('Unable to load relationship tree',error);
+  container.innerHTML='<div class="tree-empty">Could not load your network. Please refresh or sign in again.</div>';
+ }
+}
+
+/* LOGOUT */
+
+document
+.getElementById(
+    "logoutBtn"
+)
+.addEventListener(
+    "click",
+    async () => {
+
+        try{
+
+            await account.deleteSession(
+                "current"
+            );
+
+            window.location.href =
+                "login.html";
+
+        }
+        catch(error){
+
+            console.error(
+                error
+            );
+        }
+
+    }
+);
+
+/* START */
+
+loadRelationshipTree();
+
+</script>
+      
+</body>
+</html>
