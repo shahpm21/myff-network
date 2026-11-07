@@ -1089,6 +1089,11 @@ document
 .addEventListener("submit", async function(e){
 
     e.preventDefault();
+    const submitButton = this.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = "Creating your account...";
+    let registrationStage = "validation";
+    let authUserCreated = false;
 
     try{
 
@@ -1278,6 +1283,7 @@ document
         -----------------------------------------
         */
 
+        registrationStage = "auth";
         const user =
             await account.create(
                 ID.unique(),
@@ -1286,10 +1292,15 @@ document
                 fullName
             );
 
-        console.log(
-            "Auth User Created:",
-            user
-        );
+        authUserCreated = true;
+        console.log("Auth User Created:", user.$id);
+
+        // Appwrite account.create does NOT sign in the new member.
+        // An authenticated session is needed for Profile/Connections writes
+        // when those collections require signed-in users.
+        registrationStage = "session";
+        await account.createEmailPasswordSession(email, password);
+        registrationStage = "profile";
 
         /*
         -----------------------------------------
@@ -1424,6 +1435,7 @@ document
         -----------------------------------------
         */
 
+        registrationStage = "connection";
         await databases.createDocument(
 
             DATABASE_ID,
@@ -1457,13 +1469,11 @@ document
             "Connection Created"
         );
 
-      sessionStorage.setItem(
-    "registrationSuccess",
-    "true"
-);
-
-window.location.href =
-    "login.html";
+        // Registration completed. Return to the regular login flow.
+        sessionStorage.setItem("registrationSuccess", "true");
+        try { await account.deleteSession("current"); }
+        catch (logoutError) { console.warn("Session cleanup:", logoutError); }
+        window.location.href = "login.html";
     }
     catch(error){
 
@@ -1472,10 +1482,19 @@ window.location.href =
             error
         );
 
-        alert(
-            error.message
-        );
-
+        if (authUserCreated) {
+            alert("Your login account was created, but registration did not finish (step: "
+                + registrationStage + ").\n\n"
+                + (error.message || "Please try again later.")
+                + "\n\nDo NOT register again with the same email. Contact ReferMe support to complete your profile or connection.");
+        } else if (registrationStage === "auth" && (error.code === 409 || /already|exists/i.test(error.message || ""))) {
+            alert("An account with this email already exists. Please use Login or Forgot Password. If your profile is missing, contact ReferMe support.");
+        } else {
+            alert("Registration could not continue (step: " + registrationStage + ").\n" + (error.message || "Unknown error"));
+        }
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "Create referMe Network Account";
     }
 
 });
