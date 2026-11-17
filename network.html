@@ -259,6 +259,19 @@ body .section-light{background:#F5F7F9}
 @media(max-width:540px){.rm-wordmark{font-size:22px}.rm-network-icon{width:39px;height:37px}.rm-tagline{font-size:9px}.rm-header-inner{padding:12px}.rm-nav{gap:3px}}
 
 </style>
+<style>
+.directory-summary{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin:0 0 12px;color:#182C43;font-size:13px}
+.directory-counts{font-weight:650}
+.directory-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:#627287}
+.directory-controls select{padding:7px 9px;border:1px solid #cdd8e5;border-radius:8px;background:white;color:#182C43}
+.directory-pagination{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 2px 2px;font-size:13px;color:#627287}
+.directory-page-buttons{display:flex;align-items:center;gap:10px}
+.directory-page-buttons button{background:white;color:#182C43;border:1px solid #cdd8e5;border-radius:8px;padding:8px 13px;cursor:pointer}
+.directory-page-buttons button:hover:not(:disabled){background:#eaf4dd;border-color:#A6D64F}
+.directory-page-buttons button:disabled{opacity:.4;cursor:not-allowed}
+.search-status:not(:empty){padding:4px 0 10px;color:#627287;font-size:13px}
+@media(max-width:640px){.directory-summary,.directory-pagination{align-items:flex-start;flex-direction:column}}
+</style>
 </head>
 
 <body>
@@ -341,6 +354,15 @@ body .section-light{background:#F5F7F9}
                 placeholder="Search name, company, role, location, or skills...">
             <button class="clear-search" id="clearNetworkSearch" type="button" aria-label="Clear search">Clear</button>
         </div>
+        <div class="directory-summary" aria-label="Network directory summary">
+            <div class="directory-counts" id="directoryCounts" aria-live="polite">Loading member counts…</div>
+            <div class="directory-controls">
+                <label for="levelFilter">Level</label>
+                <select id="levelFilter"><option value="all">All levels</option><option value="L1">L1 only</option><option value="L2">L2 only</option><option value="L3">L3 only</option></select>
+                <label for="pageSize">Rows per page</label>
+                <select id="pageSize"><option value="10">10</option><option value="25" selected>25</option><option value="50">50</option><option value="all">All</option></select>
+            </div>
+        </div>
         <div class="search-status" id="searchStatus" aria-live="polite"></div>
 
         <div class="table-wrapper">
@@ -406,9 +428,11 @@ body .section-light{background:#F5F7F9}
             </table>
 
         </div>
-
+        <div class="directory-pagination" id="directoryPagination" aria-label="Directory pagination">
+            <span id="pageSummary">Loading…</span>
+            <div class="directory-page-buttons"><button type="button" id="prevPage">Previous</button><span id="pageIndicator"></span><button type="button" id="nextPage">Next</button></div>
+        </div>
     </div>
-
 </div>
 
 <script>
@@ -735,30 +759,53 @@ async function loadNetwork(){
 const networkSearch = document.getElementById("networkSearch");
 const clearNetworkSearch = document.getElementById("clearNetworkSearch");
 const searchStatus = document.getElementById("searchStatus");
-let searchFrame = 0;
+const levelFilter = document.getElementById("levelFilter");
+const pageSizeSelect = document.getElementById("pageSize");
+let currentPage = 1;
 
-function filterNetworkRows() {
-    cancelAnimationFrame(searchFrame);
-    searchFrame = requestAnimationFrame(() => {
-        const term = networkSearch.value.trim().toLocaleLowerCase();
-        const rows = document.querySelectorAll("#networkTableBody tr");
-        let visible = 0;
-        let searchable = 0;
-        rows.forEach(row => {
-            if (row.querySelector(".empty")) return;
-            searchable++;
-            const matches = !term || row.innerText.toLocaleLowerCase().includes(term);
-            row.style.display = matches ? "" : "none";
-            if (matches) visible++;
-        });
-        clearNetworkSearch.style.display = networkSearch.value ? "block" : "none";
-        searchStatus.textContent = term && searchable ? `${visible} of ${searchable} members` : "";
+function filterNetworkRows(resetPage = false) {
+    if (resetPage) currentPage = 1;
+    const term = networkSearch.value.trim().toLocaleLowerCase();
+    const allRows = [...document.querySelectorAll("#networkTableBody tr")].filter(row => !row.querySelector(".empty"));
+    const selectedLevel = levelFilter.value;
+    const levelCounts = {L1:0,L2:0,L3:0};
+    for (const row of allRows) {
+        const level = row.querySelector(".level-badge")?.textContent.trim();
+        if (levelCounts[level] !== undefined) levelCounts[level]++;
+    }
+    document.getElementById("directoryCounts").textContent =
+        `${allRows.length} total members  ·  ${levelCounts.L1} L1 direct  ·  ${levelCounts.L2} L2 introductions  ·  ${levelCounts.L3} L3 extended`;
+
+    const matching = allRows.filter(row => {
+        const level = row.querySelector(".level-badge")?.textContent.trim();
+        return (selectedLevel === "all" || selectedLevel === level) &&
+               (!term || row.textContent.toLocaleLowerCase().includes(term));
     });
+    const size = pageSizeSelect.value === "all" ? Math.max(1,matching.length) : Number(pageSizeSelect.value);
+    const pages = Math.max(1,Math.ceil(matching.length/size));
+    currentPage = Math.min(Math.max(currentPage,1),pages);
+    const start = (currentPage-1)*size;
+    const shown = matching.slice(start,start+size);
+    const shownSet = new Set(shown);
+    allRows.forEach(row => row.style.display = shownSet.has(row) ? "" : "none");
+    const end = Math.min(start+size,matching.length);
+    document.getElementById("pageSummary").textContent = matching.length
+        ? `Showing ${start+1}–${end} of ${matching.length} matching members (${allRows.length} total)`
+        : `Showing 0 of ${allRows.length} members`;
+    document.getElementById("pageIndicator").textContent = `Page ${currentPage} of ${pages}`;
+    document.getElementById("prevPage").disabled = currentPage === 1;
+    document.getElementById("nextPage").disabled = currentPage >= pages;
+    searchStatus.textContent = matching.length === 0 && allRows.length ? "No members match your search or level filter." : "";
+    clearNetworkSearch.style.display = networkSearch.value ? "block" : "none";
 }
-networkSearch.addEventListener("input", filterNetworkRows);
+networkSearch.addEventListener("input", () => filterNetworkRows(true));
+levelFilter.addEventListener("change", () => filterNetworkRows(true));
+pageSizeSelect.addEventListener("change", () => filterNetworkRows(true));
+document.getElementById("prevPage").addEventListener("click", () => {currentPage--;filterNetworkRows();});
+document.getElementById("nextPage").addEventListener("click", () => {currentPage++;filterNetworkRows();});
 clearNetworkSearch.addEventListener("click", () => {
     networkSearch.value = "";
-    filterNetworkRows();
+    filterNetworkRows(true);
     networkSearch.focus();
 });
 loadNetwork();
