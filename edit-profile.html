@@ -680,13 +680,13 @@ Use your account/security settings to change your password.
 <div class="grid">
 
 <div>
-<label>Company / Organization</label>
-<input type="text" id="company">
+<label for="company">Company / Organization <span class="required" aria-hidden="true">*</span></label>
+<input type="text" id="company" required aria-required="true">
 </div>
 
 <div>
-<label>Role / Title</label>
-<input type="text" id="role">
+<label for="role">Role / Title <span class="required" aria-hidden="true">*</span></label>
+<input type="text" id="role" required aria-required="true">
 </div>
 
 </div>
@@ -1141,6 +1141,17 @@ function getCheckedValues(name) {
 form.addEventListener("submit", async function(e) {
   e.preventDefault();
   if (!currentUser || !currentProfile) { setStatus("Your profile has not loaded. Please sign in and refresh.", true); return; }
+  for (const [id, label] of [["company", "Company / Organization"], ["role", "Role / Title"]]) {
+    const field = document.getElementById(id);
+    field.value = field.value.trim();
+    if (!field.value) {
+      field.setCustomValidity(label + " is required.");
+      field.reportValidity();
+      field.focus();
+      return;
+    }
+    field.setCustomValidity("");
+  }
   const phone = document.getElementById("phone").value.trim();
   const inviterPhone = document.getElementById("inviter_phone").value.trim();
   if (!/^[0-9]{10}$/.test(phone)) { setStatus("Please enter a 10-digit phone number.", true); document.getElementById("phone").focus(); return; }
@@ -1213,5 +1224,12 @@ loadProfile();
 
 </script>
 
+<script>
+for (const id of ["company", "role"]) {
+  document.getElementById(id)?.addEventListener("input", function () {
+    this.setCustomValidity("");
+  });
+}
+</script>
 </body>
 </html>
