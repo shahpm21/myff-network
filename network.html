@@ -272,6 +272,17 @@ body .section-light{background:#F5F7F9}
 .search-status:not(:empty){padding:4px 0 10px;color:#627287;font-size:13px}
 @media(max-width:640px){.directory-summary,.directory-pagination{align-items:flex-start;flex-direction:column}}
 </style>
+<style>
+/* Shared compact stats presentation: My Network and Network Map */
+.stats-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.stat-card{border:1px solid #e1e8f0;border-left:3px solid #a6d64f;border-radius:13px;padding:10px 14px;gap:13px;box-shadow:0 2px 7px rgba(16,42,67,.035)}
+.stat-number{font-size:23px;font-weight:800;line-height:1.1;color:#182c43}
+.stat-label{font-size:12px;color:#66788a;line-height:1.35}
+.stat-dot{display:inline-block;flex:0 0 13px;width:13px;height:13px;border-radius:50%}
+.stat-dot.blue{background:#0ea5e9}.stat-dot.orange{background:#f47b0b}.stat-dot.gray{background:#94a3b8}.stat-dot.green{background:#8cc63f}
+@media(max-width:850px){.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:450px){.stats-grid{grid-template-columns:1fr}}
+</style>
 </head>
 
 <body>
@@ -295,50 +306,11 @@ body .section-light{background:#F5F7F9}
 
     </div>
 
-    <div class="stats-grid">
-
-        <div class="stat-card">
-
-            <div
-                class="stat-number"
-                id="l1Count">
-                0
-            </div>
-
-            <div class="stat-label">
-                L1 Direct Connections
-            </div>
-
-        </div>
-
-        <div class="stat-card">
-
-            <div
-                class="stat-number"
-                id="l2Count">
-                0
-            </div>
-
-            <div class="stat-label">
-                L2 Trusted Introductions
-            </div>
-
-        </div>
-
-        <div class="stat-card">
-
-            <div
-                class="stat-number"
-                id="l3Count">
-                0
-            </div>
-
-            <div class="stat-label">
-                L3 Extended Members
-            </div>
-
-        </div>
-
+    <div class="stats-grid" aria-label="Network counts">
+      <div class="stat-card"><span class="stat-dot blue"></span><div><div class="stat-number" id="l1Count">0</div><div class="stat-label">Direct (L1)</div></div></div>
+      <div class="stat-card"><span class="stat-dot orange"></span><div><div class="stat-number" id="l2Count">0</div><div class="stat-label">Introductions (L2)</div></div></div>
+      <div class="stat-card"><span class="stat-dot gray"></span><div><div class="stat-number" id="l3Count">0</div><div class="stat-label">Extended (L3)</div></div></div>
+      <div class="stat-card"><span class="stat-dot green"></span><div><div class="stat-number" id="totalConnectionsCount">0</div><div class="stat-label">Total connections</div></div></div>
     </div>
 
     <div class="card">
@@ -561,6 +533,8 @@ async function loadNetwork(){
             "l3Count"
         ).innerHTML =
             l3Ids.size;
+
+        document.getElementById("totalConnectionsCount").textContent = l1Ids.size + l2Ids.size + l3Ids.size;
 
         const tableBody =
             document.getElementById(
