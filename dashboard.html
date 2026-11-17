@@ -9,7 +9,7 @@
 name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>MyFF Dashboard</title>
+<title>Dashboard | ReferMe Network</title>
 
 <script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
 
@@ -357,7 +357,7 @@ body .section-light{background:#F5F7F9}
 
             <h2>
 
-                🌐 MyFF Network Model
+                🌐 ReferMe Network Model
 
             </h2>
 
@@ -449,6 +449,46 @@ function getConnectedUserId(
 
 }
     
+
+// Shared L0-L3 shortest-path rules, matching Network Map.
+async function fetchAllNetworkDocuments(collectionId) {
+    const documents = []; let cursor = null;
+    for (let pageNumber = 0; pageNumber < 1000; pageNumber++) {
+        const queries = [Query.limit(100)];
+        if (cursor) queries.push(Query.cursorAfter(cursor));
+        const page = await databases.listDocuments(DATABASE_ID, collectionId, queries);
+        documents.push(...page.documents);
+        if (page.documents.length < 100 || documents.length >= page.total) break;
+        cursor = page.documents[page.documents.length - 1].$id;
+    }
+    return documents;
+}
+function calculateNetworkLevels(allConnections, rootId) {
+    const adjacent = new Map();
+    const add = (a,b) => { if (!adjacent.has(a)) adjacent.set(a,new Set()); adjacent.get(a).add(b); };
+    for (const c of allConnections) {
+        const a=c.from_user_id,b=c.to_user_id;
+        if (!a || !b || a===b) continue;
+        const status=String(c.status||'').toLowerCase();
+        if (status && !['active','accepted','approved','connected'].includes(status)) continue;
+        add(a,b); add(b,a);
+    }
+    const levels = new Map([[rootId,0]]), queue=[rootId];
+    for (let i=0;i<queue.length;i++) {
+        const id=queue[i], level=levels.get(id);
+        if (level>=3) continue;
+        for (const next of adjacent.get(id)||[]) {
+            if (levels.has(next)) continue;
+            levels.set(next,level+1);queue.push(next);
+        }
+    }
+    return {
+        l1Ids:new Set([...levels].filter(([,l])=>l===1).map(([id])=>id)),
+        l2Ids:new Set([...levels].filter(([,l])=>l===2).map(([id])=>id)),
+        l3Ids:new Set([...levels].filter(([,l])=>l===3).map(([id])=>id))
+    };
+}
+
 async function loadDashboard(){
 
     try{
@@ -554,162 +594,8 @@ async function loadDashboard(){
         ${profile.support_seeking || "-"}
         `;
 
-        const connections =
-            await databases.listDocuments(
-                DATABASE_ID,
-                CONNECTIONS_COLLECTION_ID
-            );
-
-     const connectionsResult =
-    await databases.listDocuments(
-        DATABASE_ID,
-        CONNECTIONS_COLLECTION_ID
-    );
-
-const allConnections =
-    connectionsResult.documents;
-
-/*
---------------------------------
-L1
---------------------------------
-*/
-
-const l1Ids =
-    new Set();
-
-allConnections.forEach(c => {
-
-    if(
-        c.from_user_id === user.$id
-        ||
-        c.to_user_id === user.$id
-    ){
-
-        const connectedUser =
-            getConnectedUserId(
-                c,
-                user.$id
-            );
-
-        if(
-            connectedUser !== user.$id
-        ){
-
-            l1Ids.add(
-                connectedUser
-            );
-
-        }
-
-    }
-
-});
-
-/*
---------------------------------
-L2
---------------------------------
-*/
-
-const l2Ids =
-    new Set();
-
-allConnections.forEach(c => {
-
-    l1Ids.forEach(l1User => {
-
-        if(
-            c.from_user_id === l1User
-            ||
-            c.to_user_id === l1User
-        ){
-
-            const connectedUser =
-                getConnectedUserId(
-                    c,
-                    l1User
-                );
-
-            if(
-
-                connectedUser !== user.$id
-
-                &&
-
-                !l1Ids.has(
-                    connectedUser
-                )
-
-            ){
-
-                l2Ids.add(
-                    connectedUser
-                );
-
-            }
-
-        }
-
-    });
-
-});
-
-/*
---------------------------------
-L3
---------------------------------
-*/
-
-const l3Ids =
-    new Set();
-
-allConnections.forEach(c => {
-
-    l2Ids.forEach(l2User => {
-
-        if(
-            c.from_user_id === l2User
-            ||
-            c.to_user_id === l2User
-        ){
-
-            const connectedUser =
-                getConnectedUserId(
-                    c,
-                    l2User
-                );
-
-            if(
-
-                connectedUser !==
-                user.$id
-
-                &&
-
-                !l1Ids.has(
-                    connectedUser
-                )
-
-                &&
-
-                !l2Ids.has(
-                    connectedUser
-                )
-
-            ){
-
-                l3Ids.add(
-                    connectedUser
-                );
-
-            }
-
-        }
-
-    });
-
-});
+        const allConnections = await fetchAllNetworkDocuments(CONNECTIONS_COLLECTION_ID);
+        const {l1Ids,l2Ids,l3Ids} = calculateNetworkLevels(allConnections,user.$id);
 
 /*
 --------------------------------
