@@ -83,41 +83,47 @@ function layout(){
    arr.forEach((id,i)=>{const angle=2*Math.PI*i/n-Math.PI/2;positions.set(id,{x:Math.cos(angle)*radius,y:Math.sin(angle)*radius});});}
   return;
  }
- // Compact, wrapped family branches: each L1 has its L2/L3 descendants directly below.
- // Unlike the old leaf-based layout, wide networks wrap into multiple rows.
+ // Screen-width responsive branch cards: each L1 and its descendants stay together.
  const first=(children.get(root)||[]).filter(id=>visible.has(id));
- const maxColumns=5,cellW=190,childGap=86,branchGap=30;
+ const stageWidth=Math.max(650,$('stage').clientWidth||1100);
+ const columns=Math.max(2,Math.min(6,Math.floor((stageWidth-36)/220)));
+ const cellW=(stageWidth-60)/columns;
+ const nodeW=126, gapY=78;
  const rows=[];
- for(let i=0;i<first.length;i+=maxColumns)rows.push(first.slice(i,i+maxColumns));
- let y=125;
+ for(let i=0;i<first.length;i+=columns)rows.push(first.slice(i,i+columns));
  positions.set(root,{x:0,y:0});
+ let top=115;
  for(const row of rows){
-  let tallest=0;
+  let rowBottom=top;
   row.forEach((id,col)=>{
-   const x=(col-(row.length-1)/2)*cellW;
-   positions.set(id,{x,y});
-   let bottom=y;
-   // Lay descendants within the same branch column, stacking siblings vertically.
-   const pending=[{id,depth:1}];let slot=0;
-   while(pending.length){
-    const item=pending.shift();
-    const kids=(children.get(item.id)||[]).filter(k=>visible.has(k));
+   const x=(col-(columns-1)/2)*cellW;
+   positions.set(id,{x,y:top});
+   let branchBottom=top;
+   // Place descendants immediately below their L1 branch, two per row when needed.
+   const queue=[id];let index=0;
+   while(queue.length){
+    const parent=queue.shift();
+    const kids=(children.get(parent)||[]).filter(k=>visible.has(k));
     for(const kid of kids){
-     slot++;
-     const yy=y+slot*childGap;
-     positions.set(kid,{x, y:yy});
-     bottom=Math.max(bottom,yy);
-     pending.push({id:kid,depth:item.depth+1});
+     const slot=index++;
+     const twoCols=cellW>=230;
+     const offset=twoCols?((slot%2)-.5)*Math.min(135,cellW*.48):0;
+     const depth=Math.floor(slot/(twoCols?2:1))+1;
+     const yy=top+depth*gapY;
+     positions.set(kid,{x:x+offset,y:yy});
+     branchBottom=Math.max(branchBottom,yy);
+     queue.push(kid);
     }
    }
-   tallest=Math.max(tallest,bottom-y);
+   rowBottom=Math.max(rowBottom,branchBottom);
   });
-  y+=tallest+125+branchGap;
+  top=rowBottom+115;
  }
- // Root centered, and wrapped rows fit into the same width regardless of network size.
+ // Use the available width rather than compressing all nodes into the center.
  const all=[...positions.values()];
  const minY=Math.min(...all.map(p=>p.y)),maxY=Math.max(...all.map(p=>p.y));
  for(const p of positions.values())p.y-=(minY+maxY)/2;
+ if(mode==='graph')$('stage').style.height=Math.max(590,Math.min(2300,maxY-minY+170))+'px';
 }
 function draw(){
  layout();const eg=$('edges'),ng=$('nodes');eg.replaceChildren();ng.replaceChildren();
@@ -138,7 +144,7 @@ function draw(){
   g.addEventListener('click',e=>{e.stopPropagation();selected=id;if((children.get(id)||[]).length){collapsed.has(id)?collapsed.delete(id):collapsed.add(id);draw();fit();}else{showDetail(id);draw();}});
   g.addEventListener('dblclick',e=>{e.stopPropagation();showDetail(id);});g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showDetail(id);}});
  }
- applyView();$('status').textContent=`Showing ${visible.size-1} of ${levels.size-1} connections · ${mode==='circle'?'Circle view':'Compact wrapped tree'} · Click to expand/collapse.`;
+ applyView();$('status').textContent=`Showing ${visible.size-1} of ${levels.size-1} connections · ${mode==='circle'?'Circle view':'Responsive branch groups'} · Click to expand/collapse.`;
 }
 function applyView(){const rect=$('stage').getBoundingClientRect();$('viewport').setAttribute('transform',`translate(${rect.width/2+view.x} ${rect.height/2+view.y}) scale(${view.k})`);}
 function fit(){layout();const ps=[...positions.values()];if(!ps.length)return;const xs=ps.map(p=>p.x),ys=ps.map(p=>p.y);const w=Math.max(...xs)-Math.min(...xs)+160,h=Math.max(...ys)-Math.min(...ys)+140;const r=$('stage').getBoundingClientRect();view={x:0,y:0,k:Math.max(.12,Math.min(1.4,(r.width-40)/w,(r.height-40)/h))};applyView();}
